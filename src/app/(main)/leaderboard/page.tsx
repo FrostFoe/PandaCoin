@@ -10,11 +10,17 @@ import {
 } from "@/components/ui/table";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { leaderboard } from "@/lib/data";
-import { Crown, Leaf, Sparkles, LogIn } from "lucide-react";
+import { Crown, Leaf, Sparkles, LogIn, Trophy } from "lucide-react";
 import { useGame } from "@/context/GameContext";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 
 export default function LeaderboardPage() {
   const { session, login } = useGame();

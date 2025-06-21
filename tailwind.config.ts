@@ -18,8 +18,8 @@ export default {
     extend: {
       fontFamily: {
         body: ["var(--font-inter)", "sans-serif"],
-        headline: ["var(--font-fredoka)", "sans-serif"],
-        code: ["var(--font-comic-mono)", "monospace"],
+        headline: ["var(--font-poppins)", "sans-serif"],
+        code: ["var(--font-fira-code)", "monospace"],
       },
       colors: {
         background: "hsl(var(--background))",

@@ -1,11 +1,11 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -15,9 +15,6 @@ import {
   Leaf,
   CheckCircle2,
   Hourglass,
-  Gamepad,
-  Share2,
-  BrainCircuit,
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useGame } from "@/context/GameContext";
@@ -25,13 +22,6 @@ import { useGame } from "@/context/GameContext";
 interface TaskCardProps {
   task: Task;
 }
-
-const taskIcons: { [key: string]: React.ReactNode } = {
-  "1": <Leaf />,
-  "2": <BrainCircuit />,
-  "3": <Gamepad />,
-  "4": <Share2 />,
-};
 
 export function TaskCard({ task }: TaskCardProps) {
   const { toast } = useToast();
@@ -78,20 +68,15 @@ export function TaskCard({ task }: TaskCardProps) {
   };
 
   return (
-    <Card className="flex flex-col hover:shadow-lg transition-shadow duration-300">
+    <Card className="w-80 shrink-0 flex flex-col hover:shadow-xl transition-shadow duration-300 bg-gradient-to-br from-primary/10 to-background">
       <CardHeader>
-        <div className="flex items-start justify-between">
-          <CardTitle className="font-headline text-xl pr-4">
-            {task.title}
-          </CardTitle>
-          <div className="text-primary">{taskIcons[task.id] ?? <Leaf />}</div>
-        </div>
-        <CardDescription>{task.description}</CardDescription>
+        <CardTitle className="font-headline text-xl">{task.title}</CardTitle>
       </CardHeader>
       <CardContent className="flex-grow">
-        <div className="flex items-center gap-2 text-lg font-bold text-primary">
+        <p className="text-sm text-muted-foreground">{task.description}</p>
+        <div className="flex items-center gap-2 text-lg font-bold text-primary mt-4">
           <Leaf className="h-5 w-5" />
-          <span>+ {task.reward}</span>
+          <span>+ {task.reward} Bamboo</span>
         </div>
       </CardContent>
       <CardFooter>
@@ -103,12 +88,12 @@ export function TaskCard({ task }: TaskCardProps) {
         >
           {onCooldown ? (
             <>
-              <Hourglass />
+              <Hourglass className="mr-2" />
               <span>{formatTime(displayCooldown)}</span>
             </>
           ) : (
             <>
-              <CheckCircle2 />
+              <CheckCircle2 className="mr-2" />
               <span>Claim Reward</span>
             </>
           )}
