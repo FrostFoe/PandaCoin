@@ -18,7 +18,7 @@ export function UserNav() {
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-10 w-full justify-start gap-2">
           <Avatar className="h-8 w-8">
-            <AvatarImage src="https://placehold.co/100x100.png" alt="@pandaprodigy" />
+            <AvatarImage src="https://placehold.co/100x100.png" alt="@pandaprodigy" data-ai-hint="panda avatar" />
             <AvatarFallback>PP</AvatarFallback>
           </Avatar>
           <div className="flex flex-col items-start">

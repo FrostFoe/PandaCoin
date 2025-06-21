@@ -28,9 +28,6 @@ export default function LandingPage() {
           <Button asChild size="lg">
             <Link href="/login">Get Started</Link>
           </Button>
-          <Button asChild variant="outline" size="lg">
-            <Link href="#">Learn More</Link>
-          </Button>
         </div>
       </main>
       <footer className="flex items-center justify-center w-full h-24 border-t">

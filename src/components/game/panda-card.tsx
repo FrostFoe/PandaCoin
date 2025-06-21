@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import type { Panda } from '@/lib/types';
 import { cn } from '@/lib/utils';
@@ -12,7 +12,7 @@ interface PandaCardProps {
 }
 
 const rarityStyles = {
-    "Common": "border-transparent bg-secondary text-secondary-foreground",
+    "Common": "border-transparent bg-secondary/50 text-secondary-foreground",
     "Rare": "border-blue-500/30 bg-blue-500/10 text-blue-500 dark:text-blue-400",
     "Ultra Rare": "border-accent/30 bg-accent/10 text-amber-600 dark:text-accent",
 }
@@ -23,7 +23,7 @@ export function PandaCard({ panda, onClick }: PandaCardProps) {
         whileHover={{ y: -5, scale: 1.03 }}
         transition={{ type: "spring", stiffness: 300 }}
     >
-        <Card className="overflow-hidden cursor-pointer h-full flex flex-col group" onClick={onClick}>
+        <Card className="overflow-hidden cursor-pointer h-full flex flex-col group border-2" onClick={onClick}>
         <CardHeader className="p-0">
             <div className="aspect-square relative overflow-hidden">
                 <Image 
@@ -35,16 +35,14 @@ export function PandaCard({ panda, onClick }: PandaCardProps) {
                 />
             </div>
         </CardHeader>
-        <CardContent className="p-4 flex-grow">
-            <div className="flex justify-between items-start">
-                <CardTitle className="text-xl font-headline">{panda.name}</CardTitle>
-                <Badge variant="outline" className={cn("text-xs font-bold", rarityStyles[panda.rarity])}>{panda.rarity}</Badge>
+        <CardContent className="p-4 flex-grow flex flex-col">
+            <div className="flex justify-between items-start gap-2">
+                <CardTitle className="text-xl font-code font-bold tracking-wider">{panda.name}</CardTitle>
+                <Badge variant="outline" className={cn("text-xs font-bold whitespace-nowrap", rarityStyles[panda.rarity])}>{panda.rarity}</Badge>
             </div>
-            <p className="text-sm text-muted-foreground font-code font-bold tracking-widest">{`"${panda.name}"`}</p>
+            <div className="flex-grow" />
+            <p className="text-xs text-muted-foreground mt-2">Tamed {formatDistanceToNow(panda.tamedAt, { addSuffix: true })}</p>
         </CardContent>
-        <CardFooter className="p-4 pt-0">
-            <p className="text-xs text-muted-foreground">Tamed {formatDistanceToNow(panda.tamedAt, { addSuffix: true })}</p>
-        </CardFooter>
         </Card>
     </motion.div>
   );

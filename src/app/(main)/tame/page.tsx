@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { RarityRevealModal } from '@/components/game/rarity-reveal-modal';
 import { pandas } from '@/lib/data';
@@ -8,6 +9,7 @@ import type { Panda, Rarity } from '@/lib/types';
 import { Leaf, Sparkles } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { AnimatePresence, motion } from 'framer-motion';
+import { useGame } from '@/context/GameContext';
 
 const TAME_COST = 100;
 
@@ -34,7 +36,7 @@ export default function TamePage() {
   const [isTaming, setIsTaming] = useState(false);
   const [tamedPanda, setTamedPanda] = useState<Panda | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [bambooBalance, setBambooBalance] = useState(1234);
+  const { bambooBalance, setBambooBalance } = useGame();
   const { toast } = useToast();
 
   const handleTame = () => {
@@ -85,16 +87,22 @@ export default function TamePage() {
           Spend your bamboo to rustle the leaves and see if a new friend comes out to play. Who will you meet today?
         </motion.p>
         
-        <div className="flex justify-center items-center h-24">
-            <motion.div
+        <div className="flex justify-center items-center h-64">
+             <motion.div
                 animate={{
-                    rotate: isTaming ? [0, -5, 5, -5, 0] : 0,
-                    scale: isTaming ? 1.1 : 1,
+                    rotate: isTaming ? [0, -2, 2, -2, 0] : 0,
+                    scale: isTaming ? 1.05 : 1,
                 }}
-                transition={{ duration: 0.5, repeat: isTaming ? Infinity : 0 }}
-                className="text-8xl"
+                transition={{ duration: 0.4, repeat: isTaming ? Infinity : 0, repeatType: "mirror" }}
+                className="relative w-48 h-64"
             >
-                🌳
+                <Image 
+                    src="https://placehold.co/400x600.png"
+                    alt="A magical bamboo tree, shaking with anticipation"
+                    fill
+                    className="object-contain"
+                    data-ai-hint="bamboo tree"
+                />
             </motion.div>
         </div>
 
