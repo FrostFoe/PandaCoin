@@ -7,7 +7,8 @@ import { Toaster } from "@/components/ui/toaster";
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 const APP_NAME = "Bamboo Tame";
-const APP_DESCRIPTION = "A crypto-themed web game where users earn bamboo by completing fun tasks, then spend it to tame pandas of different rarities.";
+const APP_DESCRIPTION =
+  "A crypto-themed web game where users earn bamboo by completing fun tasks, then spend it to tame pandas of different rarities.";
 
 export const metadata: Metadata = {
   applicationName: APP_NAME,
@@ -34,10 +35,10 @@ export const metadata: Metadata = {
     description: APP_DESCRIPTION,
     images: [
       {
-        url: 'https://placehold.co/1200x630.png', // Placeholder OG image
+        url: "https://placehold.co/1200x630.png",
         width: 1200,
         height: 630,
-        alt: 'A playful panda surrounded by bamboo.',
+        alt: "A playful panda surrounded by bamboo.",
       },
     ],
   },
@@ -48,12 +49,12 @@ export const metadata: Metadata = {
       template: `%s | ${APP_NAME}`,
     },
     description: APP_DESCRIPTION,
-    images: ['https://placehold.co/1200x630.png'], // Placeholder Twitter image
+    images: ["https://placehold.co/1200x630.png"],
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#F2F9F1", // Light Mint
+  themeColor: "#F2F9F1",
 };
 
 export default function RootLayout({
@@ -65,8 +66,15 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;700&family=Poppins:wght@600;700&family=Comic+Mono&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;700&family=Poppins:wght@600;700&family=Comic+Mono&family=Inter:wght@400;500;600;700&display=swap"
+          rel="stylesheet"
+        />
       </head>
       <body className="font-body antialiased">
         <ThemeProvider

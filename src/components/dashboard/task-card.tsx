@@ -2,9 +2,23 @@
 
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import type { Task } from "@/lib/types";
-import { Leaf, CheckCircle2, Hourglass, Gamepad, Share2, BrainCircuit } from "lucide-react";
+import {
+  Leaf,
+  CheckCircle2,
+  Hourglass,
+  Gamepad,
+  Share2,
+  BrainCircuit,
+} from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useGame } from "@/context/GameContext";
 
@@ -13,16 +27,17 @@ interface TaskCardProps {
 }
 
 const taskIcons: { [key: string]: React.ReactNode } = {
-    '1': <Leaf />,
-    '2': <BrainCircuit />,
-    '3': <Gamepad />,
-    '4': <Share2 />,
+  "1": <Leaf />,
+  "2": <BrainCircuit />,
+  "3": <Gamepad />,
+  "4": <Share2 />,
 };
 
 export function TaskCard({ task }: TaskCardProps) {
   const { toast } = useToast();
-  const { claimTask, isTaskOnCooldown, getTaskCooldownTime, session } = useGame();
-  
+  const { claimTask, isTaskOnCooldown, getTaskCooldownTime, session } =
+    useGame();
+
   const onCooldown = isTaskOnCooldown(task.id);
   const cooldownTime = getTaskCooldownTime(task.id);
 
@@ -42,19 +57,23 @@ export function TaskCard({ task }: TaskCardProps) {
   }, [onCooldown, displayCooldown]);
 
   const handleClaim = () => {
-    if (session.status === 'loading' || onCooldown) return;
-    
+    if (session.status === "loading" || onCooldown) return;
+
     claimTask(task);
     toast({
-        title: "Task Claimed!",
-        description: `You earned ${task.reward} bamboo!`,
+      title: "Task Claimed!",
+      description: `You earned ${task.reward} bamboo!`,
     });
   };
 
   const formatTime = (seconds: number) => {
-    const h = Math.floor(seconds / 3600).toString().padStart(2, '0');
-    const m = Math.floor((seconds % 3600) / 60).toString().padStart(2, '0');
-    const s = (seconds % 60).toString().padStart(2, '0');
+    const h = Math.floor(seconds / 3600)
+      .toString()
+      .padStart(2, "0");
+    const m = Math.floor((seconds % 3600) / 60)
+      .toString()
+      .padStart(2, "0");
+    const s = (seconds % 60).toString().padStart(2, "0");
     return `${h}:${m}:${s}`;
   };
 
@@ -62,8 +81,10 @@ export function TaskCard({ task }: TaskCardProps) {
     <Card className="flex flex-col">
       <CardHeader>
         <div className="flex items-start justify-between">
-            <CardTitle className="font-headline text-xl pr-4">{task.title}</CardTitle>
-            <div className="text-primary">{taskIcons[task.id] ?? <Leaf />}</div>
+          <CardTitle className="font-headline text-xl pr-4">
+            {task.title}
+          </CardTitle>
+          <div className="text-primary">{taskIcons[task.id] ?? <Leaf />}</div>
         </div>
         <CardDescription>{task.description}</CardDescription>
       </CardHeader>
@@ -74,16 +95,20 @@ export function TaskCard({ task }: TaskCardProps) {
         </div>
       </CardContent>
       <CardFooter>
-        <Button className="w-full" onClick={handleClaim} disabled={onCooldown || session.status === 'loading'}>
+        <Button
+          className="w-full"
+          onClick={handleClaim}
+          disabled={onCooldown || session.status === "loading"}
+        >
           {onCooldown ? (
             <>
-                <Hourglass />
-                <span>{formatTime(displayCooldown)}</span>
+              <Hourglass />
+              <span>{formatTime(displayCooldown)}</span>
             </>
           ) : (
             <>
-                <CheckCircle2 />
-                <span>Claim Reward</span>
+              <CheckCircle2 />
+              <span>Claim Reward</span>
             </>
           )}
         </Button>

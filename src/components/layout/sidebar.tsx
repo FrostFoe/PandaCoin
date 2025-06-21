@@ -5,7 +5,16 @@ import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { PandaIcon } from "@/components/icons/panda-icon";
-import { LayoutGrid, Trees, Trophy, Settings as SettingsIcon, LogOut, ChevronLeft, ChevronRight, LogIn } from "lucide-react";
+import {
+  LayoutGrid,
+  Trees,
+  Trophy,
+  Settings as SettingsIcon,
+  LogOut,
+  ChevronLeft,
+  ChevronRight,
+  LogIn,
+} from "lucide-react";
 import { useState } from "react";
 import { UserNav } from "./user-nav";
 import { useGame } from "@/context/GameContext";
@@ -29,7 +38,7 @@ export function Sidebar() {
     <div
       className={cn(
         "relative hidden h-screen border-r bg-card p-4 transition-all duration-300 ease-in-out md:flex flex-col",
-        isCollapsed ? "w-20" : "w-64"
+        isCollapsed ? "w-20" : "w-64",
       )}
     >
       <div className="flex items-center gap-2 pb-4 border-b mb-4">
@@ -37,7 +46,7 @@ export function Sidebar() {
         <h1
           className={cn(
             "font-headline text-2xl font-bold text-foreground whitespace-nowrap transition-opacity",
-            isCollapsed && "opacity-0"
+            isCollapsed && "opacity-0",
           )}
         >
           Bamboo Tame
@@ -50,7 +59,11 @@ export function Sidebar() {
         className="absolute -right-5 top-9 z-10 rounded-full bg-card border"
         onClick={toggleSidebar}
       >
-        {isCollapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
+        {isCollapsed ? (
+          <ChevronRight className="h-4 w-4" />
+        ) : (
+          <ChevronLeft className="h-4 w-4" />
+        )}
       </Button>
 
       <nav className="flex-1 space-y-2">
@@ -63,12 +76,14 @@ export function Sidebar() {
               variant={isActive ? "secondary" : "ghost"}
               className={cn(
                 "w-full justify-start gap-3",
-                isCollapsed && "justify-center"
+                isCollapsed && "justify-center",
               )}
             >
               <Link href={item.href}>
                 <item.icon className="h-5 w-5" />
-                <span className={cn("whitespace-nowrap", isCollapsed && "hidden")}>
+                <span
+                  className={cn("whitespace-nowrap", isCollapsed && "hidden")}
+                >
                   {item.label}
                 </span>
               </Link>
@@ -76,21 +91,35 @@ export function Sidebar() {
           );
         })}
       </nav>
-      
+
       <div className="mt-auto">
-        {session.status === 'guest' ? (
-            <Button onClick={login} variant="outline" className={cn("w-full justify-start gap-3", isCollapsed && "justify-center")}>
-                <LogIn className="h-5 w-5" />
-                <span className={cn(isCollapsed && "hidden")}>Login</span>
-            </Button>
+        {session.status === "guest" ? (
+          <Button
+            onClick={login}
+            variant="outline"
+            className={cn(
+              "w-full justify-start gap-3",
+              isCollapsed && "justify-center",
+            )}
+          >
+            <LogIn className="h-5 w-5" />
+            <span className={cn(isCollapsed && "hidden")}>Login</span>
+          </Button>
         ) : (
           <>
             <div className={cn("p-2", isCollapsed && "hidden")}>
               <UserNav />
             </div>
-            <Button onClick={logout} variant="ghost" className={cn("w-full justify-start gap-3", isCollapsed && "justify-center")}>
-                <LogOut className="h-5 w-5" />
-                <span className={cn(isCollapsed && "hidden")}>Logout</span>
+            <Button
+              onClick={logout}
+              variant="ghost"
+              className={cn(
+                "w-full justify-start gap-3",
+                isCollapsed && "justify-center",
+              )}
+            >
+              <LogOut className="h-5 w-5" />
+              <span className={cn(isCollapsed && "hidden")}>Logout</span>
             </Button>
           </>
         )}

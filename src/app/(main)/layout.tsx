@@ -14,7 +14,7 @@ export default function MainLayout({
         <div className="flex flex-col">
           <Header />
           <main className="flex flex-1 flex-col gap-4 p-4 md:p-8 bg-secondary/30">
-              {children}
+            {children}
           </main>
         </div>
       </div>

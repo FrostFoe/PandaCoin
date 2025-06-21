@@ -18,14 +18,23 @@ export function UserNav() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="relative h-10 w-full justify-start gap-2 px-2">
+        <Button
+          variant="ghost"
+          className="relative h-10 w-full justify-start gap-2 px-2"
+        >
           <Avatar className="h-8 w-8">
-            <AvatarImage src="https://placehold.co/100x100.png" alt="@pandaprodigy" data-ai-hint="panda avatar" />
+            <AvatarImage
+              src="https://placehold.co/100x100.png"
+              alt="@pandaprodigy"
+              data-ai-hint="panda avatar"
+            />
             <AvatarFallback>PP</AvatarFallback>
           </Avatar>
           <div className="flex flex-col items-start">
             <p className="text-sm font-medium">PandaProdigy</p>
-            <p className="text-xs text-muted-foreground">bamboo.baron@email.com</p>
+            <p className="text-xs text-muted-foreground">
+              bamboo.baron@email.com
+            </p>
           </div>
         </Button>
       </DropdownMenuTrigger>
@@ -41,15 +50,15 @@ export function UserNav() {
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem asChild>
-             <Link href="/settings">
-                <User className="mr-2 h-4 w-4" />
-                <span>Profile</span>
-             </Link>
+            <Link href="/settings">
+              <User className="mr-2 h-4 w-4" />
+              <span>Profile</span>
+            </Link>
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
             <Link href="/settings">
-                <Settings className="mr-2 h-4 w-4" />
-                <span>Settings</span>
+              <Settings className="mr-2 h-4 w-4" />
+              <span>Settings</span>
             </Link>
           </DropdownMenuItem>
         </DropdownMenuGroup>

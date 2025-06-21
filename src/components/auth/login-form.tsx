@@ -18,7 +18,7 @@ export function LoginForm() {
   const router = useRouter();
 
   const handleGuestLogin = () => {
-    router.push('/dashboard');
+    router.push("/dashboard");
   };
 
   return (
@@ -26,7 +26,8 @@ export function LoginForm() {
       <CardHeader>
         <CardTitle className="text-2xl font-headline">Login</CardTitle>
         <CardDescription>
-          Enter your email below to login to your account or continue as a guest.
+          Enter your email below to login to your account or continue as a
+          guest.
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -43,7 +44,10 @@ export function LoginForm() {
           <div className="grid gap-2">
             <div className="flex items-center">
               <Label htmlFor="password">Password</Label>
-              <Link href="/forgot-password" className="ml-auto inline-block text-sm underline">
+              <Link
+                href="/forgot-password"
+                className="ml-auto inline-block text-sm underline"
+              >
                 Forgot your password?
               </Link>
             </div>
@@ -55,13 +59,19 @@ export function LoginForm() {
           <Button variant="outline" className="w-full">
             Login with Google
           </Button>
-          
+
           <div className="relative my-2">
             <Separator />
-            <span className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 bg-card px-2 text-xs text-muted-foreground">OR</span>
+            <span className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 bg-card px-2 text-xs text-muted-foreground">
+              OR
+            </span>
           </div>
 
-          <Button variant="secondary" className="w-full" onClick={handleGuestLogin}>
+          <Button
+            variant="secondary"
+            className="w-full"
+            onClick={handleGuestLogin}
+          >
             Continue as Guest
           </Button>
         </div>

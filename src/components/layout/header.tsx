@@ -3,7 +3,14 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu, LayoutGrid, Trees, Trophy, Settings as SettingsIcon, LogIn } from "lucide-react";
+import {
+  Menu,
+  LayoutGrid,
+  Trees,
+  Trophy,
+  Settings as SettingsIcon,
+  LogIn,
+} from "lucide-react";
 import { usePathname } from "next/navigation";
 import { PandaIcon } from "../icons/panda-icon";
 import { UserNav } from "./user-nav";
@@ -12,16 +19,16 @@ import { useGame } from "@/context/GameContext";
 import { ThemeToggle } from "./theme-toggle";
 
 const navItems = [
-    { href: "/dashboard", label: "Dashboard", icon: LayoutGrid },
-    { href: "/tame", label: "Tame", icon: Trees },
-    { href: "/pandas", label: "My Pandas", icon: PandaIcon },
-    { href: "/leaderboard", label: "Leaderboard", icon: Trophy },
-    { href: "/settings", label: "Settings", icon: SettingsIcon },
-  ];
+  { href: "/dashboard", label: "Dashboard", icon: LayoutGrid },
+  { href: "/tame", label: "Tame", icon: Trees },
+  { href: "/pandas", label: "My Pandas", icon: PandaIcon },
+  { href: "/leaderboard", label: "Leaderboard", icon: Trophy },
+  { href: "/settings", label: "Settings", icon: SettingsIcon },
+];
 
 export function Header() {
-    const pathname = usePathname();
-    const { session, login } = useGame();
+  const pathname = usePathname();
+  const { session, login } = useGame();
   return (
     <header className="sticky top-0 z-30 flex h-16 items-center gap-4 border-b bg-background/80 backdrop-blur-sm px-4 md:px-6">
       <div className="md:hidden">
@@ -42,13 +49,13 @@ export function Header() {
                 <span>Bamboo Tame</span>
               </Link>
               {navItems.map((item) => (
-                 <Link
-                    key={item.label}
-                    href={item.href}
-                    className={`flex items-center gap-3 rounded-lg px-3 py-2 transition-all ${pathname.startsWith(item.href) ? 'text-primary bg-muted' : 'text-muted-foreground hover:text-primary'}`}
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  className={`flex items-center gap-3 rounded-lg px-3 py-2 transition-all ${pathname.startsWith(item.href) ? "text-primary bg-muted" : "text-muted-foreground hover:text-primary"}`}
                 >
-                    <item.icon className="h-5 w-5" />
-                    {item.label}
+                  <item.icon className="h-5 w-5" />
+                  {item.label}
                 </Link>
               ))}
             </nav>
@@ -56,12 +63,10 @@ export function Header() {
         </Sheet>
       </div>
       <div className="flex w-full items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
-        <div className="ml-auto flex-1 sm:flex-initial">
-          {/* Search can go here if needed */}
-        </div>
+        <div className="ml-auto flex-1 sm:flex-initial"></div>
         <BambooCounter />
         <ThemeToggle />
-        {session.status === 'guest' ? (
+        {session.status === "guest" ? (
           <Button onClick={login} variant="outline">
             <LogIn className="mr-2 h-4 w-4" />
             Login
