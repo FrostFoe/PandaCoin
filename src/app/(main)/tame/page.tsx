@@ -2,16 +2,37 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
+import dynamic from 'next/dynamic';
 import { Button } from '@/components/ui/button';
-import { RarityRevealModal } from '@/components/game/rarity-reveal-modal';
 import { pandas as pandaTemplates } from '@/lib/data';
 import type { Panda, Rarity } from '@/lib/types';
 import { Leaf, Sparkles } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useGame } from '@/context/GameContext';
+import { Skeleton } from '@/components/ui/skeleton';
 
 const TAME_COST = 100;
+
+// Dynamically import the RarityRevealModal to code-split and reduce initial bundle size.
+const RarityRevealModal = dynamic(
+    () => import('@/components/game/rarity-reveal-modal').then(mod => mod.RarityRevealModal), 
+    { 
+        ssr: false,
+        loading: () => (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80">
+                <div className="grid w-full max-w-md gap-4 rounded-lg border bg-background p-6 shadow-lg">
+                    <Skeleton className="h-32 w-32 rounded-full mx-auto" />
+                    <Skeleton className="h-8 w-48 mx-auto" />
+                    <Skeleton className="h-6 w-24 mx-auto" />
+                    <Skeleton className="h-4 w-full" />
+                    <Skeleton className="h-4 w-3/4" />
+                </div>
+            </div>
+        ),
+    }
+);
+
 
 function getRandomPanda(): Panda {
   const rand = Math.random() * 100;
@@ -104,6 +125,7 @@ export default function TamePage() {
                     fill
                     className="object-contain"
                     data-ai-hint="bamboo tree"
+                    priority
                 />
             </motion.div>
         </div>

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/layout/theme-provider";
@@ -6,9 +6,54 @@ import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
+const APP_NAME = "Bamboo Tame";
+const APP_DESCRIPTION = "A crypto-themed web game where users earn bamboo by completing fun tasks, then spend it to tame pandas of different rarities.";
+
 export const metadata: Metadata = {
-  title: "Bamboo Tame",
-  description: "A crypto-themed web game where users earn bamboo by completing fun tasks, then spend it to tame pandas of different rarities.",
+  applicationName: APP_NAME,
+  title: {
+    default: APP_NAME,
+    template: `%s | ${APP_NAME}`,
+  },
+  description: APP_DESCRIPTION,
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: APP_NAME,
+  },
+  formatDetection: {
+    telephone: false,
+  },
+  openGraph: {
+    type: "website",
+    siteName: APP_NAME,
+    title: {
+      default: APP_NAME,
+      template: `%s | ${APP_NAME}`,
+    },
+    description: APP_DESCRIPTION,
+    images: [
+      {
+        url: 'https://placehold.co/1200x630.png', // Placeholder OG image
+        width: 1200,
+        height: 630,
+        alt: 'A playful panda surrounded by bamboo.',
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: {
+      default: APP_NAME,
+      template: `%s | ${APP_NAME}`,
+    },
+    description: APP_DESCRIPTION,
+    images: ['https://placehold.co/1200x630.png'], // Placeholder Twitter image
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#F2F9F1", // Light Mint
 };
 
 export default function RootLayout({
