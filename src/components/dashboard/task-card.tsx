@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -68,7 +67,7 @@ export function TaskCard({ task }: TaskCardProps) {
   };
 
   return (
-    <Card className="w-80 shrink-0 flex flex-col hover:shadow-xl transition-shadow duration-300 bg-gradient-to-br from-primary/10 to-background">
+    <Card className="w-80 shrink-0 flex flex-col hover:shadow-xl transition-shadow duration-300">
       <CardHeader>
         <CardTitle className="font-headline text-xl">{task.title}</CardTitle>
       </CardHeader>

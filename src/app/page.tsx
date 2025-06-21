@@ -7,7 +7,6 @@ import { Leaf, Gem, Trophy, Gamepad2 } from "lucide-react";
 import {
   Card,
   CardContent,
-  CardFooter,
   CardHeader,
 } from "@/components/ui/card";
 
@@ -129,7 +128,7 @@ function FeatureCard({
   description: string;
 }) {
   return (
-    <Card className="bg-card p-6 text-center flex flex-col items-center shadow-lg hover:shadow-xl transition-shadow duration-300">
+    <Card className="bg-card p-6 text-center flex flex-col items-center shadow-lg hover:shadow-xl transition-shadow duration-300 rounded-2xl">
       <CardHeader className="p-0">
         <div className="bg-primary/10 text-primary p-4 rounded-full mb-4">
           {React.cloneElement(icon as React.ReactElement, {

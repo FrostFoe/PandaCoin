@@ -3,53 +3,34 @@ import { PandaIcon } from "@/components/icons/panda-icon";
 
 export default function Loading() {
   return (
-    <div className="grid min-h-screen w-full md:grid-cols-[auto_1fr] lg:grid-cols-[auto_1fr]">
-      <div className="relative hidden h-screen border-r bg-card p-4 transition-all duration-300 ease-in-out md:flex flex-col w-64">
-        <div className="flex items-center gap-2 pb-4 border-b mb-4">
-          <PandaIcon className="h-8 w-8 text-primary" />
-          <Skeleton className="h-7 w-32" />
-        </div>
-        <div className="flex-1 space-y-2">
-          <Skeleton className="h-10 w-full" />
-          <Skeleton className="h-10 w-full" />
-          <Skeleton className="h-10 w-full" />
-          <Skeleton className="h-10 w-full" />
-          <Skeleton className="h-10 w-full" />
-        </div>
-        <div className="mt-auto">
-          <Skeleton className="h-12 w-full" />
-        </div>
-      </div>
-
-      <div className="flex flex-col">
-        <header className="sticky top-0 z-30 flex h-16 items-center gap-4 border-b bg-background/80 backdrop-blur-sm px-4 md:px-6">
-          <div className="md:hidden">
-            <Skeleton className="h-10 w-10" />
-          </div>
-          <div className="flex w-full items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
-            <div className="ml-auto flex-1 sm:flex-initial" />
+    <div className="flex flex-col min-h-screen">
+       <header className="sticky top-0 z-40 flex h-20 items-center gap-4 border-b bg-background/95 backdrop-blur-sm">
+        <div className="container flex items-center gap-4">
+            <PandaIcon className="h-8 w-8 text-primary" />
+            <Skeleton className="h-7 w-32" />
+          <div className="ml-auto flex items-center gap-4">
             <Skeleton className="h-10 w-28 rounded-full" />
             <Skeleton className="h-10 w-10 rounded-full" />
-            <Skeleton className="h-10 w-24 hidden md:block" />
           </div>
-        </header>
+        </div>
+      </header>
 
-        <main className="flex flex-1 flex-col gap-4 p-4 md:p-8">
-          <div className="flex flex-col gap-8">
-            <div>
-              <Skeleton className="h-9 w-1/2 mb-2" />
-              <Skeleton className="h-5 w-1/3" />
-            </div>
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-4">
-              {[...Array(4)].map((_, i) => (
-                <div key={i} className="aspect-square">
-                  <Skeleton className="w-full h-full rounded-lg" />
-                </div>
-              ))}
+      <main className="flex-1 bg-secondary/30">
+        <div className="container py-8">
+           <div className="px-4 md:px-0">
+            <Skeleton className="h-10 w-3/4 mb-2" />
+            <Skeleton className="h-6 w-1/2" />
+            <Skeleton className="h-12 w-full mt-4 rounded-full" />
+          </div>
+           <div className="space-y-4 mt-8">
+            <Skeleton className="h-8 w-48" />
+            <div className="flex space-x-6">
+              <Skeleton className="h-40 w-80 rounded-xl" />
+              <Skeleton className="h-40 w-80 rounded-xl" />
             </div>
           </div>
-        </main>
-      </div>
+        </div>
+      </main>
     </div>
   );
 }

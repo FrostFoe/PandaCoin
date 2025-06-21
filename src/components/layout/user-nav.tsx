@@ -18,11 +18,8 @@ export function UserNav() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button
-          variant="ghost"
-          className="relative h-10 w-full justify-start gap-2 px-2"
-        >
-          <Avatar className="h-8 w-8">
+        <Button variant="ghost" className="relative h-12 w-12 rounded-full">
+          <Avatar className="h-12 w-12">
             <AvatarImage
               src="https://placehold.co/100x100.png"
               alt="@pandaprodigy"
@@ -30,12 +27,6 @@ export function UserNav() {
             />
             <AvatarFallback>PP</AvatarFallback>
           </Avatar>
-          <div className="flex flex-col items-start">
-            <p className="text-sm font-medium">PandaProdigy</p>
-            <p className="text-xs text-muted-foreground">
-              bamboo.baron@email.com
-            </p>
-          </div>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56" align="end" forceMount>
