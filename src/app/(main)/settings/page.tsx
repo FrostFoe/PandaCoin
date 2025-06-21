@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -18,9 +19,9 @@ export default function SettingsPage() {
   const { logout } = useGame();
 
   return (
-    <div className="flex flex-col gap-8 max-w-2xl mx-auto">
+    <div className="flex flex-col gap-8 max-w-2xl mx-auto py-8">
       <div>
-        <h1 className="text-4xl font-bold font-headline flex items-center gap-3">
+        <h1 className="text-3xl md:text-4xl font-bold font-headline flex items-center gap-3">
           <SettingsIcon className="w-8 h-8 text-primary" /> Settings
         </h1>
         <p className="text-muted-foreground text-lg mt-1">

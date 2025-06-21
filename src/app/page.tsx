@@ -37,7 +37,7 @@ export default function LandingPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="text-4xl md:text-6xl font-extrabold font-headline tracking-tighter"
+              className="text-4xl md:text-5xl lg:text-6xl font-extrabold font-headline tracking-tighter"
             >
               Invest in Cuteness.
               <br />

@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from "next/link";
@@ -26,7 +27,7 @@ export function BottomNav() {
 
   return (
     <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-t shadow-[0_-2px_8px_rgba(0,0,0,0.05)]">
-      <nav className="flex justify-around items-center h-20">
+      <nav className="flex justify-around items-center h-16">
         {navItems.map((item) => {
           const isActive =
             item.href === "/dashboard"

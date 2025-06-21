@@ -1,3 +1,4 @@
+
 "use client";
 
 import {
@@ -57,10 +58,11 @@ export default function LeaderboardPage() {
   return (
     <div className="py-8 flex flex-col gap-8">
       <div>
-        <h1 className="text-4xl md:text-5xl font-bold font-headline flex items-center gap-3">
-          <Trophy className="w-10 h-10 text-primary" /> Leaderboard
+        <h1 className="text-3xl md:text-5xl font-bold font-headline flex items-center gap-3">
+          <Trophy className="w-8 h-8 md:w-10 md:h-10 text-primary" />{" "}
+          Leaderboard
         </h1>
-        <p className="text-muted-foreground text-lg mt-2">
+        <p className="text-muted-foreground text-base md:text-lg mt-2">
           See who's at the top of the bamboo food chain.
         </p>
       </div>
@@ -69,10 +71,14 @@ export default function LeaderboardPage() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[80px]">Rank</TableHead>
-              <TableHead>User</TableHead>
-              <TableHead className="text-right">Bamboo</TableHead>
-              <TableHead className="text-right">Ultra Rares</TableHead>
+              <TableHead className="w-[60px] md:w-[80px] px-2 md:px-4">
+                Rank
+              </TableHead>
+              <TableHead className="px-2 md:px-4">User</TableHead>
+              <TableHead className="text-right px-2 md:px-4">Bamboo</TableHead>
+              <TableHead className="text-right hidden sm:table-cell px-2 md:px-4">
+                Ultra Rares
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -95,21 +101,21 @@ export default function LeaderboardPage() {
                     : "",
                 )}
               >
-                <TableCell className="text-xl md:text-2xl text-center font-headline">
+                <TableCell className="text-lg md:text-2xl text-center font-headline px-2 md:px-4">
                   {user.rank === 1 && (
-                    <Crown className="h-8 w-8 text-yellow-500 inline-block" />
+                    <Crown className="h-6 w-6 md:h-8 md:w-8 text-yellow-500 inline-block" />
                   )}
                   {user.rank === 2 && (
-                    <Crown className="h-8 w-8 text-gray-400 inline-block" />
+                    <Crown className="h-6 w-6 md:h-8 md:w-8 text-gray-400 inline-block" />
                   )}
                   {user.rank === 3 && (
-                    <Crown className="h-8 w-8 text-orange-500 inline-block" />
+                    <Crown className="h-6 w-6 md:h-8 md:w-8 text-orange-500 inline-block" />
                   )}
                   {user.rank > 3 && user.rank}
                 </TableCell>
-                <TableCell>
-                  <div className="flex items-center gap-4">
-                    <Avatar className="h-14 w-14 border-2">
+                <TableCell className="px-2 md:px-4">
+                  <div className="flex items-center gap-2 md:gap-4">
+                    <Avatar className="h-10 w-10 md:h-14 md:w-14 border-2">
                       <AvatarImage
                         src={user.avatarUrl}
                         alt={user.username}
@@ -120,24 +126,24 @@ export default function LeaderboardPage() {
                       </AvatarFallback>
                     </Avatar>
                     <div>
-                      <p className="font-bold text-base md:text-lg">
+                      <p className="font-bold text-sm md:text-lg">
                         {user.username}
                       </p>
-                      <p className="text-sm text-muted-foreground">
+                      <p className="text-xs md:text-sm text-muted-foreground hidden sm:block">
                         {user.title}
                       </p>
                     </div>
                   </div>
                 </TableCell>
-                <TableCell className="text-right font-medium text-base">
-                  <div className="flex items-center justify-end gap-2">
-                    <Leaf className="h-5 w-5 text-green-500" />
+                <TableCell className="text-right font-medium text-sm md:text-base px-2 md:px-4">
+                  <div className="flex items-center justify-end gap-1 md:gap-2">
+                    <Leaf className="h-4 w-4 md:h-5 md:w-5 text-green-500" />
                     {user.bamboo.toLocaleString()}
                   </div>
                 </TableCell>
-                <TableCell className="text-right font-medium text-base">
-                  <div className="flex items-center justify-end gap-2">
-                    <Sparkles className="h-5 w-5 text-accent-foreground" />
+                <TableCell className="text-right font-medium text-sm md:text-base hidden sm:table-cell px-2 md:px-4">
+                  <div className="flex items-center justify-end gap-1 md:gap-2">
+                    <Sparkles className="h-4 w-4 md:h-5 md:w-5 text-accent-foreground" />
                     {user.ultraRares}
                   </div>
                 </TableCell>

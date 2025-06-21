@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from "react";
@@ -96,9 +97,9 @@ export default function TamePage() {
         className="absolute inset-0 bg-[url('https://placehold.co/1920x1080.png')] bg-cover bg-center opacity-10 dark:opacity-20 blur-sm"
         data-ai-hint="bamboo forest pattern"
       />
-      <div className="relative z-10 space-y-6 p-8 bg-card/80 dark:bg-card/60 backdrop-blur-lg rounded-3xl shadow-2xl shadow-primary/5 w-full max-w-lg">
+      <div className="relative z-10 space-y-6 p-6 md:p-8 bg-card/80 dark:bg-card/60 backdrop-blur-lg rounded-3xl shadow-2xl shadow-primary/5 w-full max-w-lg">
         <motion.h1
-          className="text-4xl lg:text-5xl font-bold font-headline"
+          className="text-3xl sm:text-4xl lg:text-5xl font-bold font-headline"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
@@ -106,7 +107,7 @@ export default function TamePage() {
           The Whispering Bamboo
         </motion.h1>
         <motion.p
-          className="text-muted-foreground text-lg"
+          className="text-muted-foreground text-base lg:text-lg"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
@@ -115,7 +116,7 @@ export default function TamePage() {
           out to play. Who will you meet today?
         </motion.p>
 
-        <div className="flex justify-center items-center h-64">
+        <div className="flex justify-center items-center h-56 sm:h-64">
           <motion.div
             animate={{
               rotate: isTaming ? [0, -2, 2, -2, 0] : 0,
@@ -126,7 +127,7 @@ export default function TamePage() {
               repeat: isTaming ? Infinity : 0,
               repeatType: "mirror",
             }}
-            className="relative w-48 h-64"
+            className="relative w-40 h-56 sm:w-48 sm:h-64"
           >
             <Image
               src="https://placehold.co/400x600.png"

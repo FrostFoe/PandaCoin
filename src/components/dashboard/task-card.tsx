@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from "react";
@@ -64,7 +65,7 @@ export function TaskCard({ task }: TaskCardProps) {
   };
 
   return (
-    <Card className="w-80 shrink-0 flex flex-col hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+    <Card className="w-72 sm:w-80 shrink-0 flex flex-col hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
       <CardHeader>
         <CardTitle className="font-headline text-xl">{task.title}</CardTitle>
       </CardHeader>

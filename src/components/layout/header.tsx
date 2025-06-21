@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -13,7 +14,7 @@ import { cn } from "@/lib/utils";
 export function Header() {
   const { session, login } = useGame();
   return (
-    <header className="sticky top-0 z-40 flex h-20 items-center gap-4 border-b bg-background/95 backdrop-blur-sm">
+    <header className="sticky top-0 z-40 flex h-16 md:h-20 items-center gap-4 border-b bg-background/95 backdrop-blur-sm">
       <div className="container flex items-center gap-4">
         <Link
           href="/dashboard"
@@ -23,7 +24,7 @@ export function Header() {
           <PandaIcon className="h-8 w-8 text-primary" />
           <h1
             className={cn(
-              "font-headline text-2xl font-bold text-foreground whitespace-nowrap",
+              "font-headline text-xl md:text-2xl font-bold text-foreground whitespace-nowrap",
             )}
           >
             Bamboo Tame

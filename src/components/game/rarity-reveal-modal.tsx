@@ -1,3 +1,4 @@
+
 "use client";
 
 import Image from "next/image";
@@ -147,7 +148,7 @@ export function RarityRevealModal({
                   alt={details?.name || "A cute panda"}
                   width={150}
                   height={150}
-                  className="rounded-full border-4 border-white dark:border-card shadow-lg bg-secondary"
+                  className="w-[120px] h-[120px] sm:w-[150px] sm:h-[150px] rounded-full border-4 border-white dark:border-card shadow-lg bg-secondary"
                   data-ai-hint="panda cute"
                 />
               </motion.div>
@@ -158,7 +159,7 @@ export function RarityRevealModal({
                 visible: { opacity: 1, y: 0 },
               }}
             >
-              <DialogTitle className="text-center text-3xl font-headline mt-4">
+              <DialogTitle className="text-center text-2xl sm:text-3xl font-headline mt-4">
                 {displayName}
               </DialogTitle>
             </motion.div>

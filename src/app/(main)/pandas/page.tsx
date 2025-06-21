@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from "react";
@@ -40,16 +41,18 @@ export default function PandasPage() {
   };
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-8 py-8">
       <div>
-        <h1 className="text-4xl font-bold font-headline">My Panda Collection</h1>
+        <h1 className="text-3xl md:text-4xl font-bold font-headline">
+          My Panda Collection
+        </h1>
         <p className="text-muted-foreground text-lg mt-1">
           Behold, your army of fluffy chaos.
         </p>
       </div>
 
       <Tabs defaultValue="all">
-        <TabsList>
+        <TabsList className="grid grid-cols-2 sm:grid-cols-4 h-auto">
           <TabsTrigger value="all">All ({pandas.length})</TabsTrigger>
           {rarities.map((r) => (
             <TabsTrigger key={r} value={r}>
@@ -60,7 +63,7 @@ export default function PandasPage() {
 
         <TabsContent value="all" className="mt-6">
           {pandas.length > 0 ? (
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 sm:gap-6">
               {filterPandas("All").map((panda) => (
                 <PandaCard
                   key={panda.id}
@@ -82,7 +85,7 @@ export default function PandasPage() {
 
         {rarities.map((r) => (
           <TabsContent key={r} value={r} className="mt-6">
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 sm:gap-6">
               {filterPandas(r).map((panda) => (
                 <PandaCard
                   key={panda.id}
@@ -106,7 +109,7 @@ export default function PandasPage() {
 
 function CollectionSkeleton() {
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-8 py-8">
       <div>
         <Skeleton className="h-9 w-1/2 mb-2" />
         <Skeleton className="h-5 w-1/3" />
@@ -117,7 +120,7 @@ function CollectionSkeleton() {
         <Skeleton className="h-10 w-24" />
         <Skeleton className="h-10 w-24" />
       </div>
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-4">
+      <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 mt-4">
         {[...Array(4)].map((_, i) => (
           <div key={i} className="aspect-square">
             <Skeleton className="w-full h-full rounded-lg" />
