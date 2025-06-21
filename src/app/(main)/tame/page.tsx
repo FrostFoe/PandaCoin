@@ -3,10 +3,11 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { RarityRevealModal } from '@/components/game/rarity-reveal-modal';
-import { pandas, tasks } from '@/lib/data';
+import { pandas } from '@/lib/data';
 import type { Panda, Rarity } from '@/lib/types';
 import { Leaf, Sparkles } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { AnimatePresence, motion } from 'framer-motion';
 
 const TAME_COST = 100;
 
@@ -18,9 +19,15 @@ function getRandomPanda(): Panda {
   else rarity = 'Ultra Rare';
 
   const possiblePandas = pandas.filter(p => p.rarity === rarity);
-  const randomPanda = possiblePandas[Math.floor(Math.random() * possiblePandas.length)] ?? pandas[0];
+  const randomPandaTemplate = possiblePandas[Math.floor(Math.random() * possiblePandas.length)] ?? pandas[0];
 
-  return { ...randomPanda, id: new Date().toISOString(), tamedAt: new Date() };
+  return { 
+    ...randomPandaTemplate, 
+    id: new Date().toISOString(), 
+    tamedAt: new Date(),
+    name: "A new friend...", // Placeholder name
+    backstory: undefined, // Explicitly undefined to trigger generation in modal
+  };
 }
 
 export default function TamePage() {
@@ -43,40 +50,52 @@ export default function TamePage() {
     setIsTaming(true);
     setBambooBalance(prev => prev - TAME_COST);
 
-    // playSound('tree-shake');
     setTimeout(() => {
       const newPanda = getRandomPanda();
       setTamedPanda(newPanda);
       setIsModalOpen(true);
       setIsTaming(false);
-      // In a real app, save panda to user's collection
-      if (newPanda.rarity === 'Ultra Rare') {
-        // playSound('ultra-rare-jingle');
-      } else {
-        // playSound('tame-success');
-      }
-    }, 2000); // Simulate animation time
+    }, 2000); 
   };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
-    setTamedPanda(null);
+    // Add a delay to allow for exit animations
+    setTimeout(() => setTamedPanda(null), 300);
   };
 
   return (
     <div className="flex flex-col items-center justify-center text-center flex-1 gap-8">
       <div className="absolute inset-0 bg-[url('https://placehold.co/1920x1080.png')] bg-cover bg-center opacity-10 dark:opacity-20" data-ai-hint="bamboo forest" />
       <div className="relative z-10 space-y-4 p-8 bg-background/80 rounded-lg shadow-xl">
-        <h1 className="text-4xl font-bold font-headline">The Whispering Bamboo</h1>
-        <p className="text-muted-foreground max-w-md">
+        <motion.h1 
+            className="text-4xl font-bold font-headline"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+        >
+            The Whispering Bamboo
+        </motion.h1>
+        <motion.p 
+            className="text-muted-foreground max-w-md"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+        >
           Spend your bamboo to rustle the leaves and see if a new friend comes out to play. Who will you meet today?
-        </p>
+        </motion.p>
         
-        <div className="flex justify-center items-center">
-            {/* Taming animation can go here */}
-            <div className={`text-8xl transition-transform duration-500 ${isTaming ? 'animate-bounce' : ''}`}>
+        <div className="flex justify-center items-center h-24">
+            <motion.div
+                animate={{
+                    rotate: isTaming ? [0, -5, 5, -5, 0] : 0,
+                    scale: isTaming ? 1.1 : 1,
+                }}
+                transition={{ duration: 0.5, repeat: isTaming ? Infinity : 0 }}
+                className="text-8xl"
+            >
                 🌳
-            </div>
+            </motion.div>
         </div>
 
         <Button size="lg" onClick={handleTame} disabled={isTaming}>
@@ -95,7 +114,11 @@ export default function TamePage() {
         </Button>
       </div>
 
-      <RarityRevealModal panda={tamedPanda} isOpen={isModalOpen} onClose={handleCloseModal} />
+      <AnimatePresence>
+        {isModalOpen && (
+            <RarityRevealModal panda={tamedPanda} isOpen={isModalOpen} onClose={handleCloseModal} />
+        )}
+      </AnimatePresence>
     </div>
   );
 }
