@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { RarityRevealModal } from '@/components/game/rarity-reveal-modal';
-import { pandas } from '@/lib/data';
+import { pandas as pandaTemplates } from '@/lib/data';
 import type { Panda, Rarity } from '@/lib/types';
 import { Leaf, Sparkles } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
@@ -20,12 +20,12 @@ function getRandomPanda(): Panda {
   else if (rand < 95) rarity = 'Rare';
   else rarity = 'Ultra Rare';
 
-  const possiblePandas = pandas.filter(p => p.rarity === rarity);
-  const randomPandaTemplate = possiblePandas[Math.floor(Math.random() * possiblePandas.length)] ?? pandas[0];
+  const possiblePandas = pandaTemplates.filter(p => p.rarity === rarity);
+  const randomPandaTemplate = possiblePandas[Math.floor(Math.random() * possiblePandas.length)] ?? pandaTemplates[0];
 
   return { 
     ...randomPandaTemplate, 
-    id: new Date().toISOString(), 
+    id: new Date().toISOString() + Math.random(), // Add random number for better uniqueness
     tamedAt: new Date(),
     name: "A new friend...", // Placeholder name
     backstory: undefined, // Explicitly undefined to trigger generation in modal
@@ -36,24 +36,26 @@ export default function TamePage() {
   const [isTaming, setIsTaming] = useState(false);
   const [tamedPanda, setTamedPanda] = useState<Panda | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { bambooBalance, setBambooBalance } = useGame();
+  const { gameState, addPanda } = useGame();
   const { toast } = useToast();
 
   const handleTame = () => {
-    if (bambooBalance < TAME_COST) {
+    if (!gameState || gameState.bambooBalance < TAME_COST) {
         toast({
             variant: "destructive",
             title: "Not enough bamboo!",
-            description: "Complete more tasks to afford taming a panda.",
+            description: `You need ${TAME_COST} bamboo to tame a panda.`,
         });
         return;
     }
     
     setIsTaming(true);
-    setBambooBalance(prev => prev - TAME_COST);
+    
+    // The balance deduction is now handled by the context's addPanda function
+    const newPanda = getRandomPanda();
+    addPanda(newPanda);
 
     setTimeout(() => {
-      const newPanda = getRandomPanda();
       setTamedPanda(newPanda);
       setIsModalOpen(true);
       setIsTaming(false);
@@ -106,7 +108,7 @@ export default function TamePage() {
             </motion.div>
         </div>
 
-        <Button size="lg" onClick={handleTame} disabled={isTaming}>
+        <Button size="lg" onClick={handleTame} disabled={isTaming || !gameState}>
           {isTaming ? (
             "Shaking the bamboo..."
           ) : (
@@ -123,7 +125,7 @@ export default function TamePage() {
       </div>
 
       <AnimatePresence>
-        {isModalOpen && (
+        {isModalOpen && tamedPanda && (
             <RarityRevealModal panda={tamedPanda} isOpen={isModalOpen} onClose={handleCloseModal} />
         )}
       </AnimatePresence>

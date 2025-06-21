@@ -3,9 +3,10 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import type { Task, UserTask } from "@/lib/types";
-import { Leaf, CheckCircle2 } from "lucide-react";
+import type { Task } from "@/lib/types";
+import { Leaf, CheckCircle2, Hourglass } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useGame } from "@/context/GameContext";
 
 interface TaskCardProps {
   task: Task;
@@ -13,30 +14,35 @@ interface TaskCardProps {
 
 export function TaskCard({ task }: TaskCardProps) {
   const { toast } = useToast();
-  const [cooldown, setCooldown] = useState(0);
-  const [isClaimed, setIsClaimed] = useState(false);
+  const { claimTask, isTaskOnCooldown, getTaskCooldownTime, session } = useGame();
+  
+  const onCooldown = isTaskOnCooldown(task.id);
+  const cooldownTime = getTaskCooldownTime(task.id);
+
+  const [displayCooldown, setDisplayCooldown] = useState(cooldownTime);
+
+  useEffect(() => {
+    setDisplayCooldown(cooldownTime);
+  }, [cooldownTime]);
+
+  useEffect(() => {
+    if (onCooldown && displayCooldown > 0) {
+      const timer = setInterval(() => {
+        setDisplayCooldown((prev) => (prev > 0 ? prev - 1 : 0));
+      }, 1000);
+      return () => clearInterval(timer);
+    }
+  }, [onCooldown, displayCooldown]);
 
   const handleClaim = () => {
-    // In a real app, this would be a server action
-    setIsClaimed(true);
-    setCooldown(task.cooldownHours * 3600); // in seconds
+    if (session.status === 'loading' || onCooldown) return;
+    
+    claimTask(task);
     toast({
         title: "Task Claimed!",
         description: `You earned ${task.reward} bamboo!`,
     });
-    // playSound('claim-success');
   };
-
-  useEffect(() => {
-    if (cooldown > 0) {
-      const timer = setInterval(() => {
-        setCooldown((prev) => prev - 1);
-      }, 1000);
-      return () => clearInterval(timer);
-    } else if (isClaimed && cooldown <= 0) {
-        setIsClaimed(false);
-    }
-  }, [cooldown, isClaimed]);
 
   const formatTime = (seconds: number) => {
     const h = Math.floor(seconds / 3600).toString().padStart(2, '0');
@@ -58,9 +64,12 @@ export function TaskCard({ task }: TaskCardProps) {
         </div>
       </CardContent>
       <CardFooter>
-        <Button className="w-full" onClick={handleClaim} disabled={isClaimed}>
-          {isClaimed ? (
-            <span>Cooldown: {formatTime(cooldown)}</span>
+        <Button className="w-full" onClick={handleClaim} disabled={onCooldown || session.status === 'loading'}>
+          {onCooldown ? (
+            <div className="flex items-center gap-2">
+                <Hourglass />
+                <span>{formatTime(displayCooldown)}</span>
+            </div>
           ) : (
             <div className="flex items-center gap-2">
                 <CheckCircle2 />

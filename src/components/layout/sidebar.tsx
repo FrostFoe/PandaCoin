@@ -5,9 +5,10 @@ import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { PandaIcon } from "@/components/icons/panda-icon";
-import { LayoutGrid, Trees, Trophy, Settings as SettingsIcon, LogOut, ChevronLeft, ChevronRight } from "lucide-react";
+import { LayoutGrid, Trees, Trophy, Settings as SettingsIcon, LogOut, ChevronLeft, ChevronRight, LogIn } from "lucide-react";
 import { useState } from "react";
 import { UserNav } from "./user-nav";
+import { useGame } from "@/context/GameContext";
 
 const navItems = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutGrid },
@@ -19,6 +20,7 @@ const navItems = [
 
 export function Sidebar() {
   const pathname = usePathname();
+  const { session, logout, login } = useGame();
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   const toggleSidebar = () => setIsCollapsed(!isCollapsed);
@@ -76,13 +78,22 @@ export function Sidebar() {
       </nav>
       
       <div className="mt-auto">
-        <div className={cn("p-2", isCollapsed && "hidden")}>
-          <UserNav />
-        </div>
-        <Button variant="ghost" className={cn("w-full justify-start gap-3", isCollapsed && "justify-center")}>
-            <LogOut className="h-5 w-5" />
-            <span className={cn(isCollapsed && "hidden")}>Logout</span>
-        </Button>
+        {session.status === 'guest' ? (
+            <Button onClick={login} variant="outline" className={cn("w-full justify-start gap-3", isCollapsed && "justify-center")}>
+                <LogIn className="h-5 w-5" />
+                <span className={cn(isCollapsed && "hidden")}>Login</span>
+            </Button>
+        ) : (
+          <>
+            <div className={cn("p-2", isCollapsed && "hidden")}>
+              <UserNav />
+            </div>
+            <Button onClick={logout} variant="ghost" className={cn("w-full justify-start gap-3", isCollapsed && "justify-center")}>
+                <LogOut className="h-5 w-5" />
+                <span className={cn(isCollapsed && "hidden")}>Logout</span>
+            </Button>
+          </>
+        )}
       </div>
     </div>
   );

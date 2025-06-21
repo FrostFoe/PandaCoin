@@ -1,3 +1,5 @@
+"use client";
+
 import {
     Table,
     TableBody,
@@ -8,9 +10,40 @@ import {
   } from "@/components/ui/table";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { leaderboard } from "@/lib/data";
-import { Crown, Leaf, Sparkles } from "lucide-react";
+import { Crown, Leaf, Sparkles, LogIn } from "lucide-react";
+import { useGame } from "@/context/GameContext";
+import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
   
 export default function LeaderboardPage() {
+    const { session, login } = useGame();
+
+    if (session.status === 'loading') {
+      return (
+        <div className="flex flex-col gap-8">
+            <Skeleton className="h-9 w-1/3" />
+            <Skeleton className="h-5 w-2/3" />
+            <Skeleton className="rounded-lg border h-96 w-full" />
+        </div>
+      );
+    }
+
+    if (session.status === 'guest') {
+      return (
+        <div className="flex flex-col items-center justify-center text-center flex-1 gap-4 p-8 bg-card rounded-lg border-2 border-dashed">
+          <Crown className="h-16 w-16 text-accent" />
+          <h2 className="text-2xl font-bold font-headline">The Leaderboard Awaits!</h2>
+          <p className="text-muted-foreground max-w-md">
+            See how you stack up against other Panda Tamers. Log in or create an account to join the competition!
+          </p>
+          <Button onClick={login} size="lg">
+            <LogIn className="mr-2" />
+            Login to View Leaderboard
+          </Button>
+        </div>
+      );
+    }
+
     return (
       <div className="flex flex-col gap-8">
         <div>

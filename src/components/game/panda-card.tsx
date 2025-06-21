@@ -41,7 +41,9 @@ export function PandaCard({ panda, onClick }: PandaCardProps) {
                 <Badge variant="outline" className={cn("text-xs font-bold whitespace-nowrap", rarityStyles[panda.rarity])}>{panda.rarity}</Badge>
             </div>
             <div className="flex-grow" />
-            <p className="text-xs text-muted-foreground mt-2">Tamed {formatDistanceToNow(panda.tamedAt, { addSuffix: true })}</p>
+            <p className="text-xs text-muted-foreground mt-2">
+                Tamed {formatDistanceToNow(new Date(panda.tamedAt), { addSuffix: true })}
+            </p>
         </CardContent>
         </Card>
     </motion.div>

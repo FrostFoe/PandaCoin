@@ -3,11 +3,12 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu, Leaf, LayoutGrid, Trees, Trophy, Settings as SettingsIcon } from "lucide-react";
+import { Menu, LayoutGrid, Trees, Trophy, Settings as SettingsIcon, LogIn } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { PandaIcon } from "../icons/panda-icon";
 import { UserNav } from "./user-nav";
 import { BambooCounter } from "../game/bamboo-counter";
+import { useGame } from "@/context/GameContext";
 
 const navItems = [
     { href: "/dashboard", label: "Dashboard", icon: LayoutGrid },
@@ -19,6 +20,7 @@ const navItems = [
 
 export function Header() {
     const pathname = usePathname();
+    const { session, login } = useGame();
   return (
     <header className="sticky top-0 z-30 flex h-16 items-center gap-4 border-b bg-background/80 backdrop-blur-sm px-4 md:px-6">
       <div className="md:hidden">
@@ -32,7 +34,7 @@ export function Header() {
           <SheetContent side="left">
             <nav className="grid gap-6 text-lg font-medium">
               <Link
-                href="#"
+                href="/"
                 className="flex items-center gap-2 text-lg font-semibold mb-4"
               >
                 <PandaIcon className="h-8 w-8 text-primary" />
@@ -57,9 +59,16 @@ export function Header() {
           {/* Search can go here if needed */}
         </div>
         <BambooCounter />
-        <div className="hidden md:block">
+        {session.status === 'guest' ? (
+          <Button onClick={login} variant="outline">
+            <LogIn className="mr-2 h-4 w-4" />
+            Login
+          </Button>
+        ) : (
+          <div className="hidden md:block">
             <UserNav />
-        </div>
+          </div>
+        )}
       </div>
     </header>
   );

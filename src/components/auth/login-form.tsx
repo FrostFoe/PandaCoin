@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -11,14 +12,21 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Separator } from "../ui/separator";
 
 export function LoginForm() {
+  const router = useRouter();
+
+  const handleGuestLogin = () => {
+    router.push('/dashboard');
+  };
+
   return (
     <Card className="mx-auto max-w-sm w-full">
       <CardHeader>
         <CardTitle className="text-2xl font-headline">Login</CardTitle>
         <CardDescription>
-          Enter your email below to login to your account
+          Enter your email below to login to your account or continue as a guest.
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -46,6 +54,15 @@ export function LoginForm() {
           </Button>
           <Button variant="outline" className="w-full">
             Login with Google
+          </Button>
+          
+          <div className="relative my-2">
+            <Separator />
+            <span className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 bg-card px-2 text-xs text-muted-foreground">OR</span>
+          </div>
+
+          <Button variant="secondary" className="w-full" onClick={handleGuestLogin}>
+            Continue as Guest
           </Button>
         </div>
         <div className="mt-4 text-center text-sm">

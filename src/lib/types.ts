@@ -6,7 +6,7 @@ export type Panda = {
   rarity: Rarity;
   imageUrl: string;
   backstory?: string;
-  tamedAt: Date;
+  tamedAt: Date | string; // Allow string for serialization
 };
 
 export type Task = {
@@ -17,10 +17,9 @@ export type Task = {
   cooldownHours: number;
 };
 
+// Represents the state of a single task for a user
 export type UserTask = {
-  taskId: string;
-  lastClaimedAt: Date;
-  cooldownActive: boolean;
+  lastClaimedAt: string; // ISO string
 };
 
 export type LeaderboardUser = {
@@ -30,4 +29,11 @@ export type LeaderboardUser = {
   bamboo: number;
   ultraRares: number;
   title: string;
+};
+
+// Represents the entire game state for a user, suitable for localStorage
+export type GameState = {
+    bambooBalance: number;
+    pandas: Panda[];
+    userTasks: Record<string, UserTask>; // taskId -> UserTask
 };
