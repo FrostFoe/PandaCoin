@@ -39,9 +39,9 @@ export default function LandingPage() {
               transition={{ duration: 0.5 }}
               className="text-4xl md:text-6xl font-extrabold font-headline tracking-tighter"
             >
-              Collect Cute Pandas,
+              Invest in Cuteness.
               <br />
-              <span className="text-primary">Earn Bamboo.</span>
+              <span className="text-primary">Grow Your Fluffy Portfolio.</span>
             </motion.h1>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
@@ -49,9 +49,10 @@ export default function LandingPage() {
               transition={{ duration: 0.5, delay: 0.1 }}
               className="mx-auto max-w-prose text-lg text-muted-foreground md:mx-0"
             >
-              Complete fun tasks, earn bamboo, and spend it to tame unique and
-              adorable pandas. Each one has a different rarity and a special,
-              AI-generated story. Your fluffy collection awaits!
+              Welcome to the world's first Panda Stalk Market! Complete daily
+              "Bamboo Bounties" to build your wealth, then invest in unique,
+              AI-generated Fluffy Assets. Each panda is a unique entry in your
+              portfolio, with rarities that define their market "aww"-ppeal.
             </motion.p>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -73,11 +74,11 @@ export default function LandingPage() {
               <div className="absolute -bottom-8 -right-8 w-48 h-48 bg-primary/20 rounded-full blur-3xl opacity-50 animate-pulse delay-500"></div>
               <Image
                 src="https://placehold.co/600x600.png"
-                alt="A group of cute, playful pandas"
+                alt="A group of cute pandas reviewing stock market charts"
                 width={600}
                 height={600}
                 className="relative rounded-full shadow-2xl"
-                data-ai-hint="cute panda illustration"
+                data-ai-hint="panda stock market"
                 priority
               />
             </div>
@@ -87,32 +88,33 @@ export default function LandingPage() {
         <section className="bg-secondary/30 py-20 md:py-28">
           <div className="container mx-auto px-4">
             <div className="text-center space-y-3 mb-16">
-              <h2 className="text-3xl font-headline font-bold">How It Works</h2>
+              <h2 className="text-3xl font-headline font-bold">
+                Panda-nomics 101
+              </h2>
               <p className="text-muted-foreground max-w-2xl mx-auto">
-                Getting started is as easy as a panda tumble. Four simple steps
-                to panda paradise.
+                Your quick guide to succeeding in the bamboo economy.
               </p>
             </div>
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
               <FeatureCard
                 icon={<Leaf />}
-                title="Earn Bamboo"
-                description="Complete simple daily tasks and challenges to fill your stash with precious bamboo."
+                title="Accumulate Capital"
+                description="Complete 'Bamboo Bounties' and daily tasks. Your hustle builds your bamboo balance, the official currency of the panda economy."
               />
               <FeatureCard
                 icon={<Gamepad2 />}
-                title="Tame Pandas"
-                description="Use your bamboo to tame new panda friends from the magical bamboo forest. Who will you meet?"
+                title="Acquire Fluffy Assets"
+                description="Diversify your portfolio by taming new pandas. Each one is a unique asset with its own hilarious, AI-generated backstory."
               />
               <FeatureCard
                 icon={<Gem />}
-                title="Discover Rarities"
-                description="Pandas come in Common, Rare, and Ultra Rare rarities, each with unique, AI-generated backstories."
+                title="Analyze Market Trends"
+                description="Pandas come in different rarities, from common cuddlers to ultra-rare legends. Rarity influences their 'cuteness index' and story!"
               />
               <FeatureCard
                 icon={<Trophy />}
-                title="Climb the Ranks"
-                description="Show off your collection and bamboo balance on the global leaderboard. Aim for the top!"
+                title="Dominate the Stalk Market"
+                description="Showcase your net worth and rare assets on the global Leaderboard. Compete to become the ultimate Panda Tycoon."
               />
             </div>
           </div>
