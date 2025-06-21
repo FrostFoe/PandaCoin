@@ -6,7 +6,7 @@ import { useGame } from "@/context/GameContext";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Filter, Search } from "lucide-react";
+import { Search } from "lucide-react";
 import { HorizontalScrollSection } from "@/components/dashboard/horizontal-scroll-section";
 import { FavoritePandaCard } from "@/components/dashboard/favorite-panda-card";
 import { PandaCard } from "@/components/game/panda-card";
@@ -30,19 +30,12 @@ export default function DashboardPage() {
     <div className="flex flex-col gap-8">
       <div className="px-4 md:px-0">
         <h1 className="text-3xl font-bold font-headline">
-          Welcome, Panda Tamer!
+          Good Evening, Panda Tamer!
         </h1>
-        <p className="text-muted-foreground">Let's get this bamboo.</p>
+        <p className="text-muted-foreground">What's for dinner? Find new pandas in your area.</p>
         <div className="relative mt-4">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-          <Input placeholder="Search tasks..." className="pl-10" />
-          <Button
-            variant="ghost"
-            size="icon"
-            className="absolute right-1 top-1/2 -translate-y-1/2"
-          >
-            <Filter className="h-5 w-5 text-muted-foreground" />
-          </Button>
+          <Input placeholder="Search for pandas & stories..." className="pl-10" />
         </div>
       </div>
 
@@ -57,7 +50,7 @@ export default function DashboardPage() {
           {favoritePandas.map((panda) => (
             <FavoritePandaCard key={panda.id} panda={panda} />
           ))}
-          <Link href="/pandas" className="flex flex-col items-center justify-center gap-2 shrink-0 bg-secondary rounded-full h-24 w-24 text-muted-foreground hover:bg-secondary/80 transition-colors">
+           <Link href="/pandas" className="flex flex-col items-center justify-center gap-2 shrink-0 bg-secondary rounded-full h-24 w-24 text-muted-foreground hover:bg-secondary/80 transition-colors">
               <div className="text-sm font-semibold">View All</div>
           </Link>
         </HorizontalScrollSection>

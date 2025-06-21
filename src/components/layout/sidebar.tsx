@@ -21,6 +21,7 @@ const navItems = [
   { href: "/tame", label: "Tame", icon: Trees },
   { href: "/pandas", label: "My Pandas", icon: PandaIcon },
   { href: "/leaderboard", label: "Leaderboard", icon: Trophy },
+  { href: "/settings", label: "Settings", icon: SettingsIcon },
 ];
 
 export function Sidebar() {
@@ -64,17 +65,6 @@ export function Sidebar() {
       </nav>
 
       <div className="mt-auto flex flex-col gap-2">
-        <Button
-          asChild
-          variant={pathname.startsWith("/settings") ? "secondary" : "ghost"}
-          className="w-full justify-start gap-3 text-base h-12"
-        >
-          <Link href="/settings">
-            <SettingsIcon className="h-5 w-5" />
-            <span className="whitespace-nowrap">Settings</span>
-          </Link>
-        </Button>
-
         {session.status === "guest" ? (
           <Button
             onClick={login}
