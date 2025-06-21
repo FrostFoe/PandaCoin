@@ -42,10 +42,8 @@ export default function PandasPage() {
   return (
     <div className="flex flex-col gap-8">
       <div>
-        <h1 className="text-3xl font-bold font-headline">
-          My Panda Collection
-        </h1>
-        <p className="text-muted-foreground">
+        <h1 className="text-4xl font-bold font-headline">My Panda Collection</h1>
+        <p className="text-muted-foreground text-lg mt-1">
           Behold, your army of fluffy chaos.
         </p>
       </div>
@@ -60,9 +58,9 @@ export default function PandasPage() {
           ))}
         </TabsList>
 
-        <TabsContent value="all">
+        <TabsContent value="all" className="mt-6">
           {pandas.length > 0 ? (
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-4">
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {filterPandas("All").map((panda) => (
                 <PandaCard
                   key={panda.id}
@@ -72,8 +70,8 @@ export default function PandasPage() {
               ))}
             </div>
           ) : (
-            <div className="col-span-full text-center py-16 text-muted-foreground">
-              <PandaIcon className="h-16 w-16 mx-auto mb-4" />
+            <div className="col-span-full text-center py-20 text-muted-foreground border-2 border-dashed rounded-lg">
+              <PandaIcon className="h-20 w-20 mx-auto mb-4 opacity-50" />
               <h3 className="text-xl font-bold">
                 The bamboo forest is quiet...
               </h3>
@@ -83,8 +81,8 @@ export default function PandasPage() {
         </TabsContent>
 
         {rarities.map((r) => (
-          <TabsContent key={r} value={r}>
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-4">
+          <TabsContent key={r} value={r} className="mt-6">
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {filterPandas(r).map((panda) => (
                 <PandaCard
                   key={panda.id}

@@ -30,17 +30,17 @@ interface RarityRevealModalProps {
 
 const rarityInfo = {
   Common: {
-    style: "bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-200",
+    style: "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200",
     border: "border-gray-300 dark:border-gray-600",
   },
   Rare: {
-    style: "bg-blue-200 text-blue-800 dark:bg-blue-900 dark:text-blue-200",
+    style: "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200",
     border: "border-blue-400 dark:border-blue-700",
   },
   "Ultra Rare": {
     style:
-      "bg-gradient-to-r from-pink-400 via-purple-400 to-indigo-500 text-white",
-    border: "border-purple-500",
+      "bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400 text-white",
+    border: "border-pink-400",
   },
 };
 
@@ -132,7 +132,9 @@ export function RarityRevealModal({
                     }}
                     className="absolute -inset-2"
                   >
-                    <Sparkles className="h-full w-full text-accent opacity-50" />
+                    <Sparkles
+                      className="h-full w-full text-accent-foreground opacity-50"
+                    />
                   </motion.div>
                 ))}
               <motion.div
@@ -145,7 +147,7 @@ export function RarityRevealModal({
                   alt={details?.name || "A cute panda"}
                   width={150}
                   height={150}
-                  className="rounded-full border-4 border-accent shadow-lg bg-secondary"
+                  className="rounded-full border-4 border-white dark:border-card shadow-lg bg-secondary"
                   data-ai-hint="panda cute"
                 />
               </motion.div>
@@ -167,7 +169,10 @@ export function RarityRevealModal({
               }}
             >
               <Badge
-                className={cn("text-md mt-2", rarityInfo[panda.rarity].style)}
+                className={cn(
+                  "text-md mt-2 font-bold",
+                  rarityInfo[panda.rarity].style,
+                )}
               >
                 {panda.rarity}
               </Badge>
@@ -185,7 +190,7 @@ export function RarityRevealModal({
             </h4>
             {displayBackstory}
           </motion.div>
-          <DialogFooter className="p-6 pt-2 sm:justify-between gap-2 bg-secondary/30 dark:bg-secondary/10">
+          <DialogFooter className="p-6 pt-2 sm:justify-between gap-2 bg-secondary/30 dark:bg-black/20">
             <Button
               onClick={generateBackstory}
               variant="outline"

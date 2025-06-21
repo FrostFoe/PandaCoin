@@ -14,7 +14,7 @@ import { Crown, Leaf, Sparkles, LogIn } from "lucide-react";
 import { useGame } from "@/context/GameContext";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Card } from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 
 export default function LeaderboardPage() {
   const { session, login } = useGame();
@@ -31,8 +31,8 @@ export default function LeaderboardPage() {
 
   if (session.status === "guest") {
     return (
-      <div className="flex flex-col items-center justify-center text-center flex-1 gap-4 p-8 bg-card rounded-lg border-2 border-dashed">
-        <Crown className="h-16 w-16 text-accent" />
+      <div className="flex flex-col items-center justify-center text-center flex-1 gap-4 p-8 bg-card rounded-xl border-2 border-dashed">
+        <Crown className="h-16 w-16 text-primary" />
         <h2 className="text-2xl font-bold font-headline">
           The Leaderboard Awaits!
         </h2>
@@ -51,10 +51,10 @@ export default function LeaderboardPage() {
   return (
     <div className="flex flex-col gap-8">
       <div>
-        <h1 className="text-3xl font-bold font-headline flex items-center gap-2">
-          <Crown className="text-accent" /> Leaderboard
+        <h1 className="text-4xl font-bold font-headline flex items-center gap-2">
+          <Trophy className="text-primary" /> Leaderboard
         </h1>
-        <p className="text-muted-foreground">
+        <p className="text-muted-foreground text-lg mt-1">
           See who's at the top of the bamboo food chain.
         </p>
       </div>
@@ -73,23 +73,23 @@ export default function LeaderboardPage() {
             {leaderboard.map((user) => (
               <TableRow
                 key={user.rank}
-                className={user.rank <= 3 ? "font-bold" : ""}
+                className={cn("h-20", user.rank <= 3 ? "font-bold" : "")}
               >
-                <TableCell className="text-lg text-center">
+                <TableCell className="text-xl text-center font-headline">
                   {user.rank === 1 && (
-                    <Crown className="h-6 w-6 text-yellow-500 inline-block" />
+                    <Crown className="h-7 w-7 text-yellow-500 inline-block" />
                   )}
                   {user.rank === 2 && (
-                    <Crown className="h-6 w-6 text-gray-400 inline-block" />
+                    <Crown className="h-7 w-7 text-gray-400 inline-block" />
                   )}
                   {user.rank === 3 && (
-                    <Crown className="h-6 w-6 text-yellow-700 inline-block" />
+                    <Crown className="h-7 w-7 text-yellow-700 inline-block" />
                   )}
                   {user.rank > 3 && user.rank}
                 </TableCell>
                 <TableCell>
-                  <div className="flex items-center gap-3">
-                    <Avatar>
+                  <div className="flex items-center gap-4">
+                    <Avatar className="h-12 w-12">
                       <AvatarImage
                         src={user.avatarUrl}
                         alt={user.username}
@@ -100,7 +100,7 @@ export default function LeaderboardPage() {
                       </AvatarFallback>
                     </Avatar>
                     <div>
-                      <p className="font-bold">{user.username}</p>
+                      <p className="font-bold text-base">{user.username}</p>
                       <p className="text-sm text-muted-foreground">
                         {user.title}
                       </p>
@@ -108,14 +108,14 @@ export default function LeaderboardPage() {
                   </div>
                 </TableCell>
                 <TableCell className="text-right font-medium">
-                  <div className="flex items-center justify-end gap-1">
-                    <Leaf className="h-4 w-4 text-primary" />
+                  <div className="flex items-center justify-end gap-2">
+                    <Leaf className="h-5 w-5 text-primary" />
                     {user.bamboo.toLocaleString()}
                   </div>
                 </TableCell>
                 <TableCell className="text-right font-medium">
-                  <div className="flex items-center justify-end gap-1">
-                    <Sparkles className="h-4 w-4 text-accent" />
+                  <div className="flex items-center justify-end gap-2">
+                    <Sparkles className="h-5 w-5 text-accent-foreground" />
                     {user.ultraRares}
                   </div>
                 </TableCell>

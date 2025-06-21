@@ -11,11 +11,8 @@ import {
   Trophy,
   Settings as SettingsIcon,
   LogOut,
-  ChevronLeft,
-  ChevronRight,
   LogIn,
 } from "lucide-react";
-import { useState } from "react";
 import { UserNav } from "./user-nav";
 import { useGame } from "@/context/GameContext";
 
@@ -24,47 +21,28 @@ const navItems = [
   { href: "/tame", label: "Tame", icon: Trees },
   { href: "/pandas", label: "My Pandas", icon: PandaIcon },
   { href: "/leaderboard", label: "Leaderboard", icon: Trophy },
-  { href: "/settings", label: "Settings", icon: SettingsIcon },
 ];
 
 export function Sidebar() {
   const pathname = usePathname();
   const { session, logout, login } = useGame();
-  const [isCollapsed, setIsCollapsed] = useState(false);
-
-  const toggleSidebar = () => setIsCollapsed(!isCollapsed);
 
   return (
     <div
       className={cn(
-        "relative hidden h-screen border-r bg-card p-4 transition-all duration-300 ease-in-out md:flex flex-col",
-        isCollapsed ? "w-20" : "w-64",
+        "relative hidden h-screen border-r bg-card p-4 md:flex flex-col w-[280px]",
       )}
     >
-      <div className="flex items-center gap-2 pb-4 border-b mb-4">
-        <PandaIcon className="h-8 w-8 text-primary" />
+      <div className="flex items-center gap-4 px-2 pb-6 border-b mb-6">
+        <PandaIcon className="h-10 w-10 text-primary" />
         <h1
           className={cn(
-            "font-headline text-2xl font-bold text-foreground whitespace-nowrap transition-opacity",
-            isCollapsed && "opacity-0",
+            "font-headline text-2xl font-bold text-foreground whitespace-nowrap",
           )}
         >
           Bamboo Tame
         </h1>
       </div>
-
-      <Button
-        variant="ghost"
-        size="icon"
-        className="absolute -right-5 top-9 z-10 rounded-full bg-card border"
-        onClick={toggleSidebar}
-      >
-        {isCollapsed ? (
-          <ChevronRight className="h-4 w-4" />
-        ) : (
-          <ChevronLeft className="h-4 w-4" />
-        )}
-      </Button>
 
       <nav className="flex-1 space-y-2">
         {navItems.map((item) => {
@@ -74,52 +52,50 @@ export function Sidebar() {
               key={item.label}
               asChild
               variant={isActive ? "secondary" : "ghost"}
-              className={cn(
-                "w-full justify-start gap-3",
-                isCollapsed && "justify-center",
-              )}
+              className="w-full justify-start gap-3 text-base h-12"
             >
               <Link href={item.href}>
                 <item.icon className="h-5 w-5" />
-                <span
-                  className={cn("whitespace-nowrap", isCollapsed && "hidden")}
-                >
-                  {item.label}
-                </span>
+                <span className="whitespace-nowrap">{item.label}</span>
               </Link>
             </Button>
           );
         })}
       </nav>
 
-      <div className="mt-auto">
+      <div className="mt-auto flex flex-col gap-2">
+        <Button
+          asChild
+          variant={pathname.startsWith("/settings") ? "secondary" : "ghost"}
+          className="w-full justify-start gap-3 text-base h-12"
+        >
+          <Link href="/settings">
+            <SettingsIcon className="h-5 w-5" />
+            <span className="whitespace-nowrap">Settings</span>
+          </Link>
+        </Button>
+
         {session.status === "guest" ? (
           <Button
             onClick={login}
             variant="outline"
-            className={cn(
-              "w-full justify-start gap-3",
-              isCollapsed && "justify-center",
-            )}
+            className="w-full justify-start gap-3 text-base h-12"
           >
             <LogIn className="h-5 w-5" />
-            <span className={cn(isCollapsed && "hidden")}>Login</span>
+            <span>Login</span>
           </Button>
         ) : (
           <>
-            <div className={cn("p-2", isCollapsed && "hidden")}>
+            <div className="p-2">
               <UserNav />
             </div>
             <Button
               onClick={logout}
               variant="ghost"
-              className={cn(
-                "w-full justify-start gap-3",
-                isCollapsed && "justify-center",
-              )}
+              className="w-full justify-start gap-3 text-base h-12"
             >
               <LogOut className="h-5 w-5" />
-              <span className={cn(isCollapsed && "hidden")}>Logout</span>
+              <span>Logout</span>
             </Button>
           </>
         )}

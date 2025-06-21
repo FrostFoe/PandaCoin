@@ -3,14 +3,14 @@ import type { Panda, Rarity, Task, LeaderboardUser } from "./types";
 export const tasks: Task[] = [
   {
     id: "1",
-    title: "🌿 Touch Grass Challenge",
+    title: "Daily Check-in",
     description: "Log in and prove you still know what the sun looks like.",
     reward: 10,
     cooldownHours: 24,
   },
   {
     id: "2",
-    title: "🧠 Panda Trivia",
+    title: "Panda Trivia",
     description:
       'Answer a question about our fluffy overlords. Did you know pandas have six "fingers"?',
     reward: 5,
@@ -18,14 +18,14 @@ export const tasks: Task[] = [
   },
   {
     id: "3",
-    title: "🖱️ Bamboo Clicker",
+    title: "Bamboo Clicker",
     description: "Click the bamboo. A lot. For glory. And carpal tunnel.",
     reward: 20,
     cooldownHours: 6,
   },
   {
     id: "4",
-    title: "📣 Share on X",
+    title: "Share with Friends",
     description: "Tell the world about your panda addiction. #BambooTame",
     reward: 50,
     cooldownHours: 48,

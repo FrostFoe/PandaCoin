@@ -7,10 +7,13 @@ export default function AuthLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex flex-col min-h-screen items-center justify-center bg-secondary/50 p-4">
-      <div className="absolute top-4 left-4">
-        <Link href="/" className="flex items-center gap-2 text-foreground">
-          <PandaIcon className="h-8 w-8 text-primary" />
+    <div className="flex flex-col min-h-screen items-center justify-center bg-background p-4">
+      <div className="absolute top-6 left-6">
+        <Link
+          href="/"
+          className="flex items-center gap-2 text-foreground hover:text-primary transition-colors"
+        >
+          <PandaIcon className="h-8 w-8" />
           <span className="font-bold font-headline text-lg">Bamboo Tame</span>
         </Link>
       </div>

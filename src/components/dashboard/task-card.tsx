@@ -78,7 +78,7 @@ export function TaskCard({ task }: TaskCardProps) {
   };
 
   return (
-    <Card className="flex flex-col">
+    <Card className="flex flex-col hover:shadow-lg transition-shadow duration-300">
       <CardHeader>
         <div className="flex items-start justify-between">
           <CardTitle className="font-headline text-xl pr-4">
@@ -97,6 +97,7 @@ export function TaskCard({ task }: TaskCardProps) {
       <CardFooter>
         <Button
           className="w-full"
+          size="lg"
           onClick={handleClaim}
           disabled={onCooldown || session.status === "loading"}
         >

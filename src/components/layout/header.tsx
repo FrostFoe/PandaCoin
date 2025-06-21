@@ -30,7 +30,7 @@ export function Header() {
   const pathname = usePathname();
   const { session, login } = useGame();
   return (
-    <header className="sticky top-0 z-30 flex h-16 items-center gap-4 border-b bg-background/80 backdrop-blur-sm px-4 md:px-6">
+    <header className="sticky top-0 z-30 flex h-20 items-center gap-4 border-b bg-background/80 backdrop-blur-sm px-4 md:px-6">
       <div className="md:hidden">
         <Sheet>
           <SheetTrigger asChild>
@@ -39,20 +39,20 @@ export function Header() {
               <span className="sr-only">Toggle navigation menu</span>
             </Button>
           </SheetTrigger>
-          <SheetContent side="left">
+          <SheetContent side="left" className="bg-card">
             <nav className="grid gap-6 text-lg font-medium">
               <Link
                 href="/"
-                className="flex items-center gap-2 text-lg font-semibold mb-4"
+                className="flex items-center gap-4 text-lg font-semibold mb-4"
               >
-                <PandaIcon className="h-8 w-8 text-primary" />
-                <span>Bamboo Tame</span>
+                <PandaIcon className="h-10 w-10 text-primary" />
+                <span className="font-headline">Bamboo Tame</span>
               </Link>
               {navItems.map((item) => (
                 <Link
                   key={item.label}
                   href={item.href}
-                  className={`flex items-center gap-3 rounded-lg px-3 py-2 transition-all ${pathname.startsWith(item.href) ? "text-primary bg-muted" : "text-muted-foreground hover:text-primary"}`}
+                  className={`flex items-center gap-4 rounded-lg px-3 py-2 transition-all ${pathname.startsWith(item.href) ? "text-primary bg-primary/10" : "text-muted-foreground hover:text-primary"}`}
                 >
                   <item.icon className="h-5 w-5" />
                   {item.label}

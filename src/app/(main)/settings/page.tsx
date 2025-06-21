@@ -12,6 +12,7 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
 import { useGame } from "@/context/GameContext";
+import { Settings as SettingsIcon } from "lucide-react";
 
 export default function SettingsPage() {
   const { logout } = useGame();
@@ -19,8 +20,10 @@ export default function SettingsPage() {
   return (
     <div className="flex flex-col gap-8 max-w-2xl mx-auto">
       <div>
-        <h1 className="text-3xl font-bold font-headline">Settings</h1>
-        <p className="text-muted-foreground">
+        <h1 className="text-4xl font-bold font-headline flex items-center gap-3">
+          <SettingsIcon className="w-8 h-8 text-primary" /> Settings
+        </h1>
+        <p className="text-muted-foreground text-lg mt-1">
           Manage your account and game preferences.
         </p>
       </div>
@@ -33,8 +36,8 @@ export default function SettingsPage() {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="flex items-center justify-between p-4 rounded-lg bg-secondary/50">
-            <Label htmlFor="theme" className="text-base">
+          <div className="flex items-center justify-between p-4 rounded-lg bg-secondary/30">
+            <Label htmlFor="theme" className="text-base font-medium">
               Theme
             </Label>
             <ThemeToggle />
@@ -48,14 +51,14 @@ export default function SettingsPage() {
           <CardDescription>Control the in-game sounds.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="flex items-center justify-between p-4 rounded-lg bg-secondary/50">
-            <Label htmlFor="music" className="text-base">
+          <div className="flex items-center justify-between p-4 rounded-lg bg-secondary/30">
+            <Label htmlFor="music" className="text-base font-medium">
               Background Music
             </Label>
             <Switch id="music" defaultChecked />
           </div>
-          <div className="flex items-center justify-between p-4 rounded-lg bg-secondary/50">
-            <Label htmlFor="sfx" className="text-base">
+          <div className="flex items-center justify-between p-4 rounded-lg bg-secondary/30">
+            <Label htmlFor="sfx" className="text-base font-medium">
               Sound Effects
             </Label>
             <Switch id="sfx" defaultChecked />

@@ -22,12 +22,11 @@ export function LoginForm() {
   };
 
   return (
-    <Card className="mx-auto max-w-sm w-full">
+    <Card className="mx-auto max-w-sm w-full shadow-2xl">
       <CardHeader>
         <CardTitle className="text-2xl font-headline">Login</CardTitle>
         <CardDescription>
-          Enter your email below to login to your account or continue as a
-          guest.
+          Enter your email below to login to your account.
         </CardDescription>
       </CardHeader>
       <CardContent>

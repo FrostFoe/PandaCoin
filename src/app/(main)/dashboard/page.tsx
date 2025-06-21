@@ -16,14 +16,12 @@ export default function DashboardPage() {
   return (
     <div className="flex flex-col gap-8">
       <div>
-        <h1 className="text-3xl font-bold font-headline">
-          Welcome back, Panda Tamer!
-        </h1>
-        <p className="text-muted-foreground">
+        <h1 className="text-4xl font-bold font-headline">Dashboard</h1>
+        <p className="text-muted-foreground text-lg mt-1">
           Here are your daily tasks. Complete them to earn more bamboo!
         </p>
       </div>
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {tasks.map((task) => (
           <TaskCard key={task.id} task={task} />
         ))}
@@ -36,10 +34,10 @@ function DashboardSkeleton() {
   return (
     <div className="flex flex-col gap-8">
       <div>
-        <Skeleton className="h-9 w-3/4 mb-2" />
-        <Skeleton className="h-5 w-1/2" />
+        <Skeleton className="h-10 w-3/4 mb-2" />
+        <Skeleton className="h-6 w-1/2" />
       </div>
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {[...Array(4)].map((_, i) => (
           <CardSkeleton key={i} />
         ))}
@@ -58,7 +56,7 @@ function CardSkeleton() {
         <Skeleton className="h-5 w-5 rounded-full" />
         <Skeleton className="h-5 w-16" />
       </div>
-      <Skeleton className="h-10 w-full" />
+      <Skeleton className="h-12 w-full" />
     </Card>
   );
 }

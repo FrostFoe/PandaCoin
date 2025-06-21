@@ -1,14 +1,30 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
+import { Fredoka, Inter, Comic_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/layout/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
+import { cn } from "@/lib/utils";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+const fredoka = Fredoka({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-fredoka",
+});
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+});
+
+const comicMono = Comic_Mono({
+  subsets: ["latin"],
+  weight: ["400"],
+  variable: "--font-comic-mono",
+});
 
 const APP_NAME = "Bamboo Tame";
 const APP_DESCRIPTION =
-  "A crypto-themed web game where users earn bamboo by completing fun tasks, then spend it to tame pandas of different rarities.";
+  "A delightful game where you earn bamboo by completing tasks and tame unique, AI-generated pandas.";
 
 export const metadata: Metadata = {
   applicationName: APP_NAME,
@@ -54,7 +70,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#F2F9F1",
+  themeColor: "#F8F9FA",
 };
 
 export default function RootLayout({
@@ -64,19 +80,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;700&family=Poppins:wght@600;700&family=Comic+Mono&family=Inter:wght@400;500;600;700&display=swap"
-          rel="stylesheet"
-        />
-      </head>
-      <body className="font-body antialiased">
+      <body
+        className={cn(
+          "font-body antialiased",
+          fredoka.variable,
+          inter.variable,
+          comicMono.variable,
+        )}
+      >
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

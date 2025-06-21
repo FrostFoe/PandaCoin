@@ -8,30 +8,31 @@ export function PandaIcon(props: SVGProps<SVGSVGElement>) {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth="1"
+      strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
       {...props}
-      className={cn("text-foreground", props.className)}
     >
       <path
-        d="M12 2a10 10 0 0 0-3.5 19.33A10 10 0 0 0 12 22a10 10 0 0 0 3.5-2.67A10 10 0 0 0 12 2z"
-        fill="currentColor"
-        stroke="none"
+        d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2Z"
+        className="fill-background stroke-foreground"
       />
       <path
-        d="M8.5 7A2.5 2.5 0 0 1 11 9.5V10h-5V9.5A2.5 2.5 0 0 1 8.5 7z"
-        fill="black"
+        d="M8.5 9a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5Z"
+        className="fill-foreground stroke-none"
       />
       <path
-        d="M15.5 7a2.5 2.5 0 0 0-2.5 2.5V10h5V9.5A2.5 2.5 0 0 0 15.5 7z"
-        fill="black"
+        d="M15.5 9a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5Z"
+        className="fill-foreground stroke-none"
       />
-      <circle cx="9" cy="14" r="2" fill="black" />
-      <circle cx="15" cy="14" r="2" fill="black" />
       <path
-        d="M12 11a1 1 0 0 0-1 1v1a1 1 0 0 0 2 0v-1a1 1 0 0 0-1-1z"
-        fill="black"
+        d="M12 11.5a1 1 0 0 1 1 1v0a1 1 0 0 1-2 0v0a1 1 0 0 1 1-1Z"
+        className="fill-foreground stroke-none"
+      />
+      <path
+        d="M10.5 15.5c.5.5 1.2.5 1.5.5s1.5-.5 2-1"
+        className="stroke-foreground"
+        fill="none"
       />
     </svg>
   );

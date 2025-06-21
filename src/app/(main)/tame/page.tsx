@@ -93,10 +93,10 @@ export default function TamePage() {
   return (
     <div className="flex flex-col items-center justify-center text-center flex-1 gap-8">
       <div
-        className="absolute inset-0 bg-[url('https://placehold.co/1920x1080.png')] bg-cover bg-center opacity-10 dark:opacity-20"
-        data-ai-hint="bamboo forest"
+        className="absolute inset-0 bg-[url('https://placehold.co/1920x1080.png')] bg-cover bg-center opacity-5 dark:opacity-10"
+        data-ai-hint="bamboo forest pattern"
       />
-      <div className="relative z-10 space-y-4 p-8 bg-background/80 rounded-lg shadow-xl">
+      <div className="relative z-10 space-y-6 p-8 bg-card rounded-2xl shadow-xl w-full max-w-lg">
         <motion.h1
           className="text-4xl font-bold font-headline"
           initial={{ opacity: 0, y: 20 }}
@@ -106,7 +106,7 @@ export default function TamePage() {
           The Whispering Bamboo
         </motion.h1>
         <motion.p
-          className="text-muted-foreground max-w-md"
+          className="text-muted-foreground"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
@@ -132,7 +132,7 @@ export default function TamePage() {
               src="https://placehold.co/400x600.png"
               alt="A magical bamboo tree, shaking with anticipation"
               fill
-              className="object-contain"
+              className="object-contain drop-shadow-lg"
               data-ai-hint="bamboo tree"
               priority
             />
@@ -143,6 +143,7 @@ export default function TamePage() {
           size="lg"
           onClick={handleTame}
           disabled={isTaming || !gameState}
+          className="w-full"
         >
           {isTaming ? (
             "Shaking the bamboo..."

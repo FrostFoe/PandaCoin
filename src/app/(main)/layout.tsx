@@ -9,11 +9,11 @@ export default function MainLayout({
 }) {
   return (
     <GameProvider>
-      <div className="grid min-h-screen w-full md:grid-cols-[auto_1fr] lg:grid-cols-[auto_1fr]">
+      <div className="grid min-h-screen w-full md:grid-cols-[280px_1fr]">
         <Sidebar />
         <div className="flex flex-col">
           <Header />
-          <main className="flex flex-1 flex-col gap-4 p-4 md:p-8 bg-secondary/30">
+          <main className="flex flex-1 flex-col gap-4 p-4 md:p-8 lg:p-10 bg-background">
             {children}
           </main>
         </div>

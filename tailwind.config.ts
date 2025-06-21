@@ -17,9 +17,9 @@ export default {
     },
     extend: {
       fontFamily: {
-        body: ["Inter", "sans-serif"],
-        headline: ["Fredoka", "sans-serif"],
-        code: ['"Comic Mono"', "monospace"],
+        body: ["var(--font-inter)", "sans-serif"],
+        headline: ["var(--font-fredoka)", "sans-serif"],
+        code: ["var(--font-comic-mono)", "monospace"],
       },
       colors: {
         background: "hsl(var(--background))",
@@ -65,8 +65,8 @@ export default {
       },
       borderRadius: {
         lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
+        md: "calc(var(--radius) - 0.25rem)",
+        sm: "calc(var(--radius) - 0.5rem)",
       },
       keyframes: {
         "accordion-down": {
