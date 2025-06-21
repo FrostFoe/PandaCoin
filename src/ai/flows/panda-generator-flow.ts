@@ -3,7 +3,7 @@
 import { ai } from "@/ai/genkit";
 import { z } from "zod";
 
-export const PandaGeneratorInputSchema = z.object({
+const PandaGeneratorInputSchema = z.object({
   rarity: z
     .enum(["Common", "Rare", "Ultra Rare"])
     .describe(
@@ -12,7 +12,7 @@ export const PandaGeneratorInputSchema = z.object({
 });
 export type PandaGeneratorInput = z.infer<typeof PandaGeneratorInputSchema>;
 
-export const PandaGeneratorOutputSchema = z.object({
+const PandaGeneratorOutputSchema = z.object({
   name: z
     .string()
     .describe(
