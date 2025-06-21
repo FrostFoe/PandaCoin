@@ -27,17 +27,17 @@ export default function LeaderboardPage() {
 
   if (session.status === "loading") {
     return (
-      <div className="flex flex-col gap-8">
-        <Skeleton className="h-9 w-1/3" />
-        <Skeleton className="h-5 w-2/3" />
-        <Skeleton className="rounded-lg border h-96 w-full" />
+      <div className="py-8 flex flex-col gap-8">
+        <Skeleton className="h-12 w-1/3" />
+        <Skeleton className="h-6 w-2/3" />
+        <Skeleton className="rounded-3xl border h-96 w-full" />
       </div>
     );
   }
 
   if (session.status === "guest") {
     return (
-      <div className="flex flex-col items-center justify-center text-center flex-1 gap-4 p-8 bg-card rounded-xl border-2 border-dashed">
+      <div className="min-h-[60vh] flex flex-col items-center justify-center text-center gap-4 p-8 bg-card rounded-3xl border-2 border-dashed">
         <Crown className="h-16 w-16 text-primary" />
         <h2 className="text-2xl font-bold font-headline">
           The Leaderboard Awaits!
@@ -55,17 +55,17 @@ export default function LeaderboardPage() {
   }
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="py-8 flex flex-col gap-8">
       <div>
-        <h1 className="text-4xl font-bold font-headline flex items-center gap-2">
-          <Trophy className="text-primary" /> Leaderboard
+        <h1 className="text-4xl md:text-5xl font-bold font-headline flex items-center gap-3">
+          <Trophy className="w-10 h-10 text-primary" /> Leaderboard
         </h1>
-        <p className="text-muted-foreground text-lg mt-1">
+        <p className="text-muted-foreground text-lg mt-2">
           See who's at the top of the bamboo food chain.
         </p>
       </div>
 
-      <Card>
+      <Card className="overflow-hidden">
         <Table>
           <TableHeader>
             <TableRow>
@@ -79,23 +79,37 @@ export default function LeaderboardPage() {
             {leaderboard.map((user) => (
               <TableRow
                 key={user.rank}
-                className={cn("h-20", user.rank <= 3 ? "font-bold" : "")}
+                className={cn(
+                  "h-20",
+                  user.rank <= 3
+                    ? "font-bold bg-secondary/50 dark:bg-secondary/30"
+                    : "",
+                  user.rank === 1
+                    ? "bg-gradient-to-r from-yellow-100/50 via-secondary/50 to-secondary/50 dark:from-yellow-500/10 dark:via-secondary/30 dark:to-secondary/30"
+                    : "",
+                  user.rank === 2
+                    ? "bg-gradient-to-r from-gray-200/50 via-secondary/50 to-secondary/50 dark:from-gray-400/10 dark:via-secondary/30 dark:to-secondary/30"
+                    : "",
+                  user.rank === 3
+                    ? "bg-gradient-to-r from-orange-200/50 via-secondary/50 to-secondary/50 dark:from-orange-400/10 dark:via-secondary/30 dark:to-secondary/30"
+                    : "",
+                )}
               >
-                <TableCell className="text-xl text-center font-headline">
+                <TableCell className="text-xl md:text-2xl text-center font-headline">
                   {user.rank === 1 && (
-                    <Crown className="h-7 w-7 text-yellow-500 inline-block" />
+                    <Crown className="h-8 w-8 text-yellow-500 inline-block" />
                   )}
                   {user.rank === 2 && (
-                    <Crown className="h-7 w-7 text-gray-400 inline-block" />
+                    <Crown className="h-8 w-8 text-gray-400 inline-block" />
                   )}
                   {user.rank === 3 && (
-                    <Crown className="h-7 w-7 text-yellow-700 inline-block" />
+                    <Crown className="h-8 w-8 text-orange-500 inline-block" />
                   )}
                   {user.rank > 3 && user.rank}
                 </TableCell>
                 <TableCell>
                   <div className="flex items-center gap-4">
-                    <Avatar className="h-12 w-12">
+                    <Avatar className="h-14 w-14 border-2">
                       <AvatarImage
                         src={user.avatarUrl}
                         alt={user.username}
@@ -106,20 +120,22 @@ export default function LeaderboardPage() {
                       </AvatarFallback>
                     </Avatar>
                     <div>
-                      <p className="font-bold text-base">{user.username}</p>
+                      <p className="font-bold text-base md:text-lg">
+                        {user.username}
+                      </p>
                       <p className="text-sm text-muted-foreground">
                         {user.title}
                       </p>
                     </div>
                   </div>
                 </TableCell>
-                <TableCell className="text-right font-medium">
+                <TableCell className="text-right font-medium text-base">
                   <div className="flex items-center justify-end gap-2">
-                    <Leaf className="h-5 w-5 text-primary" />
+                    <Leaf className="h-5 w-5 text-green-500" />
                     {user.bamboo.toLocaleString()}
                   </div>
                 </TableCell>
-                <TableCell className="text-right font-medium">
+                <TableCell className="text-right font-medium text-base">
                   <div className="flex items-center justify-end gap-2">
                     <Sparkles className="h-5 w-5 text-accent-foreground" />
                     {user.ultraRares}

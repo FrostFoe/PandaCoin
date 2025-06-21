@@ -10,13 +10,10 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import type { Task } from "@/lib/types";
-import {
-  Leaf,
-  CheckCircle2,
-  Hourglass,
-} from "lucide-react";
+import { Leaf, CheckCircle2, Hourglass } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useGame } from "@/context/GameContext";
+import { motion } from "framer-motion";
 
 interface TaskCardProps {
   task: Task;
@@ -67,13 +64,13 @@ export function TaskCard({ task }: TaskCardProps) {
   };
 
   return (
-    <Card className="w-80 shrink-0 flex flex-col hover:shadow-xl transition-shadow duration-300">
+    <Card className="w-80 shrink-0 flex flex-col hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
       <CardHeader>
         <CardTitle className="font-headline text-xl">{task.title}</CardTitle>
       </CardHeader>
       <CardContent className="flex-grow">
         <p className="text-sm text-muted-foreground">{task.description}</p>
-        <div className="flex items-center gap-2 text-lg font-bold text-primary mt-4">
+        <div className="flex items-center gap-2 text-lg font-bold text-green-500 mt-4">
           <Leaf className="h-5 w-5" />
           <span>+ {task.reward} Bamboo</span>
         </div>
@@ -86,10 +83,22 @@ export function TaskCard({ task }: TaskCardProps) {
           disabled={onCooldown || session.status === "loading"}
         >
           {onCooldown ? (
-            <>
-              <Hourglass className="mr-2" />
+            <div className="flex items-center gap-2">
+              <motion.div
+                animate={{
+                  scale: [1, 1.1, 1],
+                  rotate: [0, 5, -5, 0],
+                }}
+                transition={{
+                  duration: 1,
+                  repeat: Infinity,
+                  repeatType: "mirror",
+                }}
+              >
+                <Hourglass />
+              </motion.div>
               <span>{formatTime(displayCooldown)}</span>
-            </>
+            </div>
           ) : (
             <>
               <CheckCircle2 className="mr-2" />

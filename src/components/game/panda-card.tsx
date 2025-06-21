@@ -27,7 +27,7 @@ export function PandaCard({ panda, onClick }: PandaCardProps) {
       layout
     >
       <Card
-        className="overflow-hidden cursor-pointer h-full flex flex-col group shadow-lg shadow-black/5 hover:shadow-xl hover:shadow-black/10 transition-shadow duration-300"
+        className="overflow-hidden cursor-pointer h-full flex flex-col group shadow-lg shadow-black/5 hover:shadow-primary/10 transition-all duration-300 border-2 border-transparent hover:border-primary/50"
         onClick={onClick}
       >
         <CardHeader className="p-0">
@@ -36,7 +36,7 @@ export function PandaCard({ panda, onClick }: PandaCardProps) {
               src={panda.imageUrl}
               alt={`A cute panda named ${panda.name}`}
               fill
-              className="object-cover transition-transform duration-300 group-hover:scale-110"
+              className="object-cover transition-transform duration-300 group-hover:scale-110 group-hover:brightness-110"
               data-ai-hint="panda cute"
             />
           </div>

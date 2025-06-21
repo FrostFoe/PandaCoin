@@ -23,7 +23,7 @@ const RarityRevealModal = dynamic(
     ssr: false,
     loading: () => (
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80">
-        <div className="grid w-full max-w-md gap-4 rounded-lg border bg-background p-6 shadow-lg">
+        <div className="grid w-full max-w-md gap-4 rounded-3xl border bg-background p-6 shadow-lg">
           <Skeleton className="h-32 w-32 rounded-full mx-auto" />
           <Skeleton className="h-8 w-48 mx-auto" />
           <Skeleton className="h-6 w-24 mx-auto" />
@@ -91,14 +91,14 @@ export default function TamePage() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center text-center flex-1 gap-8">
+    <div className="flex flex-col items-center justify-center text-center flex-1 gap-8 py-8">
       <div
-        className="absolute inset-0 bg-[url('https://placehold.co/1920x1080.png')] bg-cover bg-center opacity-5 dark:opacity-10"
+        className="absolute inset-0 bg-[url('https://placehold.co/1920x1080.png')] bg-cover bg-center opacity-10 dark:opacity-20 blur-sm"
         data-ai-hint="bamboo forest pattern"
       />
-      <div className="relative z-10 space-y-6 p-8 bg-card rounded-2xl shadow-xl w-full max-w-lg">
+      <div className="relative z-10 space-y-6 p-8 bg-card/80 dark:bg-card/60 backdrop-blur-lg rounded-3xl shadow-2xl shadow-primary/5 w-full max-w-lg">
         <motion.h1
-          className="text-4xl font-bold font-headline"
+          className="text-4xl lg:text-5xl font-bold font-headline"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
@@ -106,7 +106,7 @@ export default function TamePage() {
           The Whispering Bamboo
         </motion.h1>
         <motion.p
-          className="text-muted-foreground"
+          className="text-muted-foreground text-lg"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
@@ -143,7 +143,7 @@ export default function TamePage() {
           size="lg"
           onClick={handleTame}
           disabled={isTaming || !gameState}
-          className="w-full"
+          className="w-full text-lg"
         >
           {isTaming ? (
             "Shaking the bamboo..."

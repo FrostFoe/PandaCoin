@@ -2,15 +2,11 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-  LayoutGrid,
-  Trees,
-  Trophy,
-  User,
-} from "lucide-react";
+import { LayoutGrid, Trees, Trophy, User } from "lucide-react";
 import { PandaIcon } from "../icons/panda-icon";
 import { cn } from "@/lib/utils";
 import { useGame } from "@/context/GameContext";
+import { motion } from "framer-motion";
 
 const navItems = [
   { href: "/dashboard", label: "Home", icon: LayoutGrid },
@@ -41,12 +37,23 @@ export function BottomNav() {
               key={item.label}
               href={item.href}
               className={cn(
-                "flex flex-col items-center justify-center gap-1 w-full h-full text-muted-foreground transition-colors",
+                "flex flex-col items-center justify-center gap-1 w-full h-full text-muted-foreground transition-colors relative",
                 isActive ? "text-primary" : "hover:text-primary",
               )}
             >
-              <item.icon className="h-6 w-6" />
+              <item.icon
+                className={cn(
+                  "h-6 w-6 transition-all",
+                  isActive ? "h-7 w-7" : "h-6 w-6",
+                )}
+              />
               <span className="text-xs font-medium">{item.label}</span>
+              {isActive && (
+                <motion.div
+                  className="absolute bottom-1 left-1/2 -translate-x-1/2 w-6 h-1 bg-primary rounded-full"
+                  layoutId="underline"
+                />
+              )}
             </Link>
           );
         })}

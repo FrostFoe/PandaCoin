@@ -1,14 +1,14 @@
+
+"use client";
+
 import * as React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { PandaIcon } from "@/components/icons/panda-icon";
 import { Leaf, Gem, Trophy, Gamepad2 } from "lucide-react";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { motion } from "framer-motion";
 
 export default function LandingPage() {
   return (
@@ -33,29 +33,44 @@ export default function LandingPage() {
       <main className="flex-1">
         <section className="container mx-auto px-4 py-20 md:py-32 flex flex-col md:flex-row items-center gap-12 text-center md:text-left">
           <div className="flex-1 space-y-6">
-            <h1 className="text-4xl md:text-6xl font-extrabold font-headline tracking-tighter">
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="text-4xl md:text-6xl font-extrabold font-headline tracking-tighter"
+            >
               Collect Cute Pandas,
               <br />
               <span className="text-primary">Earn Bamboo.</span>
-            </h1>
-            <p className="mx-auto max-w-prose text-lg text-muted-foreground md:mx-0">
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="mx-auto max-w-prose text-lg text-muted-foreground md:mx-0"
+            >
               Complete fun tasks, earn bamboo, and spend it to tame unique and
               adorable pandas. Each one has a different rarity and a special,
               AI-generated story. Your fluffy collection awaits!
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+            </motion.p>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start"
+            >
               <Button asChild size="lg" className="shadow-lg shadow-primary/20">
                 <Link href="/signup">Start Your Adventure</Link>
               </Button>
               <Button asChild size="lg" variant="secondary">
                 <Link href="/dashboard">Play as Guest</Link>
               </Button>
-            </div>
+            </motion.div>
           </div>
           <div className="flex-1 flex items-center justify-center p-8">
             <div className="relative w-full max-w-sm">
-              <div className="absolute -top-8 -left-8 w-40 h-40 bg-accent rounded-full blur-3xl opacity-50"></div>
-              <div className="absolute -bottom-8 -right-8 w-40 h-40 bg-primary/30 rounded-full blur-3xl opacity-50"></div>
+              <div className="absolute -top-8 -left-8 w-48 h-48 bg-accent rounded-full blur-3xl opacity-50 animate-pulse"></div>
+              <div className="absolute -bottom-8 -right-8 w-48 h-48 bg-primary/20 rounded-full blur-3xl opacity-50 animate-pulse delay-500"></div>
               <Image
                 src="https://placehold.co/600x600.png"
                 alt="A group of cute, playful pandas"
@@ -128,9 +143,9 @@ function FeatureCard({
   description: string;
 }) {
   return (
-    <Card className="bg-card p-6 text-center flex flex-col items-center shadow-lg hover:shadow-xl transition-shadow duration-300 rounded-2xl">
+    <Card className="bg-card p-6 text-center flex flex-col items-center shadow-lg hover:shadow-primary/10 transition-all duration-300 group border-2 border-transparent hover:border-primary/50">
       <CardHeader className="p-0">
-        <div className="bg-primary/10 text-primary p-4 rounded-full mb-4">
+        <div className="bg-primary/10 text-primary p-4 rounded-full mb-4 group-hover:scale-110 transition-transform">
           {React.cloneElement(icon as React.ReactElement, {
             className: "h-8 w-8",
           })}
