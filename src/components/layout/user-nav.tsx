@@ -11,12 +11,14 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { LogOut, Settings, User } from "lucide-react";
 import Link from "next/link";
+import { useGame } from "@/context/GameContext";
 
 export function UserNav() {
+  const { logout } = useGame();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="relative h-10 w-full justify-start gap-2">
+        <Button variant="ghost" className="relative h-10 w-full justify-start gap-2 px-2">
           <Avatar className="h-8 w-8">
             <AvatarImage src="https://placehold.co/100x100.png" alt="@pandaprodigy" data-ai-hint="panda avatar" />
             <AvatarFallback>PP</AvatarFallback>
@@ -52,7 +54,7 @@ export function UserNav() {
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
+        <DropdownMenuItem onClick={logout}>
           <LogOut className="mr-2 h-4 w-4" />
           <span>Log out</span>
         </DropdownMenuItem>

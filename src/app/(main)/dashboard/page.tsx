@@ -4,6 +4,7 @@ import { TaskCard } from "@/components/dashboard/task-card";
 import { tasks } from "@/lib/data";
 import { useGame } from "@/context/GameContext";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Card } from "@/components/ui/card";
 
 export default function DashboardPage() {
   const { session } = useGame();
@@ -46,12 +47,15 @@ function DashboardSkeleton() {
 
 function CardSkeleton() {
     return (
-        <div className="flex flex-col space-y-3 p-6 border rounded-lg">
+        <Card className="flex flex-col space-y-3 p-6">
             <Skeleton className="h-6 w-3/5" />
             <Skeleton className="h-4 w-4/5" />
-            <div className="flex-grow" />
-            <Skeleton className="h-5 w-1/3 pt-4" />
+            <div className="flex-grow pt-4" />
+            <div className="flex items-center gap-2">
+                <Skeleton className="h-5 w-5 rounded-full" />
+                <Skeleton className="h-5 w-16" />
+            </div>
             <Skeleton className="h-10 w-full" />
-        </div>
+        </Card>
     );
 }

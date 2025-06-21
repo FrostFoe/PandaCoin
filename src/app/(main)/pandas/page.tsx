@@ -55,29 +55,29 @@ export default function PandasPage() {
             </TabsTrigger>
           )}
         </TabsList>
+        
+        <TabsContent value="all">
+          {pandas.length > 0 ? (
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-4">
+              {filterPandas('All').map(panda => <PandaCard key={panda.id} panda={panda} onClick={() => handlePandaClick(panda)} />)}
+            </div>
+          ) : (
+            <div className="col-span-full text-center py-16 text-muted-foreground">
+              <PandaIcon className="h-16 w-16 mx-auto mb-4" />
+              <h3 className="text-xl font-bold">The bamboo forest is quiet...</h3>
+              <p>Go to the 'Tame' page to find some new friends!</p>
+            </div>
+          )}
+        </TabsContent>
 
-        <AnimatePresence initial={false}>
-            <TabsContent value="all" forceMount>
-                {pandas.length > 0 ? (
-                    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-4">
-                        {filterPandas('All').map(panda => <PandaCard key={panda.id} panda={panda} onClick={() => handlePandaClick(panda)} />)}
-                    </div>
-                ) : (
-                    <div className="col-span-full text-center py-16 text-muted-foreground">
-                        <PandaIcon className="h-16 w-16 mx-auto mb-4" />
-                        <h3 className="text-xl font-bold">The bamboo forest is quiet...</h3>
-                        <p>Go to the 'Tame' page to find some new friends!</p>
-                    </div>
-                )}
-            </TabsContent>
-            {rarities.map(r => (
-                <TabsContent key={r} value={r}>
-                     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-4">
-                        {filterPandas(r).map(panda => <PandaCard key={panda.id} panda={panda} onClick={() => handlePandaClick(panda)} />)}
-                    </div>
-                </TabsContent>
-            ))}
-        </AnimatePresence>
+        {rarities.map(r => (
+          <TabsContent key={r} value={r}>
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-4">
+              {filterPandas(r).map(panda => <PandaCard key={panda.id} panda={panda} onClick={() => handlePandaClick(panda)} />)}
+            </div>
+          </TabsContent>
+        ))}
+
       </Tabs>
 
       <RarityRevealModal panda={selectedPanda} isOpen={isModalOpen} onClose={handleCloseModal} />
@@ -85,8 +85,6 @@ export default function PandasPage() {
   );
 }
 
-
-import { AnimatePresence } from 'framer-motion';
 
 function CollectionSkeleton() {
     return (
@@ -104,7 +102,7 @@ function CollectionSkeleton() {
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-4">
                 {[...Array(4)].map((_, i) => (
                     <div key={i} className="aspect-square">
-                        <Skeleton className="w-full h-full" />
+                        <Skeleton className="w-full h-full rounded-lg" />
                     </div>
                 ))}
             </div>

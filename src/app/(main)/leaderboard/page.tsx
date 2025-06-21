@@ -14,6 +14,7 @@ import { Crown, Leaf, Sparkles, LogIn } from "lucide-react";
 import { useGame } from "@/context/GameContext";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Card } from "@/components/ui/card";
   
 export default function LeaderboardPage() {
     const { session, login } = useGame();
@@ -51,7 +52,7 @@ export default function LeaderboardPage() {
           <p className="text-muted-foreground">See who's at the top of the bamboo food chain.</p>
         </div>
         
-        <div className="rounded-lg border">
+        <Card>
             <Table>
                 <TableHeader>
                     <TableRow>
@@ -63,8 +64,13 @@ export default function LeaderboardPage() {
                 </TableHeader>
                 <TableBody>
                     {leaderboard.map((user) => (
-                        <TableRow key={user.rank}>
-                            <TableCell className="font-bold text-lg text-center">{user.rank}</TableCell>
+                        <TableRow key={user.rank} className={user.rank <= 3 ? 'font-bold' : ''}>
+                            <TableCell className="text-lg text-center">
+                                {user.rank === 1 && <Crown className="h-6 w-6 text-yellow-500 inline-block" />}
+                                {user.rank === 2 && <Crown className="h-6 w-6 text-gray-400 inline-block" />}
+                                {user.rank === 3 && <Crown className="h-6 w-6 text-yellow-700 inline-block" />}
+                                {user.rank > 3 && user.rank}
+                            </TableCell>
                             <TableCell>
                                 <div className="flex items-center gap-3">
                                     <Avatar>
@@ -93,7 +99,7 @@ export default function LeaderboardPage() {
                     ))}
                 </TableBody>
             </Table>
-        </div>
+        </Card>
       </div>
     );
 }

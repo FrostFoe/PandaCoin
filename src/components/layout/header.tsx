@@ -9,6 +9,7 @@ import { PandaIcon } from "../icons/panda-icon";
 import { UserNav } from "./user-nav";
 import { BambooCounter } from "../game/bamboo-counter";
 import { useGame } from "@/context/GameContext";
+import { ThemeToggle } from "./theme-toggle";
 
 const navItems = [
     { href: "/dashboard", label: "Dashboard", icon: LayoutGrid },
@@ -59,6 +60,7 @@ export function Header() {
           {/* Search can go here if needed */}
         </div>
         <BambooCounter />
+        <ThemeToggle />
         {session.status === 'guest' ? (
           <Button onClick={login} variant="outline">
             <LogIn className="mr-2 h-4 w-4" />

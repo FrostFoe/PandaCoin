@@ -4,13 +4,20 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import type { Task } from "@/lib/types";
-import { Leaf, CheckCircle2, Hourglass } from "lucide-react";
+import { Leaf, CheckCircle2, Hourglass, Gamepad, Share2, BrainCircuit } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useGame } from "@/context/GameContext";
 
 interface TaskCardProps {
   task: Task;
 }
+
+const taskIcons: { [key: string]: React.ReactNode } = {
+    '1': <Leaf />,
+    '2': <BrainCircuit />,
+    '3': <Gamepad />,
+    '4': <Share2 />,
+};
 
 export function TaskCard({ task }: TaskCardProps) {
   const { toast } = useToast();
@@ -54,7 +61,10 @@ export function TaskCard({ task }: TaskCardProps) {
   return (
     <Card className="flex flex-col">
       <CardHeader>
-        <CardTitle className="font-headline text-xl">{task.title}</CardTitle>
+        <div className="flex items-start justify-between">
+            <CardTitle className="font-headline text-xl pr-4">{task.title}</CardTitle>
+            <div className="text-primary">{taskIcons[task.id] ?? <Leaf />}</div>
+        </div>
         <CardDescription>{task.description}</CardDescription>
       </CardHeader>
       <CardContent className="flex-grow">
@@ -66,15 +76,15 @@ export function TaskCard({ task }: TaskCardProps) {
       <CardFooter>
         <Button className="w-full" onClick={handleClaim} disabled={onCooldown || session.status === 'loading'}>
           {onCooldown ? (
-            <div className="flex items-center gap-2">
+            <>
                 <Hourglass />
                 <span>{formatTime(displayCooldown)}</span>
-            </div>
+            </>
           ) : (
-            <div className="flex items-center gap-2">
+            <>
                 <CheckCircle2 />
                 <span>Claim Reward</span>
-            </div>
+            </>
           )}
         </Button>
       </CardFooter>
