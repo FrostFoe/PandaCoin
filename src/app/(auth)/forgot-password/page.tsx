@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
@@ -9,8 +11,21 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useToast } from "@/hooks/use-toast";
+import type { FormEvent } from "react";
 
 export default function ForgotPasswordPage() {
+  const { toast } = useToast();
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    toast({
+      title: "Check Your Email!",
+      description:
+        "If an account with that email exists, we've sent a password reset link.",
+    });
+  };
+
   return (
     <Card className="mx-auto max-w-sm w-full">
       <CardHeader>
@@ -22,7 +37,7 @@ export default function ForgotPasswordPage() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="grid gap-4">
+        <form onSubmit={handleSubmit} className="grid gap-4">
           <div className="grid gap-2">
             <Label htmlFor="email">Email</Label>
             <Input
@@ -35,7 +50,7 @@ export default function ForgotPasswordPage() {
           <Button type="submit" className="w-full">
             Send Reset Link
           </Button>
-        </div>
+        </form>
         <div className="mt-4 text-center text-sm">
           Remembered it?{" "}
           <Link href="/login" className="underline">

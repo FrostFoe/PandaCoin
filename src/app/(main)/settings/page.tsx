@@ -1,6 +1,6 @@
-
 "use client";
 
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -13,10 +13,29 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
 import { useGame } from "@/context/GameContext";
-import { Settings as SettingsIcon } from "lucide-react";
+import { Settings as SettingsIcon, Trash2 } from "lucide-react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 export default function SettingsPage() {
   const { logout } = useGame();
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
+  const [musicEnabled, setMusicEnabled] = useState(true);
+  const [sfxEnabled, setSfxEnabled] = useState(true);
+
+  const handleDeleteAccount = () => {
+    logout();
+    setIsAlertOpen(false);
+  };
 
   return (
     <div className="flex flex-col gap-6 max-w-2xl mx-auto py-6">
@@ -56,13 +75,21 @@ export default function SettingsPage() {
             <Label htmlFor="music" className="font-medium">
               Background Music
             </Label>
-            <Switch id="music" defaultChecked />
+            <Switch
+              id="music"
+              checked={musicEnabled}
+              onCheckedChange={setMusicEnabled}
+            />
           </div>
           <div className="flex items-center justify-between p-4 rounded-lg bg-secondary/30">
             <Label htmlFor="sfx" className="font-medium">
               Sound Effects
             </Label>
-            <Switch id="sfx" defaultChecked />
+            <Switch
+              id="sfx"
+              checked={sfxEnabled}
+              onCheckedChange={setSfxEnabled}
+            />
           </div>
         </CardContent>
       </Card>
@@ -78,9 +105,30 @@ export default function SettingsPage() {
           <Button className="w-full" onClick={logout}>
             Logout
           </Button>
-          <Button variant="destructive" className="w-full">
-            Delete Account
-          </Button>
+          <AlertDialog open={isAlertOpen} onOpenChange={setIsAlertOpen}>
+            <AlertDialogTrigger asChild>
+              <Button variant="destructive" className="w-full">
+                <Trash2 className="mr-2 h-4 w-4" />
+                Delete Account
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  This action is permanent. All your tamed pandas and bamboo
+                  will be lost forever. If you are a guest, this will clear your
+                  local data.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction onClick={handleDeleteAccount}>
+                  Yes, delete my account
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </CardContent>
       </Card>
     </div>

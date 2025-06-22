@@ -1,6 +1,6 @@
-
 "use client";
 
+import { useState } from "react";
 import { TaskCard } from "@/components/dashboard/task-card";
 import { tasks } from "@/lib/data";
 import { useGame } from "@/context/GameContext";
@@ -12,19 +12,45 @@ import { FavoritePandaCard } from "@/components/dashboard/favorite-panda-card";
 import { PandaCard } from "@/components/game/panda-card";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { RarityRevealModal } from "@/components/game/rarity-reveal-modal";
+import type { Panda } from "@/lib/types";
 
 export default function DashboardPage() {
   const { gameState, session } = useGame();
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedPanda, setSelectedPanda] = useState<Panda | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   if (session.status === "loading" || !gameState) {
     return <DashboardSkeleton />;
   }
 
+  const handlePandaClick = (panda: Panda) => {
+    setSelectedPanda(panda);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedPanda(null);
+  };
+
   const { pandas } = gameState;
-  const favoritePandas = pandas.slice(0, 5);
+
+  const favoritePandas = pandas
+    .slice(0, 5)
+    .filter((panda) =>
+      panda.name.toLowerCase().includes(searchQuery.toLowerCase()),
+    );
+
   const recentlyTamed = pandas
     .sort((a, b) => new Date(b.tamedAt).getTime() - new Date(a.tamedAt).getTime())
-    .slice(0, 10);
+    .slice(0, 10)
+    .filter(
+      (panda) =>
+        panda.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        panda.backstory?.toLowerCase().includes(searchQuery.toLowerCase()),
+    );
 
   return (
     <div className="flex flex-col gap-8 py-6">
@@ -55,6 +81,8 @@ export default function DashboardPage() {
           <Input
             placeholder="Search for pandas & stories..."
             className="pl-12 rounded-full h-11 md:h-12 text-base"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
           />
         </motion.div>
       </div>
@@ -104,11 +132,17 @@ export default function DashboardPage() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.8 + i * 0.05 }}
             >
-              <PandaCard panda={panda} onClick={() => {}} />
+              <PandaCard panda={panda} onClick={() => handlePandaClick(panda)} />
             </motion.div>
           ))}
         </HorizontalScrollSection>
       )}
+
+      <RarityRevealModal
+        panda={selectedPanda}
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+      />
     </div>
   );
 }

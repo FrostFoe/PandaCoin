@@ -13,12 +13,24 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "../ui/separator";
+import type { FormEvent } from "react";
+import { useToast } from "@/hooks/use-toast";
 
 export function LoginForm() {
   const router = useRouter();
+  const { toast } = useToast();
 
   const handleGuestLogin = () => {
     router.push("/dashboard");
+  };
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    toast({
+      variant: "destructive",
+      title: "Feature Not Implemented",
+      description: "Full authentication is not available in this demo.",
+    });
   };
 
   return (
@@ -30,7 +42,7 @@ export function LoginForm() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="grid gap-4">
+        <form onSubmit={handleSubmit} className="grid gap-4">
           <div className="grid gap-2">
             <Label htmlFor="email">Email</Label>
             <Input
@@ -55,25 +67,25 @@ export function LoginForm() {
           <Button type="submit" className="w-full">
             Login
           </Button>
-          <Button variant="outline" className="w-full">
+          <Button type="submit" variant="outline" className="w-full">
             Login with Google
           </Button>
+        </form>
 
-          <div className="relative my-2">
-            <Separator />
-            <span className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 bg-card px-2 text-xs text-muted-foreground">
-              OR
-            </span>
-          </div>
-
-          <Button
-            variant="secondary"
-            className="w-full"
-            onClick={handleGuestLogin}
-          >
-            Continue as Guest
-          </Button>
+        <div className="relative my-4">
+          <Separator />
+          <span className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 bg-card px-2 text-xs text-muted-foreground">
+            OR
+          </span>
         </div>
+
+        <Button
+          variant="secondary"
+          className="w-full"
+          onClick={handleGuestLogin}
+        >
+          Continue as Guest
+        </Button>
         <div className="mt-4 text-center text-sm">
           Don&apos;t have an account?{" "}
           <Link href="/signup" className="underline">
