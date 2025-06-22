@@ -1,14 +1,14 @@
 import type { Metadata, Viewport } from "next";
-import { Poppins, Inter, Fira_Code } from "next/font/google";
+import { Inter, Fredoka, Comic_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/layout/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
 import { cn } from "@/lib/utils";
 
-const poppins = Poppins({
+const fredoka = Fredoka({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
-  variable: "--font-poppins",
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-fredoka",
 });
 
 const inter = Inter({
@@ -16,10 +16,10 @@ const inter = Inter({
   variable: "--font-inter",
 });
 
-const firaCode = Fira_Code({
+const comicMono = Comic_Mono({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-fira-code",
+  weight: ["400"],
+  variable: "--font-comic-mono",
 });
 
 const APP_NAME = "Bamboo Tame";
@@ -70,7 +70,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#F8F9FA",
+  themeColor: "#F2F9F1",
 };
 
 export default function RootLayout({
@@ -83,9 +83,9 @@ export default function RootLayout({
       <body
         className={cn(
           "font-body antialiased",
-          poppins.variable,
+          fredoka.variable,
           inter.variable,
-          firaCode.variable,
+          comicMono.variable,
         )}
       >
         <ThemeProvider

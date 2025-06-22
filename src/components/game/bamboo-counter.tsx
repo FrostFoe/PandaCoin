@@ -4,11 +4,13 @@ import { Leaf } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { useGame } from "@/context/GameContext";
 import { Skeleton } from "../ui/skeleton";
+import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 
 export function BambooCounter() {
-  const { gameState, session } = useGame();
+  const { gameState } = useGame();
+  const { isLoading } = useKindeBrowserClient();
 
-  if (session.status === "loading" || !gameState) {
+  if (isLoading || !gameState) {
     return <Skeleton className="h-10 w-28 rounded-full" />;
   }
 

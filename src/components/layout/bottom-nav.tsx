@@ -5,8 +5,8 @@ import { usePathname } from "next/navigation";
 import { LayoutGrid, Trees, Trophy, Settings } from "lucide-react";
 import { PandaIcon } from "../icons/panda-icon";
 import { cn } from "@/lib/utils";
-import { useGame } from "@/context/GameContext";
 import { motion } from "framer-motion";
+import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 
 const navItems = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutGrid },
@@ -18,9 +18,9 @@ const navItems = [
 
 export function BottomNav() {
   const pathname = usePathname();
-  const { session } = useGame();
+  const { isLoading } = useKindeBrowserClient();
 
-  if (session.status === "loading") {
+  if (isLoading) {
     return null;
   }
 

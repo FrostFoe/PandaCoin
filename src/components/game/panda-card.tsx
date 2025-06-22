@@ -14,9 +14,9 @@ interface PandaCardProps {
 const rarityStyles = {
   Common:
     "border-transparent bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200",
-  Rare: "border-transparent bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200",
+  Rare: "border-transparent bg-blue-100 text-blue-800 dark:bg-blue-900/70 dark:text-blue-200",
   "Ultra Rare":
-    "border-transparent bg-pink-100 text-pink-800 dark:bg-pink-900/50 dark:text-pink-300",
+    "border-transparent bg-pink-100 text-pink-800 dark:bg-pink-900/70 dark:text-pink-200",
 };
 
 export function PandaCard({ panda, onClick }: PandaCardProps) {
@@ -52,7 +52,7 @@ export function PandaCard({ panda, onClick }: PandaCardProps) {
           >
             {panda.rarity}
           </Badge>
-          <CardTitle className="text-base font-code font-bold tracking-wider mt-1.5">
+          <CardTitle className="text-base font-code font-bold tracking-tight mt-1.5">
             {panda.name}
           </CardTitle>
 

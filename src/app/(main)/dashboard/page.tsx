@@ -14,14 +14,16 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { RarityRevealModal } from "@/components/game/rarity-reveal-modal";
 import type { Panda } from "@/lib/types";
+import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 
 export default function DashboardPage() {
-  const { gameState, session } = useGame();
+  const { gameState } = useGame();
+  const { isLoading } = useKindeBrowserClient();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedPanda, setSelectedPanda] = useState<Panda | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  if (session.status === "loading" || !gameState) {
+  if (isLoading || !gameState) {
     return <DashboardSkeleton />;
   }
 

@@ -1,6 +1,6 @@
 import type { Config } from "tailwindcss";
 
-const config: Config = {
+const config = {
   darkMode: ["class"],
   content: [
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -20,8 +20,8 @@ const config: Config = {
     extend: {
       fontFamily: {
         body: ["var(--font-inter)", "sans-serif"],
-        headline: ["var(--font-poppins)", "sans-serif"],
-        code: ["var(--font-fira-code)", "monospace"],
+        headline: ["var(--font-fredoka)", "sans-serif"],
+        code: ["var(--font-comic-mono)", "monospace"],
       },
       colors: {
         background: "hsl(var(--background))",
@@ -67,8 +67,8 @@ const config: Config = {
       },
       borderRadius: {
         lg: "var(--radius)",
-        md: "calc(var(--radius) - 0.25rem)",
-        sm: "calc(var(--radius) - 0.5rem)",
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)",
       },
       keyframes: {
         "accordion-down": {
@@ -95,6 +95,6 @@ const config: Config = {
     },
   },
   plugins: [require("tailwindcss-animate")],
-};
+} satisfies Config;
 
 export default config;

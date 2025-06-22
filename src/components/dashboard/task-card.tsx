@@ -14,6 +14,7 @@ import { Leaf, CheckCircle2, Hourglass } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useGame } from "@/context/GameContext";
 import { motion } from "framer-motion";
+import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 
 interface TaskCardProps {
   task: Task;
@@ -21,8 +22,8 @@ interface TaskCardProps {
 
 export function TaskCard({ task }: TaskCardProps) {
   const { toast } = useToast();
-  const { claimTask, isTaskOnCooldown, getTaskCooldownTime, session } =
-    useGame();
+  const { claimTask, isTaskOnCooldown, getTaskCooldownTime } = useGame();
+  const { isLoading } = useKindeBrowserClient();
 
   const onCooldown = isTaskOnCooldown(task.id);
   const cooldownTime = getTaskCooldownTime(task.id);
@@ -43,7 +44,7 @@ export function TaskCard({ task }: TaskCardProps) {
   }, [onCooldown, displayCooldown]);
 
   const handleClaim = () => {
-    if (session.status === "loading" || onCooldown) return;
+    if (isLoading || onCooldown) return;
 
     claimTask(task);
     toast({
@@ -79,7 +80,7 @@ export function TaskCard({ task }: TaskCardProps) {
         <Button
           className="w-full"
           onClick={handleClaim}
-          disabled={onCooldown || session.status === "loading"}
+          disabled={onCooldown || isLoading}
         >
           {onCooldown ? (
             <div className="flex items-center gap-2">
