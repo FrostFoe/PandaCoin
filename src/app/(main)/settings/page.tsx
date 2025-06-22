@@ -19,12 +19,12 @@ export default function SettingsPage() {
   const { logout } = useGame();
 
   return (
-    <div className="flex flex-col gap-8 max-w-2xl mx-auto py-8">
+    <div className="flex flex-col gap-6 max-w-2xl mx-auto py-6">
       <div>
-        <h1 className="text-3xl md:text-4xl font-bold font-headline flex items-center gap-3">
-          <SettingsIcon className="w-8 h-8 text-primary" /> Settings
+        <h1 className="text-2xl md:text-3xl font-bold font-headline flex items-center gap-3">
+          <SettingsIcon className="w-7 h-7 text-primary" /> Settings
         </h1>
-        <p className="text-muted-foreground text-lg mt-1">
+        <p className="text-muted-foreground text-base mt-1">
           Manage your account and game preferences.
         </p>
       </div>
@@ -36,9 +36,9 @@ export default function SettingsPage() {
             Customize the look and feel of the app.
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="space-y-2">
           <div className="flex items-center justify-between p-4 rounded-lg bg-secondary/30">
-            <Label htmlFor="theme" className="text-base font-medium">
+            <Label htmlFor="theme" className="font-medium">
               Theme
             </Label>
             <ThemeToggle />
@@ -51,15 +51,15 @@ export default function SettingsPage() {
           <CardTitle>Audio</CardTitle>
           <CardDescription>Control the in-game sounds.</CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="space-y-2">
           <div className="flex items-center justify-between p-4 rounded-lg bg-secondary/30">
-            <Label htmlFor="music" className="text-base font-medium">
+            <Label htmlFor="music" className="font-medium">
               Background Music
             </Label>
             <Switch id="music" defaultChecked />
           </div>
           <div className="flex items-center justify-between p-4 rounded-lg bg-secondary/30">
-            <Label htmlFor="sfx" className="text-base font-medium">
+            <Label htmlFor="sfx" className="font-medium">
               Sound Effects
             </Label>
             <Switch id="sfx" defaultChecked />

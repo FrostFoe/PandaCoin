@@ -23,7 +23,7 @@
     --border: 220 13% 91%;
     --input: 220 13% 85%;
     --ring: 335 87% 55%;
-    --radius: 1.5rem;
+    --radius: 1rem;
   }
   .dark {
     --background: 230 20% 6%;
@@ -51,9 +51,6 @@
 @layer base {
   * {
     @apply border-border;
-  }
-  html {
-    font-size: 14px;
   }
   body {
     @apply bg-background text-foreground;

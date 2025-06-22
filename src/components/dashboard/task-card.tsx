@@ -65,21 +65,20 @@ export function TaskCard({ task }: TaskCardProps) {
   };
 
   return (
-    <Card className="w-72 sm:w-80 shrink-0 flex flex-col hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+    <Card className="w-[270px] shrink-0 flex flex-col hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
       <CardHeader>
-        <CardTitle className="font-headline text-xl">{task.title}</CardTitle>
+        <CardTitle className="font-headline text-lg">{task.title}</CardTitle>
       </CardHeader>
       <CardContent className="flex-grow">
-        <p className="text-sm text-muted-foreground">{task.description}</p>
-        <div className="flex items-center gap-2 text-lg font-bold text-green-500 mt-4">
-          <Leaf className="h-5 w-5" />
+        <p className="text-xs text-muted-foreground">{task.description}</p>
+        <div className="flex items-center gap-2 text-base font-bold text-green-500 mt-4">
+          <Leaf className="h-4 w-4" />
           <span>+ {task.reward} Bamboo</span>
         </div>
       </CardContent>
       <CardFooter>
         <Button
           className="w-full"
-          size="lg"
           onClick={handleClaim}
           disabled={onCooldown || session.status === "loading"}
         >
@@ -98,7 +97,7 @@ export function TaskCard({ task }: TaskCardProps) {
               >
                 <Hourglass />
               </motion.div>
-              <span>{formatTime(displayCooldown)}</span>
+              <span className="font-mono text-sm">{formatTime(displayCooldown)}</span>
             </div>
           ) : (
             <>

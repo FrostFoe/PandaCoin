@@ -25,13 +25,14 @@ export function PandaCard({ panda, onClick }: PandaCardProps) {
       whileHover={{ y: -5 }}
       transition={{ type: "spring", stiffness: 300 }}
       layout
+      className="w-full"
     >
       <Card
         className="overflow-hidden cursor-pointer h-full flex flex-col group shadow-lg shadow-black/5 hover:shadow-primary/10 transition-all duration-300 border-2 border-transparent hover:border-primary/50"
         onClick={onClick}
       >
         <CardHeader className="p-0">
-          <div className="aspect-square relative overflow-hidden">
+          <div className="aspect-[3/4] relative overflow-hidden">
             <Image
               src={panda.imageUrl}
               alt={`A cute panda named ${panda.name}`}
@@ -41,7 +42,7 @@ export function PandaCard({ panda, onClick }: PandaCardProps) {
             />
           </div>
         </CardHeader>
-        <CardContent className="p-4 flex-grow flex flex-col">
+        <CardContent className="p-3 flex-grow flex flex-col">
           <Badge
             variant="outline"
             className={cn(
@@ -51,7 +52,7 @@ export function PandaCard({ panda, onClick }: PandaCardProps) {
           >
             {panda.rarity}
           </Badge>
-          <CardTitle className="text-xl font-code font-bold tracking-wider mt-2">
+          <CardTitle className="text-base font-code font-bold tracking-wider mt-1.5">
             {panda.name}
           </CardTitle>
 

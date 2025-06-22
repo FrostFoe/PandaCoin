@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Leaf } from "lucide-react";
@@ -15,9 +16,9 @@ export function BambooCounter() {
   return (
     <Badge
       variant="outline"
-      className="text-lg p-2 px-4 gap-2 border-2 border-primary/50 bg-primary/10 rounded-full h-12"
+      className="text-base p-2 px-3 gap-2 border-2 border-primary/50 bg-primary/10 rounded-full h-10"
     >
-      <Leaf className="h-6 w-6 text-primary" />
+      <Leaf className="h-5 w-5 text-primary" />
       <span className="font-bold text-primary">
         {gameState.bambooBalance.toLocaleString()}
       </span>

@@ -81,7 +81,7 @@ export function RarityRevealModal({
   }, [isOpen, panda]);
 
   const displayName = isGenerating ? (
-    <Skeleton className="h-8 w-48 mx-auto" />
+    <Skeleton className="h-7 w-40 mx-auto" />
   ) : (
     details?.name
   );
@@ -102,7 +102,7 @@ export function RarityRevealModal({
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent
         className={cn(
-          "sm:max-w-md overflow-hidden p-0 border-4",
+          "sm:max-w-sm overflow-hidden p-0 border-4",
           panda.rarity && rarityInfo[panda.rarity].border,
         )}
       >
@@ -146,9 +146,9 @@ export function RarityRevealModal({
                 <Image
                   src={panda.imageUrl}
                   alt={details?.name || "A cute panda"}
-                  width={150}
-                  height={150}
-                  className="w-[120px] h-[120px] sm:w-[150px] sm:h-[150px] rounded-full border-4 border-white dark:border-card shadow-lg bg-secondary"
+                  width={120}
+                  height={120}
+                  className="w-[120px] h-[120px] rounded-full border-4 border-white dark:border-card shadow-lg bg-secondary"
                   data-ai-hint="panda cute"
                 />
               </motion.div>
@@ -159,7 +159,7 @@ export function RarityRevealModal({
                 visible: { opacity: 1, y: 0 },
               }}
             >
-              <DialogTitle className="text-center text-2xl sm:text-3xl font-headline mt-4">
+              <DialogTitle className="text-center text-2xl font-headline mt-4">
                 {displayName}
               </DialogTitle>
             </motion.div>
@@ -171,7 +171,7 @@ export function RarityRevealModal({
             >
               <Badge
                 className={cn(
-                  "text-md mt-2 font-bold",
+                  "text-base mt-2 font-bold",
                   rarityInfo[panda.rarity].style,
                 )}
               >
@@ -180,7 +180,7 @@ export function RarityRevealModal({
             </motion.div>
           </DialogHeader>
           <motion.div
-            className="p-6 pt-2 space-y-4"
+            className="p-6 pt-2 space-y-4 text-sm"
             variants={{
               hidden: { opacity: 0, y: 20 },
               visible: { opacity: 1, y: 0 },
@@ -191,16 +191,17 @@ export function RarityRevealModal({
             </h4>
             {displayBackstory}
           </motion.div>
-          <DialogFooter className="p-6 pt-2 sm:justify-between gap-2 bg-secondary/30 dark:bg-black/20">
+          <DialogFooter className="p-4 pt-2 sm:justify-between gap-2 bg-secondary/30 dark:bg-black/20">
             <Button
               onClick={generateBackstory}
               variant="outline"
+              size="sm"
               disabled={isGenerating}
             >
               <Wand2 className="mr-2 h-4 w-4" />
               {isGenerating ? "Regenerating..." : "Regenerate"}
             </Button>
-            <Button onClick={onClose}>Awesome!</Button>
+            <Button size="sm" onClick={onClose}>Awesome!</Button>
           </DialogFooter>
         </motion.div>
       </DialogContent>

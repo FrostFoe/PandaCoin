@@ -8,7 +8,7 @@ export function FavoritePandaCard({ panda }: { panda: Panda }) {
       href="/pandas"
       className="flex flex-col items-center text-center gap-2 shrink-0 group"
     >
-      <Avatar className="h-24 w-24 border-4 border-background shadow-md group-hover:border-primary transition-colors">
+      <Avatar className="h-20 w-20 border-4 border-background shadow-md group-hover:border-primary transition-colors">
         <AvatarImage
           src={panda.imageUrl}
           alt={panda.name}
@@ -16,7 +16,7 @@ export function FavoritePandaCard({ panda }: { panda: Panda }) {
         />
         <AvatarFallback>{panda.name.substring(0, 2)}</AvatarFallback>
       </Avatar>
-      <p className="font-semibold text-sm w-24 truncate">{panda.name}</p>
+      <p className="font-semibold text-xs w-20 truncate">{panda.name}</p>
     </Link>
   );
 }

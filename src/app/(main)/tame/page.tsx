@@ -24,10 +24,10 @@ const RarityRevealModal = dynamic(
     ssr: false,
     loading: () => (
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80">
-        <div className="grid w-full max-w-md gap-4 rounded-3xl border bg-background p-6 shadow-lg">
-          <Skeleton className="h-32 w-32 rounded-full mx-auto" />
-          <Skeleton className="h-8 w-48 mx-auto" />
-          <Skeleton className="h-6 w-24 mx-auto" />
+        <div className="grid w-full max-w-sm gap-4 rounded-lg border bg-background p-6 shadow-lg">
+          <Skeleton className="h-28 w-28 rounded-full mx-auto" />
+          <Skeleton className="h-8 w-40 mx-auto" />
+          <Skeleton className="h-6 w-20 mx-auto" />
           <Skeleton className="h-4 w-full" />
           <Skeleton className="h-4 w-3/4" />
         </div>
@@ -92,14 +92,14 @@ export default function TamePage() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center text-center flex-1 gap-8 py-8 px-4">
+    <div className="flex flex-col items-center justify-center text-center flex-1 gap-6 py-6 px-4">
       <div
         className="absolute inset-0 bg-[url('https://placehold.co/1920x1080.png')] bg-cover bg-center opacity-10 dark:opacity-20 blur-sm"
         data-ai-hint="bamboo forest pattern"
       />
-      <div className="relative z-10 space-y-6 p-6 md:p-8 bg-card/80 dark:bg-card/60 backdrop-blur-lg rounded-3xl shadow-2xl shadow-primary/5 w-full max-w-md md:max-w-lg">
+      <div className="relative z-10 space-y-6 p-6 bg-card/80 dark:bg-card/60 backdrop-blur-lg rounded-xl shadow-2xl shadow-primary/5 w-full max-w-md">
         <motion.h1
-          className="text-3xl sm:text-4xl lg:text-5xl font-bold font-headline"
+          className="text-3xl sm:text-4xl font-bold font-headline"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
@@ -107,7 +107,7 @@ export default function TamePage() {
           The Whispering Bamboo
         </motion.h1>
         <motion.p
-          className="text-muted-foreground text-base lg:text-lg"
+          className="text-muted-foreground text-sm"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
@@ -116,7 +116,7 @@ export default function TamePage() {
           out to play. Who will you meet today?
         </motion.p>
 
-        <div className="flex justify-center items-center h-56 sm:h-64">
+        <div className="flex justify-center items-center h-48 sm:h-56">
           <motion.div
             animate={{
               rotate: isTaming ? [0, -2, 2, -2, 0] : 0,
@@ -127,7 +127,7 @@ export default function TamePage() {
               repeat: isTaming ? Infinity : 0,
               repeatType: "mirror",
             }}
-            className="relative w-40 h-56 sm:w-48 sm:h-64"
+            className="relative w-36 h-48 sm:w-40 sm:h-56"
           >
             <Image
               src="https://placehold.co/400x600.png"
@@ -144,16 +144,16 @@ export default function TamePage() {
           size="lg"
           onClick={handleTame}
           disabled={isTaming || !gameState}
-          className="w-full text-lg"
+          className="w-full"
         >
           {isTaming ? (
             "Shaking the bamboo..."
           ) : (
             <div className="flex items-center gap-2">
-              <Sparkles className="h-5 w-5" />
+              <Sparkles />
               <span>Tame Now</span>
               <div className="flex items-center gap-1 border-l pl-2 ml-2">
-                <Leaf className="h-5 w-5" />
+                <Leaf />
                 <span>{TAME_COST}</span>
               </div>
             </div>

@@ -27,13 +27,13 @@ export default function DashboardPage() {
     .slice(0, 10);
 
   return (
-    <div className="flex flex-col gap-12 py-8">
+    <div className="flex flex-col gap-8 py-6">
       <div className="px-4 md:px-0 text-center">
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="text-4xl md:text-5xl font-bold font-headline"
+          className="text-3xl md:text-4xl font-bold font-headline"
         >
           Good Evening, Panda Tamer!
         </motion.h1>
@@ -41,7 +41,7 @@ export default function DashboardPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="text-muted-foreground mt-2 text-base md:text-lg max-w-xl mx-auto"
+          className="text-muted-foreground mt-2 text-base max-w-xl mx-auto"
         >
           What's for dinner? Find new pandas in your area.
         </motion.p>
@@ -54,7 +54,7 @@ export default function DashboardPage() {
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
           <Input
             placeholder="Search for pandas & stories..."
-            className="pl-12 rounded-full h-12 md:h-14 text-base"
+            className="pl-12 rounded-full h-11 md:h-12 text-base"
           />
         </motion.div>
       </div>
@@ -63,7 +63,7 @@ export default function DashboardPage() {
         {tasks.map((task, i) => (
           <motion.div
             key={task.id}
-            className="w-72 sm:w-80 shrink-0"
+            className="w-[280px] shrink-0"
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.4 + i * 0.1 }}
@@ -87,9 +87,9 @@ export default function DashboardPage() {
           ))}
           <Link
             href="/pandas"
-            className="flex flex-col items-center justify-center gap-2 shrink-0 bg-secondary rounded-full h-24 w-24 text-muted-foreground hover:bg-secondary/80 transition-colors"
+            className="flex flex-col items-center justify-center gap-1 shrink-0 bg-secondary rounded-full h-20 w-20 text-muted-foreground hover:bg-secondary/80 transition-colors"
           >
-            <div className="text-sm font-semibold">View All</div>
+            <div className="text-xs font-semibold">View All</div>
           </Link>
         </HorizontalScrollSection>
       )}
@@ -99,7 +99,7 @@ export default function DashboardPage() {
           {recentlyTamed.map((panda, i) => (
             <motion.div
               key={panda.id}
-              className="w-64 shrink-0"
+              className="w-56 shrink-0"
               initial={{ opacity: 0, x: 50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.8 + i * 0.05 }}
@@ -115,17 +115,17 @@ export default function DashboardPage() {
 
 function DashboardSkeleton() {
   return (
-    <div className="flex flex-col gap-12 py-8">
+    <div className="flex flex-col gap-8 py-6">
       <div className="px-4 md:px-0 text-center">
-        <Skeleton className="h-12 w-3/4 mx-auto mb-3" />
-        <Skeleton className="h-6 w-1/2 mx-auto" />
-        <Skeleton className="h-14 w-full max-w-lg mx-auto mt-6 rounded-full" />
+        <Skeleton className="h-10 w-3/4 mx-auto mb-3" />
+        <Skeleton className="h-5 w-1/2 mx-auto" />
+        <Skeleton className="h-12 w-full max-w-lg mx-auto mt-6 rounded-full" />
       </div>
       <div className="space-y-4">
         <Skeleton className="h-8 w-48 ml-4 md:ml-0" />
-        <div className="flex space-x-6 px-4 md:px-0">
-          <Skeleton className="h-52 w-80 rounded-3xl shrink-0" />
-          <Skeleton className="h-52 w-80 rounded-3xl shrink-0" />
+        <div className="flex space-x-4 px-4 md:px-0">
+          <Skeleton className="h-48 w-[280px] rounded-xl shrink-0" />
+          <Skeleton className="h-48 w-[280px] rounded-xl shrink-0" />
         </div>
       </div>
     </div>
