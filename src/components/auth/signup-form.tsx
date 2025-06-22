@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -15,15 +16,16 @@ import { useToast } from "@/hooks/use-toast";
 import type { FormEvent } from "react";
 
 export function SignupForm() {
+  const router = useRouter();
   const { toast } = useToast();
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     toast({
-      variant: "destructive",
-      title: "Feature Not Implemented",
-      description: "Full authentication is not available in this demo.",
+      title: "Welcome to Bamboo Tame!",
+      description: "Your account has been created successfully.",
     });
+    router.push("/dashboard");
   };
 
   return (

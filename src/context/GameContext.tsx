@@ -11,6 +11,7 @@ import React, {
 import { useRouter } from "next/navigation";
 import type { Panda, GameState, Task } from "@/lib/types";
 import { tasks as allTasks } from "@/lib/data";
+import type { PandaGeneratorOutput } from "@/ai/flows/panda-generator-flow";
 
 const GUEST_STORAGE_KEY = "bambooTameGuestData";
 const TAME_COST = 100;
@@ -20,6 +21,7 @@ interface GameContextType {
   session: { status: "loading" | "guest" | "authenticated" };
   claimTask: (task: Task) => void;
   addPanda: (panda: Panda) => void;
+  updatePandaDetails: (pandaId: string, details: PandaGeneratorOutput) => void;
   isTaskOnCooldown: (taskId: string) => boolean;
   getTaskCooldownTime: (taskId: string) => number;
   logout: () => void;
@@ -111,6 +113,23 @@ export function GameProvider({ children }: { children: ReactNode }) {
     });
   }, []);
 
+  const updatePandaDetails = useCallback(
+    (pandaId: string, details: PandaGeneratorOutput) => {
+      setGameState((prevState) => {
+        if (!prevState) return null;
+        return {
+          ...prevState,
+          pandas: prevState.pandas.map((p) =>
+            p.id === pandaId
+              ? { ...p, name: details.name, backstory: details.backstory }
+              : p,
+          ),
+        };
+      });
+    },
+    [],
+  );
+
   const getTaskCooldownTime = useCallback(
     (taskId: string): number => {
       if (!gameState) return 0;
@@ -159,6 +178,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
     session,
     claimTask,
     addPanda,
+    updatePandaDetails,
     isTaskOnCooldown,
     getTaskCooldownTime,
     logout,

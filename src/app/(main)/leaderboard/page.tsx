@@ -67,15 +67,9 @@ export default function LeaderboardPage() {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="w-16 text-center">
-                  Rank
-                </TableHead>
-                <TableHead className="min-w-[180px]">
-                  User
-                </TableHead>
-                <TableHead className="text-right">
-                  Bamboo
-                </TableHead>
+                <TableHead className="w-16 text-center">Rank</TableHead>
+                <TableHead className="min-w-[180px]">User</TableHead>
+                <TableHead className="text-right">Bamboo</TableHead>
                 <TableHead className="text-right hidden sm:table-cell">
                   Ultra Rares
                 </TableHead>
@@ -126,9 +120,7 @@ export default function LeaderboardPage() {
                         </AvatarFallback>
                       </Avatar>
                       <div>
-                        <p className="font-bold text-sm">
-                          {user.username}
-                        </p>
+                        <p className="font-bold text-sm">{user.username}</p>
                         <p className="text-xs text-muted-foreground hidden sm:block">
                           {user.title}
                         </p>

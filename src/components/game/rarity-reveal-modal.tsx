@@ -18,6 +18,7 @@ import { Sparkles, Bot, Wand2 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Skeleton } from "../ui/skeleton";
 import { motion } from "framer-motion";
+import { useGame } from "@/context/GameContext";
 import {
   generatePandaDetails,
   type PandaGeneratorOutput,
@@ -50,6 +51,7 @@ export function RarityRevealModal({
   isOpen,
   onClose,
 }: RarityRevealModalProps) {
+  const { updatePandaDetails } = useGame();
   const [isGenerating, setIsGenerating] = useState(false);
   const [details, setDetails] = useState<PandaGeneratorOutput | null>(null);
 
@@ -60,6 +62,7 @@ export function RarityRevealModal({
     try {
       const result = await generatePandaDetails({ rarity: panda.rarity });
       setDetails(result);
+      updatePandaDetails(panda.id, result);
     } catch (e) {
       console.error("Failed to generate panda details", e);
       setDetails({
@@ -78,6 +81,7 @@ export function RarityRevealModal({
     } else if (isOpen && panda && panda.backstory) {
       setDetails({ name: panda.name, backstory: panda.backstory });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen, panda]);
 
   const displayName = isGenerating ? (
@@ -133,9 +137,7 @@ export function RarityRevealModal({
                     }}
                     className="absolute -inset-2"
                   >
-                    <Sparkles
-                      className="h-full w-full text-accent-foreground opacity-50"
-                    />
+                    <Sparkles className="h-full w-full text-accent-foreground opacity-50" />
                   </motion.div>
                 ))}
               <motion.div
@@ -201,7 +203,9 @@ export function RarityRevealModal({
               <Wand2 className="mr-2 h-4 w-4" />
               {isGenerating ? "Regenerating..." : "Regenerate"}
             </Button>
-            <Button size="sm" onClick={onClose}>Awesome!</Button>
+            <Button size="sm" onClick={onClose}>
+              Awesome!
+            </Button>
           </DialogFooter>
         </motion.div>
       </DialogContent>

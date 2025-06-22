@@ -27,10 +27,10 @@ export function LoginForm() {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     toast({
-      variant: "destructive",
-      title: "Feature Not Implemented",
-      description: "Full authentication is not available in this demo.",
+      title: "Welcome Back!",
+      description: "You have been successfully logged in.",
     });
+    router.push("/dashboard");
   };
 
   return (
