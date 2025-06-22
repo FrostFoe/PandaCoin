@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect } from "react";
@@ -97,7 +96,9 @@ export function TaskCard({ task }: TaskCardProps) {
               >
                 <Hourglass />
               </motion.div>
-              <span className="font-mono text-sm">{formatTime(displayCooldown)}</span>
+              <span className="font-mono text-sm">
+                {formatTime(displayCooldown)}
+              </span>
             </div>
           ) : (
             <>

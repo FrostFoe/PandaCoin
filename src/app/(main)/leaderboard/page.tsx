@@ -1,4 +1,3 @@
-
 "use client";
 
 import {
@@ -54,8 +53,7 @@ export default function LeaderboardPage() {
     <div className="py-6 flex flex-col gap-6">
       <div>
         <h1 className="text-3xl md:text-4xl font-bold font-headline flex items-center gap-3">
-          <Trophy className="w-8 h-8 md:w-9 md:h-9 text-primary" />{" "}
-          Leaderboard
+          <Trophy className="w-8 h-8 md:w-9 md:h-9 text-primary" /> Leaderboard
         </h1>
         <p className="text-muted-foreground text-base mt-2">
           See who's at the top of the bamboo food chain.

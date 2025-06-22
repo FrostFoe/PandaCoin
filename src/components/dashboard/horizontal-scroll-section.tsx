@@ -11,9 +11,7 @@ export function HorizontalScrollSection({
 }: HorizontalScrollSectionProps) {
   return (
     <div className="space-y-3">
-      <h3 className="text-xl font-bold font-headline px-4 md:px-0">
-        {title}
-      </h3>
+      <h3 className="text-xl font-bold font-headline px-4 md:px-0">{title}</h3>
       <div className="relative">
         <div className="flex space-x-4 overflow-x-auto pb-4 px-4 md:px-0 scrollbar-hide">
           {children}

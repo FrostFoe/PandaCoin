@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState } from "react";
@@ -78,7 +77,9 @@ export default function PandasPage() {
               <h3 className="text-lg font-bold">
                 The bamboo forest is quiet...
               </h3>
-              <p className="text-sm">Go to the 'Tame' page to find some new friends!</p>
+              <p className="text-sm">
+                Go to the 'Tame' page to find some new friends!
+              </p>
             </div>
           )}
         </TabsContent>

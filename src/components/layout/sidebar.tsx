@@ -1,24 +1,18 @@
+"use client";
 
-'use client';
-
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import {
-  LayoutGrid,
-  Trees,
-  Trophy,
-  Settings,
-} from 'lucide-react';
-import { PandaIcon } from '../icons/panda-icon';
-import { cn } from '@/lib/utils';
-import { BambooCounter } from '../game/bamboo-counter';
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { LayoutGrid, Trees, Trophy, Settings } from "lucide-react";
+import { PandaIcon } from "../icons/panda-icon";
+import { cn } from "@/lib/utils";
+import { BambooCounter } from "../game/bamboo-counter";
 
 const navItems = [
-  { href: '/dashboard', label: 'Dashboard', icon: LayoutGrid },
-  { href: '/tame', label: 'Tame', icon: Trees },
-  { href: '/pandas', label: 'Collection', icon: PandaIcon },
-  { href: '/leaderboard', label: 'Leaderboard', icon: Trophy },
-  { href: '/settings', label: 'Settings', icon: Settings },
+  { href: "/dashboard", label: "Dashboard", icon: LayoutGrid },
+  { href: "/tame", label: "Tame", icon: Trees },
+  { href: "/pandas", label: "Collection", icon: PandaIcon },
+  { href: "/leaderboard", label: "Leaderboard", icon: Trophy },
+  { href: "/settings", label: "Settings", icon: Settings },
 ];
 
 export function Sidebar() {
@@ -35,7 +29,7 @@ export function Sidebar() {
       <nav className="flex-1 px-4 py-4 space-y-2">
         {navItems.map((item) => {
           const isActive =
-            item.href === '/dashboard'
+            item.href === "/dashboard"
               ? pathname === item.href
               : pathname.startsWith(item.href);
           return (
@@ -43,8 +37,8 @@ export function Sidebar() {
               key={item.label}
               href={item.href}
               className={cn(
-                'flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary hover:bg-secondary',
-                isActive && 'bg-secondary text-primary font-semibold'
+                "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary hover:bg-secondary",
+                isActive && "bg-secondary text-primary font-semibold",
               )}
             >
               <item.icon className="h-5 w-5" />

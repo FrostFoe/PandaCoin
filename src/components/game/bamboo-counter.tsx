@@ -1,4 +1,3 @@
-
 "use client";
 
 import { Leaf } from "lucide-react";

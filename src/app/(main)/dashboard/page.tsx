@@ -44,7 +44,9 @@ export default function DashboardPage() {
     );
 
   const recentlyTamed = pandas
-    .sort((a, b) => new Date(b.tamedAt).getTime() - new Date(a.tamedAt).getTime())
+    .sort(
+      (a, b) => new Date(b.tamedAt).getTime() - new Date(a.tamedAt).getTime(),
+    )
     .slice(0, 10)
     .filter(
       (panda) =>
@@ -132,7 +134,10 @@ export default function DashboardPage() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.8 + i * 0.05 }}
             >
-              <PandaCard panda={panda} onClick={() => handlePandaClick(panda)} />
+              <PandaCard
+                panda={panda}
+                onClick={() => handlePandaClick(panda)}
+              />
             </motion.div>
           ))}
         </HorizontalScrollSection>
