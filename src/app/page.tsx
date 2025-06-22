@@ -1,4 +1,3 @@
-
 "use client";
 
 import * as React from "react";
@@ -31,13 +30,13 @@ export default function LandingPage() {
       </header>
 
       <main className="flex-1">
-        <section className="container mx-auto px-4 py-20 md:py-32 flex flex-col md:flex-row items-center gap-12 text-center md:text-left">
+        <section className="container mx-auto px-4 py-16 md:py-24 lg:py-32 flex flex-col md:flex-row items-center gap-12 text-center md:text-left">
           <div className="flex-1 space-y-6">
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="text-4xl md:text-5xl lg:text-6xl font-extrabold font-headline tracking-tighter"
+              className="text-4xl sm:text-5xl md:text-6xl font-extrabold font-headline tracking-tighter"
             >
               Invest in Cuteness.
               <br />
@@ -68,8 +67,8 @@ export default function LandingPage() {
               </Button>
             </motion.div>
           </div>
-          <div className="flex-1 flex items-center justify-center p-8">
-            <div className="relative w-full max-w-sm">
+          <div className="flex-1 flex items-center justify-center p-4 sm:p-8">
+            <div className="relative w-full max-w-xs sm:max-w-sm">
               <div className="absolute -top-8 -left-8 w-48 h-48 bg-accent rounded-full blur-3xl opacity-50 animate-pulse"></div>
               <div className="absolute -bottom-8 -right-8 w-48 h-48 bg-primary/20 rounded-full blur-3xl opacity-50 animate-pulse delay-500"></div>
               <Image
@@ -91,11 +90,11 @@ export default function LandingPage() {
               <h2 className="text-3xl font-headline font-bold">
                 Panda-nomics 101
               </h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
+              <p className="text-muted-foreground max-w-2xl mx-auto text-base md:text-lg">
                 Your quick guide to succeeding in the bamboo economy.
               </p>
             </div>
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
               <FeatureCard
                 icon={<Leaf />}
                 title="Accumulate Capital"

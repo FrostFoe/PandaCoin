@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState } from "react";
@@ -52,7 +51,7 @@ export default function PandasPage() {
       </div>
 
       <Tabs defaultValue="all">
-        <TabsList className="grid grid-cols-2 sm:grid-cols-4 h-auto">
+        <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 h-auto">
           <TabsTrigger value="all">All ({pandas.length})</TabsTrigger>
           {rarities.map((r) => (
             <TabsTrigger key={r} value={r}>
@@ -63,7 +62,7 @@ export default function PandasPage() {
 
         <TabsContent value="all" className="mt-6">
           {pandas.length > 0 ? (
-            <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 sm:gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
               {filterPandas("All").map((panda) => (
                 <PandaCard
                   key={panda.id}
@@ -85,7 +84,7 @@ export default function PandasPage() {
 
         {rarities.map((r) => (
           <TabsContent key={r} value={r} className="mt-6">
-            <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 sm:gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
               {filterPandas(r).map((panda) => (
                 <PandaCard
                   key={panda.id}

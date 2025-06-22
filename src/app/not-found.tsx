@@ -1,4 +1,3 @@
-
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { PandaIcon } from "@/components/icons/panda-icon";
@@ -7,7 +6,7 @@ export default function NotFound() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen text-center p-4 bg-background">
       <PandaIcon
-        className="w-32 h-32 md:w-40 md:w-40 text-primary/70 animate-bounce"
+        className="w-32 h-32 md:w-40 md:h-40 text-primary/70 animate-bounce"
         style={{ animationDuration: "2s" }}
       />
       <h1 className="mt-8 text-5xl md:text-6xl font-extrabold font-headline tracking-tighter text-foreground">

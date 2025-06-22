@@ -1,4 +1,3 @@
-
 "use client";
 
 import {
@@ -16,10 +15,7 @@ import { useGame } from "@/context/GameContext";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
+  Card
 } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
@@ -29,8 +25,8 @@ export default function LeaderboardPage() {
   if (session.status === "loading") {
     return (
       <div className="py-8 flex flex-col gap-8">
-        <Skeleton className="h-12 w-1/3" />
-        <Skeleton className="h-6 w-2/3" />
+        <Skeleton className="h-12 w-full max-w-xs" />
+        <Skeleton className="h-6 w-full max-w-md" />
         <Skeleton className="rounded-3xl border h-96 w-full" />
       </div>
     );
@@ -38,8 +34,8 @@ export default function LeaderboardPage() {
 
   if (session.status === "guest") {
     return (
-      <div className="min-h-[60vh] flex flex-col items-center justify-center text-center gap-4 p-8 bg-card rounded-3xl border-2 border-dashed">
-        <Crown className="h-16 w-16 text-primary" />
+      <div className="min-h-[60vh] flex flex-col items-center justify-center text-center gap-4 p-4 md:p-8 bg-card rounded-3xl border-2 border-dashed">
+        <Trophy className="h-16 w-16 text-primary" />
         <h2 className="text-2xl font-bold font-headline">
           The Leaderboard Awaits!
         </h2>
@@ -58,8 +54,8 @@ export default function LeaderboardPage() {
   return (
     <div className="py-8 flex flex-col gap-8">
       <div>
-        <h1 className="text-3xl md:text-5xl font-bold font-headline flex items-center gap-3">
-          <Trophy className="w-8 h-8 md:w-10 md:h-10 text-primary" />{" "}
+        <h1 className="text-4xl md:text-5xl font-bold font-headline flex items-center gap-3">
+          <Trophy className="w-9 h-9 md:w-10 md:h-10 text-primary" />{" "}
           Leaderboard
         </h1>
         <p className="text-muted-foreground text-base md:text-lg mt-2">
@@ -71,7 +67,7 @@ export default function LeaderboardPage() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[60px] md:w-[80px] px-2 md:px-4">
+              <TableHead className="w-16 md:w-20 px-2 md:px-4">
                 Rank
               </TableHead>
               <TableHead className="px-2 md:px-4">User</TableHead>
@@ -115,7 +111,7 @@ export default function LeaderboardPage() {
                 </TableCell>
                 <TableCell className="px-2 md:px-4">
                   <div className="flex items-center gap-2 md:gap-4">
-                    <Avatar className="h-10 w-10 md:h-14 md:w-14 border-2">
+                    <Avatar className="h-10 w-10 md:h-12 md:w-12 border-2">
                       <AvatarImage
                         src={user.avatarUrl}
                         alt={user.username}
@@ -126,7 +122,7 @@ export default function LeaderboardPage() {
                       </AvatarFallback>
                     </Avatar>
                     <div>
-                      <p className="font-bold text-sm md:text-lg">
+                      <p className="font-bold text-sm md:text-base">
                         {user.username}
                       </p>
                       <p className="text-xs md:text-sm text-muted-foreground hidden sm:block">

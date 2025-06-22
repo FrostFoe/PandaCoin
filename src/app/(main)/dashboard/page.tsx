@@ -1,4 +1,3 @@
-
 "use client";
 
 import { TaskCard } from "@/components/dashboard/task-card";
@@ -33,7 +32,7 @@ export default function DashboardPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="text-3xl md:text-5xl font-bold font-headline"
+          className="text-4xl md:text-5xl font-bold font-headline"
         >
           Good Evening, Panda Tamer!
         </motion.h1>
@@ -41,7 +40,7 @@ export default function DashboardPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="text-muted-foreground mt-2 text-base md:text-lg"
+          className="text-muted-foreground mt-2 text-base md:text-lg max-w-xl mx-auto"
         >
           What's for dinner? Find new pandas in your area.
         </motion.p>
@@ -63,6 +62,7 @@ export default function DashboardPage() {
         {tasks.map((task, i) => (
           <motion.div
             key={task.id}
+            className="w-72 sm:w-80 shrink-0"
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.4 + i * 0.1 }}

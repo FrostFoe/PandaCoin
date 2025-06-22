@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState } from "react";
@@ -92,12 +91,12 @@ export default function TamePage() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center text-center flex-1 gap-8 py-8">
+    <div className="flex flex-col items-center justify-center text-center flex-1 gap-8 py-8 px-4">
       <div
         className="absolute inset-0 bg-[url('https://placehold.co/1920x1080.png')] bg-cover bg-center opacity-10 dark:opacity-20 blur-sm"
         data-ai-hint="bamboo forest pattern"
       />
-      <div className="relative z-10 space-y-6 p-6 md:p-8 bg-card/80 dark:bg-card/60 backdrop-blur-lg rounded-3xl shadow-2xl shadow-primary/5 w-full max-w-lg">
+      <div className="relative z-10 space-y-6 p-6 md:p-8 bg-card/80 dark:bg-card/60 backdrop-blur-lg rounded-3xl shadow-2xl shadow-primary/5 w-full max-w-md md:max-w-lg">
         <motion.h1
           className="text-3xl sm:text-4xl lg:text-5xl font-bold font-headline"
           initial={{ opacity: 0, y: 20 }}
