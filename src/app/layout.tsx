@@ -3,6 +3,7 @@ import { Fredoka, Inter, Cutive_Mono } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { Providers } from "@/context/Providers";
+import { Toaster } from "@/components/ui/toaster";
 
 const fredoka = Fredoka({
   subsets: ["latin"],
@@ -86,7 +87,10 @@ export default function RootLayout({
           cutiveMono.variable,
         )}
       >
-        <Providers>{children}</Providers>
+        <Providers>
+          {children}
+          <Toaster />
+        </Providers>
       </body>
     </html>
   );

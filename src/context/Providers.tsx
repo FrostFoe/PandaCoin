@@ -2,7 +2,6 @@
 
 import { GameProvider } from "@/context/GameContext";
 import { ThemeProvider } from "@/components/layout/theme-provider";
-import { Toaster } from "@/components/ui/toaster";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
@@ -12,10 +11,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
       enableSystem
       disableTransitionOnChange
     >
-      <GameProvider>
-        {children}
-        <Toaster />
-      </GameProvider>
+      <GameProvider>{children}</GameProvider>
     </ThemeProvider>
   );
 }

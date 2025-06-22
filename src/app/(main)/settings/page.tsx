@@ -26,6 +26,8 @@ import {
 } from "@/components/ui/alert-dialog";
 import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
 
+export const dynamic = "force-dynamic";
+
 export default function SettingsPage() {
   const [musicEnabled, setMusicEnabled] = useState(true);
   const [sfxEnabled, setSfxEnabled] = useState(true);

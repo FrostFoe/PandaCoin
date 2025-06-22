@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { PandaIcon } from "../icons/panda-icon";
 import { ClientNav } from "./client-nav";

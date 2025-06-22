@@ -12,6 +12,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useGame } from "@/context/GameContext";
 import { Skeleton } from "@/components/ui/skeleton";
 
+export const dynamic = "force-dynamic";
+
 const TAME_COST = 100;
 
 const RarityRevealModal = dynamic(
