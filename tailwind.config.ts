@@ -14,14 +14,12 @@ const config: Config = {
         sm: "2rem",
       },
       screens: {
-        "2xl": "1400px",
+        "2xl": "1280px",
       },
     },
     extend: {
       fontFamily: {
-        body: ["var(--font-inter)", "sans-serif"],
-        headline: ["var(--font-fredoka)", "sans-serif"],
-        code: ["var(--font-cutive-mono)", "monospace"],
+        body: ["var(--font-open-sans)", "sans-serif"],
       },
       colors: {
         background: "hsl(var(--background))",

@@ -91,28 +91,27 @@ export default function TamePage() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center text-center flex-1 gap-6 py-6 px-4">
+    <div className="relative flex flex-col items-center justify-center flex-1 py-10 px-4 text-center">
       <div
-        className="absolute inset-0 bg-[url('https://placehold.co/1920x1080.png')] bg-cover bg-center opacity-10 dark:opacity-20 blur-sm"
-        data-ai-hint="bamboo forest pattern"
+        className="absolute inset-0 bg-[url('https://placehold.co/1920x1080.png')] bg-cover bg-center opacity-10 dark:opacity-5 blur-sm"
+        data-ai-hint="food delivery pattern"
       />
-      <div className="relative z-10 space-y-6 p-6 bg-card/80 dark:bg-card/60 backdrop-blur-lg rounded-xl shadow-2xl shadow-primary/5 w-full max-w-md">
+      <div className="relative z-10 space-y-6 p-6 md:p-8 bg-card/80 dark:bg-card/60 backdrop-blur-lg rounded-xl shadow-2xl w-full max-w-md">
         <motion.h1
-          className="text-3xl sm:text-4xl font-bold font-headline"
+          className="text-3xl sm:text-4xl font-extrabold"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          The Whispering Bamboo
+          Discover a New Panda
         </motion.h1>
         <motion.p
-          className="text-muted-foreground text-sm"
+          className="text-muted-foreground"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
         >
-          Spend your bamboo to rustle the leaves and see if a new friend comes
-          out to play. Who will you meet today?
+          Spend your bamboo to discover a new panda. Who will you meet today?
         </motion.p>
 
         <div className="flex justify-center items-center h-48 sm:h-56">
@@ -130,10 +129,10 @@ export default function TamePage() {
           >
             <Image
               src="https://placehold.co/400x600.png"
-              alt="A magical bamboo tree, shaking with anticipation"
+              alt="A magical delivery box, shaking with anticipation"
               fill
               className="object-contain drop-shadow-lg"
-              data-ai-hint="bamboo tree"
+              data-ai-hint="delivery box"
               priority
             />
           </motion.div>
@@ -143,15 +142,15 @@ export default function TamePage() {
           size="lg"
           onClick={handleTame}
           disabled={isTaming || !gameState}
-          className="w-full"
+          className="w-full h-12 text-lg"
         >
           {isTaming ? (
-            "Shaking the bamboo..."
+            "Searching..."
           ) : (
             <div className="flex items-center gap-2">
               <Sparkles />
-              <span>Tame Now</span>
-              <div className="flex items-center gap-1 border-l pl-2 ml-2">
+              <span>Discover Now</span>
+              <div className="flex items-center gap-1 border-l-2 border-primary-foreground/50 pl-3 ml-2">
                 <Leaf />
                 <span>{TAME_COST}</span>
               </div>

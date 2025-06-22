@@ -8,15 +8,10 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import { HorizontalScrollSection } from "@/components/dashboard/horizontal-scroll-section";
-import { FavoritePandaCard } from "@/components/dashboard/favorite-panda-card";
 import { PandaCard } from "@/components/game/panda-card";
-import Link from "next/link";
-import { motion } from "framer-motion";
 import { RarityRevealModal } from "@/components/game/rarity-reveal-modal";
 import type { Panda } from "@/lib/types";
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
-
-export const dynamic = "force-dynamic";
 
 export default function DashboardPage() {
   const { gameState } = useGame();
@@ -41,111 +36,53 @@ export default function DashboardPage() {
 
   const { pandas } = gameState;
 
-  const favoritePandas = pandas
-    .slice(0, 5)
-    .filter((panda) =>
-      panda.name.toLowerCase().includes(searchQuery.toLowerCase()),
-    );
-
-  const recentlyTamed = pandas
-    .sort(
-      (a, b) => new Date(b.tamedAt).getTime() - new Date(a.tamedAt).getTime(),
-    )
-    .slice(0, 10)
-    .filter(
-      (panda) =>
-        panda.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        panda.backstory?.toLowerCase().includes(searchQuery.toLowerCase()),
-    );
+  const filteredPandas = pandas.filter(
+    (panda) =>
+      panda.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      panda.backstory?.toLowerCase().includes(searchQuery.toLowerCase()),
+  );
 
   return (
-    <div className="flex flex-col gap-8 md:gap-12 py-6">
-      <div className="px-4 md:px-0 text-center">
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-          className="text-3xl md:text-4xl font-bold font-headline"
-        >
-          Good Evening, Panda Tamer!
-        </motion.h1>
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="text-muted-foreground mt-2 text-base max-w-xl mx-auto"
-        >
-          What's for dinner? Find new pandas in your area.
-        </motion.p>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-          className="relative mt-6 max-w-lg mx-auto"
-        >
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-          <Input
-            placeholder="Search for pandas & stories..."
-            className="pl-12 rounded-full h-11 md:h-12 text-base"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-        </motion.div>
+    <div className="container py-6 md:py-10">
+      <div className="relative mb-8">
+        <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+        <Input
+          placeholder="Search for pandas, rarities, and more..."
+          className="pl-12 rounded-lg h-12 text-base"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
       </div>
 
-      <HorizontalScrollSection title="Your Daily Deals">
-        {tasks.map((task, i) => (
-          <motion.div
-            key={task.id}
-            className="w-[280px] shrink-0"
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.4 + i * 0.1 }}
-          >
+      <HorizontalScrollSection title="Daily Bamboo Bounties">
+        {tasks.map((task) => (
+          <div key={task.id} className="w-80 shrink-0">
             <TaskCard task={task} />
-          </motion.div>
+          </div>
         ))}
       </HorizontalScrollSection>
 
-      {favoritePandas.length > 0 && (
-        <HorizontalScrollSection title="Your Favorite Pandas">
-          {favoritePandas.map((panda, i) => (
-            <motion.div
-              key={panda.id}
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.6 + i * 0.1 }}
-            >
-              <FavoritePandaCard panda={panda} />
-            </motion.div>
-          ))}
-          <Link
-            href="/pandas"
-            className="flex flex-col items-center justify-center gap-1 shrink-0 bg-secondary rounded-full h-20 w-20 text-muted-foreground hover:bg-secondary/80 transition-colors"
-          >
-            <div className="text-xs font-semibold">View All</div>
-          </Link>
-        </HorizontalScrollSection>
-      )}
-
-      {recentlyTamed.length > 0 && (
-        <HorizontalScrollSection title="Recently Tamed">
-          {recentlyTamed.map((panda, i) => (
-            <motion.div
-              key={panda.id}
-              className="w-56 shrink-0"
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.8 + i * 0.05 }}
-            >
+      <div className="mt-12">
+        <h2 className="text-2xl font-bold mb-4">All Tamed Pandas</h2>
+        {filteredPandas.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {filteredPandas.map((panda) => (
               <PandaCard
+                key={panda.id}
                 panda={panda}
                 onClick={() => handlePandaClick(panda)}
               />
-            </motion.div>
-          ))}
-        </HorizontalScrollSection>
-      )}
+            ))}
+          </div>
+        ) : (
+          <div className="col-span-full text-center py-16 text-muted-foreground border-2 border-dashed rounded-lg">
+            <h3 className="text-lg font-bold">No Pandas Found</h3>
+            <p className="text-sm">
+              Your search for "{searchQuery}" didn't return any results.
+            </p>
+          </div>
+        )}
+      </div>
 
       <RarityRevealModal
         panda={selectedPanda}
@@ -158,17 +95,26 @@ export default function DashboardPage() {
 
 function DashboardSkeleton() {
   return (
-    <div className="flex flex-col gap-8 py-6">
-      <div className="px-4 md:px-0 text-center">
-        <Skeleton className="h-10 w-3/4 mx-auto mb-3" />
-        <Skeleton className="h-5 w-1/2 mx-auto" />
-        <Skeleton className="h-12 w-full max-w-lg mx-auto mt-6 rounded-full" />
+    <div className="container py-6 md:py-10">
+      <Skeleton className="h-12 w-full mb-8" />
+      <div className="space-y-4 mb-12">
+        <Skeleton className="h-8 w-48" />
+        <div className="flex space-x-4">
+          {[...Array(3)].map((_, i) => (
+            <Skeleton key={i} className="h-32 w-80 rounded-xl shrink-0" />
+          ))}
+        </div>
       </div>
       <div className="space-y-4">
-        <Skeleton className="h-8 w-48 ml-4 md:ml-0" />
-        <div className="flex space-x-4 px-4 md:px-0">
-          <Skeleton className="h-48 w-[280px] rounded-xl shrink-0" />
-          <Skeleton className="h-48 w-[280px] rounded-xl shrink-0" />
+        <Skeleton className="h-8 w-48" />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {[...Array(8)].map((_, i) => (
+            <div key={i}>
+              <Skeleton className="h-40 w-full rounded-lg" />
+              <Skeleton className="h-5 w-3/4 mt-2" />
+              <Skeleton className="h-4 w-1/2 mt-1" />
+            </div>
+          ))}
         </div>
       </div>
     </div>

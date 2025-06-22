@@ -5,20 +5,17 @@ import { PandaCard } from "@/components/game/panda-card";
 import { RarityRevealModal } from "@/components/game/rarity-reveal-modal";
 import type { Panda, Rarity } from "@/lib/types";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { PandaIcon } from "@/components/icons/panda-icon";
 import { useGame } from "@/context/GameContext";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
-
-export const dynamic = "force-dynamic";
-
-const rarities: Rarity[] = ["Common", "Rare", "Ultra Rare"];
 
 export default function PandasPage() {
   const { gameState } = useGame();
   const { isLoading } = useKindeBrowserClient();
   const [selectedPanda, setSelectedPanda] = useState<Panda | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const rarities: Rarity[] = ["Common", "Rare", "Ultra Rare"];
 
   const handlePandaClick = (panda: Panda) => {
     setSelectedPanda(panda);
@@ -44,18 +41,16 @@ export default function PandasPage() {
   };
 
   return (
-    <div className="flex flex-col gap-6 py-6">
-      <div>
-        <h1 className="text-2xl md:text-3xl font-bold font-headline">
-          My Panda Collection
-        </h1>
+    <div className="container py-6 md:py-10">
+      <div className="mb-8">
+        <h1 className="text-3xl md:text-4xl font-bold">My Panda Collection</h1>
         <p className="text-muted-foreground text-base mt-1">
-          Behold, your army of fluffy chaos.
+          Browse your collection of tamed pandas. Each one is unique!
         </p>
       </div>
 
       <Tabs defaultValue="all" className="w-full">
-        <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 h-auto">
+        <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 h-auto">
           <TabsTrigger value="all">All ({pandas.length})</TabsTrigger>
           {rarities.map((r) => (
             <TabsTrigger key={r} value={r}>
@@ -65,32 +60,20 @@ export default function PandasPage() {
         </TabsList>
 
         <TabsContent value="all" className="mt-6">
-          {pandas.length > 0 ? (
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-              {filterPandas("All").map((panda) => (
-                <PandaCard
-                  key={panda.id}
-                  panda={panda}
-                  onClick={() => handlePandaClick(panda)}
-                />
-              ))}
-            </div>
-          ) : (
-            <div className="col-span-full text-center py-16 text-muted-foreground border-2 border-dashed rounded-lg">
-              <PandaIcon className="h-16 w-16 mx-auto mb-4 opacity-50" />
-              <h3 className="text-lg font-bold">
-                The bamboo forest is quiet...
-              </h3>
-              <p className="text-sm">
-                Go to the 'Tame' page to find some new friends!
-              </p>
-            </div>
-          )}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {filterPandas("All").map((panda) => (
+              <PandaCard
+                key={panda.id}
+                panda={panda}
+                onClick={() => handlePandaClick(panda)}
+              />
+            ))}
+          </div>
         </TabsContent>
 
         {rarities.map((r) => (
           <TabsContent key={r} value={r} className="mt-6">
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {filterPandas(r).map((panda) => (
                 <PandaCard
                   key={panda.id}
@@ -114,21 +97,23 @@ export default function PandasPage() {
 
 function CollectionSkeleton() {
   return (
-    <div className="flex flex-col gap-6 py-6">
-      <div>
-        <Skeleton className="h-8 w-1/2 mb-2" />
+    <div className="container py-6 md:py-10">
+      <div className="mb-8">
+        <Skeleton className="h-10 w-1/2 mb-2" />
         <Skeleton className="h-5 w-1/3" />
       </div>
-      <div className="flex gap-2">
-        <Skeleton className="h-10 w-20" />
-        <Skeleton className="h-10 w-20" />
-        <Skeleton className="h-10 w-20" />
-        <Skeleton className="h-10 w-20" />
+      <div className="flex gap-2 mb-6">
+        <Skeleton className="h-10 w-24" />
+        <Skeleton className="h-10 w-24" />
+        <Skeleton className="h-10 w-24" />
+        <Skeleton className="h-10 w-24" />
       </div>
-      <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 mt-4">
-        {[...Array(5)].map((_, i) => (
-          <div key={i} className="aspect-[3/4]">
-            <Skeleton className="w-full h-full rounded-lg" />
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        {[...Array(8)].map((_, i) => (
+          <div key={i}>
+            <Skeleton className="h-40 w-full rounded-lg" />
+            <Skeleton className="h-5 w-3/4 mt-2" />
+            <Skeleton className="h-4 w-1/2 mt-1" />
           </div>
         ))}
       </div>

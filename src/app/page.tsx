@@ -4,13 +4,12 @@ import * as React from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { PandaIcon } from "@/components/icons/panda-icon";
-import { Leaf, Gem, Trophy, Gamepad2 } from "lucide-react";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { motion } from "framer-motion";
+import { Gem, Search, UtensilsCrossed, Trophy } from "lucide-react";
 import {
   RegisterLink,
   LoginLink,
 } from "@kinde-oss/kinde-auth-nextjs/components";
+import { Input } from "@/components/ui/input";
 
 export default function LandingPage() {
   return (
@@ -19,115 +18,88 @@ export default function LandingPage() {
         <div className="container mx-auto h-20 flex items-center justify-between px-4 md:px-6">
           <div className="flex items-center gap-2">
             <PandaIcon className="h-8 w-8 text-primary" />
-            <span className="text-xl font-bold font-headline">Bamboo Tame</span>
+            <span className="text-xl font-bold">Panda Delivery</span>
           </div>
           <div className="flex items-center gap-2">
             <LoginLink>
               <Button variant="ghost">Login</Button>
             </LoginLink>
             <RegisterLink>
-              <Button>Get Started</Button>
+              <Button>Sign up</Button>
             </RegisterLink>
           </div>
         </div>
       </header>
 
       <main className="flex-1">
-        <section className="container mx-auto px-4 py-20 md:py-32 flex flex-col md:flex-row items-center gap-12 text-center md:text-left">
-          <div className="flex-1 space-y-6">
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="text-4xl md:text-6xl font-extrabold font-headline tracking-tighter"
-            >
-              Invest in Cuteness.
-              <br />
-              <span className="text-primary">Grow Your Fluffy Portfolio.</span>
-            </motion.h1>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="mx-auto max-w-prose text-lg text-muted-foreground md:mx-0"
-            >
-              Welcome to the world's first Panda Stalk Market! Complete daily
-              "Bamboo Bounties" to build your wealth, then invest in unique,
-              AI-generated Fluffy Assets. Each panda is a unique entry in your
-              portfolio, with rarities that define their market "aww"-ppeal.
-            </motion.p>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start"
-            >
-              <RegisterLink>
-                <Button size="lg" className="shadow-lg shadow-primary/20">
-                  Start Your Adventure
+        <section
+          className="relative w-full py-20 md:py-32 lg:py-40 bg-cover bg-center"
+          style={{
+            backgroundImage: "url('https://placehold.co/1920x800.png')",
+          }}
+        >
+          <div className="absolute inset-0 bg-black/50"></div>
+          <div className="container mx-auto px-4 relative z-10 text-center text-white">
+            <h1 className="text-4xl md:text-6xl font-extrabold tracking-tighter">
+              It's the food you love, delivered
+            </h1>
+            <div className="mt-6 max-w-2xl mx-auto">
+              <div className="relative">
+                <Input
+                  type="text"
+                  placeholder="Search for pandas, dishes, or moods..."
+                  className="h-14 w-full pl-5 pr-32 rounded-lg text-black"
+                />
+                <Button className="absolute right-2 top-1/2 -translate-y-1/2 h-10 px-6">
+                  <Search className="h-5 w-5 md:mr-2" />
+                  <span className="hidden md:inline">Search</span>
                 </Button>
-              </RegisterLink>
-            </motion.div>
-          </div>
-          <div className="flex-1 flex items-center justify-center p-8">
-            <div className="relative w-full max-w-sm">
-              <div className="absolute -top-8 -left-8 w-48 h-48 bg-accent rounded-full blur-3xl opacity-50 animate-pulse"></div>
-              <div className="absolute -bottom-8 -right-8 w-48 h-48 bg-primary/20 rounded-full blur-3xl opacity-50 animate-pulse delay-500"></div>
-              <Image
-                src="https://placehold.co/600x600.png"
-                alt="A group of cute pandas reviewing stock market charts"
-                width={600}
-                height={600}
-                className="relative rounded-full shadow-2xl"
-                data-ai-hint="panda stock market"
-                priority
-              />
+              </div>
             </div>
           </div>
         </section>
 
-        <section className="bg-secondary/30 py-20 md:py-28">
+        <section className="bg-secondary py-20 md:py-28">
           <div className="container mx-auto px-4">
             <div className="text-center space-y-3 mb-16">
-              <h2 className="text-3xl font-headline font-bold">
-                Panda-nomics 101
-              </h2>
+              <h2 className="text-3xl font-bold">You tame, we deliver!</h2>
               <p className="text-muted-foreground max-w-2xl mx-auto">
-                Your quick guide to succeeding in the bamboo economy.
+                Get your favorite pandas and their favorite snacks delivered to
+                your habitat, fast.
               </p>
             </div>
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
               <FeatureCard
-                icon={<Leaf />}
-                title="Accumulate Capital"
-                description="Complete 'Bamboo Bounties' and daily tasks. Your hustle builds your bamboo balance, the official currency of the panda economy."
-              />
-              <FeatureCard
-                icon={<Gamepad2 />}
-                title="Acquire Fluffy Assets"
-                description="Diversify your portfolio by taming new pandas. Each one is a unique asset with its own hilarious, AI-generated backstory."
-              />
-              <FeatureCard
-                icon={<Gem />}
-                title="Analyze Market Trends"
-                description="Pandas come in different rarities, from common cuddlers to ultra-rare legends. Rarity influences their 'cuteness index' and story!"
+                icon={<UtensilsCrossed />}
+                title="Tame New Pandas"
+                description="Discover and collect a wide variety of unique pandas with AI-generated backstories."
               />
               <FeatureCard
                 icon={<Trophy />}
-                title="Dominate the Stalk Market"
-                description="Showcase your net worth and rare assets on the global Leaderboard. Compete to become the ultimate Panda Tycoon."
+                title="Climb the Leaderboard"
+                description="Compete with other tamers to see who has the most impressive collection and bamboo balance."
+              />
+              <FeatureCard
+                icon={<Gem />}
+                title="Find Rare Breeds"
+                description="Seek out Common, Rare, and Ultra Rare pandas, each with their own special charm."
+              />
+              <FeatureCard
+                icon={<PandaIcon />}
+                title="Complete Daily Tasks"
+                description="Earn bamboo by completing fun daily bounties to fund your panda taming adventures."
               />
             </div>
           </div>
         </section>
       </main>
 
-      <footer className="bg-card border-t">
-        <div className="container mx-auto flex items-center justify-between h-24 px-4 md:px-6">
+      <footer className="bg-foreground text-background">
+        <div className="container mx-auto flex items-center justify-between h-20 px-4 md:px-6">
           <div className="flex items-center gap-2">
-            <PandaIcon className="h-6 w-6 text-muted-foreground" />
-            <p className="text-muted-foreground text-sm">
-              © {new Date().getFullYear()} Bamboo Tame. All rights reserved.
+            <PandaIcon className="h-6 w-6 text-primary" />
+            <p className="text-sm">
+              © {new Date().getFullYear()} Panda Delivery. All rights reserved.
             </p>
           </div>
         </div>
@@ -146,18 +118,14 @@ function FeatureCard({
   description: string;
 }) {
   return (
-    <Card className="bg-card p-6 text-center flex flex-col items-center shadow-lg hover:shadow-primary/10 transition-all duration-300 group border-2 border-transparent hover:border-primary/50 rounded-3xl">
-      <CardHeader className="p-0">
-        <div className="bg-primary/10 text-primary p-4 rounded-full mb-4 group-hover:scale-110 transition-transform">
-          {React.cloneElement(icon as React.ReactElement, {
-            className: "h-8 w-8",
-          })}
-        </div>
-      </CardHeader>
-      <CardContent className="p-0 flex-grow">
-        <h3 className="text-xl font-headline font-bold mb-2">{title}</h3>
-        <p className="text-muted-foreground">{description}</p>
-      </CardContent>
-    </Card>
+    <div className="p-6 text-center flex flex-col items-center">
+      <div className="text-primary mb-4">
+        {React.cloneElement(icon as React.ReactElement, {
+          className: "h-12 w-12",
+        })}
+      </div>
+      <h3 className="text-xl font-bold mb-2">{title}</h3>
+      <p className="text-muted-foreground">{description}</p>
+    </div>
   );
 }

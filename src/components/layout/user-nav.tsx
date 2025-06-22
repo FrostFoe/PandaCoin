@@ -11,21 +11,28 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { LogOut, Settings, User } from "lucide-react";
+import { LogOut, Settings, User as UserIcon } from "lucide-react";
 import Link from "next/link";
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
-import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
+import {
+  LogoutLink,
+  LoginLink,
+} from "@kinde-oss/kinde-auth-nextjs/components";
 import { Skeleton } from "../ui/skeleton";
 
 export function UserNav() {
-  const { user, isLoading } = useKindeBrowserClient();
+  const { user, isLoading, isAuthenticated } = useKindeBrowserClient();
 
   if (isLoading) {
-    return <Skeleton className="h-10 w-10 rounded-full" />;
+    return <Skeleton className="h-9 w-20 rounded-md" />;
   }
 
-  if (!user) {
-    return null;
+  if (!isAuthenticated) {
+    return (
+      <LoginLink>
+        <Button variant="outline">Login</Button>
+      </LoginLink>
+    );
   }
 
   const getInitials = (name: string) => {
@@ -49,7 +56,7 @@ export function UserNav() {
             <AvatarImage
               src={user?.picture ?? "https://placehold.co/100x100.png"}
               alt={userName}
-              data-ai-hint="panda avatar"
+              data-ai-hint="user avatar"
             />
             <AvatarFallback>{getInitials(userName)}</AvatarFallback>
           </Avatar>
@@ -67,9 +74,9 @@ export function UserNav() {
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem asChild>
-            <Link href="/settings">
-              <User className="mr-2 h-4 w-4" />
-              <span>Profile</span>
+            <Link href="/dashboard">
+              <UserIcon className="mr-2 h-4 w-4" />
+              <span>Dashboard</span>
             </Link>
           </DropdownMenuItem>
           <DropdownMenuItem asChild>

@@ -1,30 +1,16 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Fredoka, Cutive_Mono } from "next/font/google";
+import { Open_Sans } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "@/components/layout/theme-provider";
-import { Toaster } from "@/components/ui/toaster";
 import { cn } from "@/lib/utils";
+import { Providers } from "@/context/Providers";
 
-const fredoka = Fredoka({
+const openSans = Open_Sans({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-fredoka",
+  variable: "--font-open-sans",
 });
 
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-});
-
-const cutiveMono = Cutive_Mono({
-  subsets: ["latin"],
-  weight: ["400"],
-  variable: "--font-cutive-mono",
-});
-
-const APP_NAME = "Bamboo Tame";
-const APP_DESCRIPTION =
-  "A delightful game where you earn bamboo by completing tasks and tame unique, AI-generated pandas.";
+const APP_NAME = "Panda Delivery";
+const APP_DESCRIPTION = "The fastest way to get your favorite pandas delivered.";
 
 export const metadata: Metadata = {
   applicationName: APP_NAME,
@@ -54,7 +40,7 @@ export const metadata: Metadata = {
         url: "https://placehold.co/1200x630.png",
         width: 1200,
         height: 630,
-        alt: "A playful panda surrounded by bamboo.",
+        alt: "A panda enjoying a delicious meal.",
       },
     ],
   },
@@ -70,7 +56,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#F2F9F1",
+  themeColor: "#d70f64",
 };
 
 export default function RootLayout({
@@ -80,23 +66,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body
-        className={cn(
-          "font-body antialiased",
-          fredoka.variable,
-          inter.variable,
-          cutiveMono.variable,
-        )}
-      >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
-          <Toaster />
-        </ThemeProvider>
+      <body className={cn("font-body antialiased", openSans.variable)}>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

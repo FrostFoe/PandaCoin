@@ -1,10 +1,10 @@
 import Image from "next/image";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import type { Panda } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { formatDistanceToNow } from "date-fns";
 import { motion } from "framer-motion";
+import { Star } from "lucide-react";
 
 interface PandaCardProps {
   panda: Panda;
@@ -12,57 +12,46 @@ interface PandaCardProps {
 }
 
 const rarityStyles = {
-  Common:
-    "border-transparent bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200",
-  Rare: "border-transparent bg-blue-100 text-blue-800 dark:bg-blue-900/70 dark:text-blue-200",
-  "Ultra Rare":
-    "border-transparent bg-pink-100 text-pink-800 dark:bg-pink-900/70 dark:text-pink-200",
+  Common: "bg-gray-100 text-gray-800",
+  Rare: "bg-blue-100 text-blue-800",
+  "Ultra Rare": "bg-primary/10 text-primary",
 };
 
 export function PandaCard({ panda, onClick }: PandaCardProps) {
   return (
     <motion.div
-      whileHover={{ y: -5 }}
-      transition={{ type: "spring", stiffness: 300 }}
+      whileHover={{ y: -5, transition: { duration: 0.2 } }}
+      className="cursor-pointer group"
+      onClick={onClick}
       layout
-      className="w-full"
     >
-      <Card
-        className="overflow-hidden cursor-pointer h-full flex flex-col group shadow-lg shadow-black/5 hover:shadow-primary/10 transition-all duration-300 border-2 border-transparent hover:border-primary/50"
-        onClick={onClick}
-      >
-        <CardHeader className="p-0">
-          <div className="aspect-[3/4] relative overflow-hidden">
-            <Image
-              src={panda.imageUrl}
-              alt={`A cute panda named ${panda.name}`}
-              fill
-              className="object-cover transition-transform duration-300 group-hover:scale-110 group-hover:brightness-110"
-              data-ai-hint="panda cute"
-            />
-          </div>
-        </CardHeader>
-        <CardContent className="p-3 flex-grow flex flex-col">
-          <Badge
-            variant="outline"
-            className={cn(
-              "text-xs font-bold whitespace-nowrap self-start",
-              rarityStyles[panda.rarity],
-            )}
-          >
+      <div className="overflow-hidden rounded-lg">
+        <div className="aspect-video relative">
+          <Image
+            src={panda.imageUrl}
+            alt={`A cute panda named ${panda.name}`}
+            fill
+            className="object-cover transition-transform duration-300 group-hover:scale-110"
+            data-ai-hint="panda eating food"
+          />
+        </div>
+      </div>
+      <div className="py-3">
+        <h3 className="font-bold text-lg truncate">{panda.name}</h3>
+        <p className="text-sm text-muted-foreground truncate">
+          {panda.backstory
+            ? panda.backstory.split(".").slice(0, 1).join(".") + "."
+            : "A mysterious new friend..."}
+        </p>
+        <div className="flex items-center justify-between text-sm mt-2">
+          <Badge className={cn("font-bold", rarityStyles[panda.rarity])}>
             {panda.rarity}
           </Badge>
-          <CardTitle className="text-base font-code font-bold tracking-tight mt-1.5">
-            {panda.name}
-          </CardTitle>
-
-          <div className="flex-grow" />
-          <p className="text-xs text-muted-foreground mt-2">
-            Tamed{" "}
-            {formatDistanceToNow(new Date(panda.tamedAt), { addSuffix: true })}
-          </p>
-        </CardContent>
-      </Card>
+          <span className="text-xs text-muted-foreground">
+            Tamed {formatDistanceToNow(new Date(panda.tamedAt), { addSuffix: true })}
+          </span>
+        </div>
+      </div>
     </motion.div>
   );
 }

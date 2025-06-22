@@ -2,13 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import type { Task } from "@/lib/types";
 import { Leaf, CheckCircle2, Hourglass } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
@@ -65,16 +59,18 @@ export function TaskCard({ task }: TaskCardProps) {
   };
 
   return (
-    <Card className="w-[270px] shrink-0 flex flex-col hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+    <Card className="w-full h-full flex flex-col bg-accent">
       <CardHeader>
-        <CardTitle className="font-headline text-lg">{task.title}</CardTitle>
+        <div className="flex items-center justify-between">
+          <h3 className="font-bold text-lg">{task.title}</h3>
+          <div className="flex items-center gap-2 text-base font-bold text-green-600">
+            <Leaf className="h-5 w-5" />
+            <span>+ {task.reward}</span>
+          </div>
+        </div>
       </CardHeader>
       <CardContent className="flex-grow">
-        <p className="text-xs text-muted-foreground">{task.description}</p>
-        <div className="flex items-center gap-2 text-base font-bold text-green-500 mt-4">
-          <Leaf className="h-4 w-4" />
-          <span>+ {task.reward} Bamboo</span>
-        </div>
+        <p className="text-sm text-muted-foreground">{task.description}</p>
       </CardContent>
       <CardFooter>
         <Button
@@ -84,19 +80,7 @@ export function TaskCard({ task }: TaskCardProps) {
         >
           {onCooldown ? (
             <div className="flex items-center gap-2">
-              <motion.div
-                animate={{
-                  scale: [1, 1.1, 1],
-                  rotate: [0, 5, -5, 0],
-                }}
-                transition={{
-                  duration: 1,
-                  repeat: Infinity,
-                  repeatType: "mirror",
-                }}
-              >
-                <Hourglass />
-              </motion.div>
+              <Hourglass />
               <span className="font-mono text-sm">
                 {formatTime(displayCooldown)}
               </span>

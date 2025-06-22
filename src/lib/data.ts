@@ -1,32 +1,31 @@
-import type { Panda, Rarity, Task, LeaderboardUser } from "./types";
+import type { Panda, Task, LeaderboardUser } from "./types";
 
 export const tasks: Task[] = [
   {
     id: "1",
     title: "Daily Check-in",
-    description: "Log in and prove you still know what the sun looks like.",
+    description: "Log in and get a free helping of bamboo.",
     reward: 10,
     cooldownHours: 24,
   },
   {
     id: "2",
     title: "Panda Trivia",
-    description:
-      'Answer a question about our fluffy overlords. Did you know pandas have six "fingers"?',
+    description: "Answer a question about our fluffy overlords.",
     reward: 5,
     cooldownHours: 4,
   },
   {
     id: "3",
     title: "Bamboo Clicker",
-    description: "Click the bamboo. A lot. For glory. And carpal tunnel.",
+    description: "Click the bamboo. A lot. For glory.",
     reward: 20,
     cooldownHours: 6,
   },
   {
     id: "4",
     title: "Share with Friends",
-    description: "Tell the world about your panda addiction. #BambooTame",
+    description: "Tell the world about your panda addiction.",
     reward: 50,
     cooldownHours: 48,
   },
