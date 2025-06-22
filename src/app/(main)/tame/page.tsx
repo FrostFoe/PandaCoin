@@ -94,16 +94,16 @@ export default function TamePage() {
     <div className="relative flex flex-col items-center justify-center flex-1 py-10 px-4 text-center">
       <div
         className="absolute inset-0 bg-[url('https://placehold.co/1920x1080.png')] bg-cover bg-center opacity-10 dark:opacity-5 blur-sm"
-        data-ai-hint="food delivery pattern"
+        data-ai-hint="bamboo forest"
       />
       <div className="relative z-10 space-y-6 p-6 md:p-8 bg-card/80 dark:bg-card/60 backdrop-blur-lg rounded-xl shadow-2xl w-full max-w-md">
         <motion.h1
-          className="text-3xl sm:text-4xl font-extrabold"
+          className="text-3xl sm:text-4xl font-extrabold font-fredoka"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          Discover a New Panda
+          Tame a New Panda
         </motion.h1>
         <motion.p
           className="text-muted-foreground"
@@ -117,7 +117,7 @@ export default function TamePage() {
         <div className="flex justify-center items-center h-48 sm:h-56">
           <motion.div
             animate={{
-              rotate: isTaming ? [0, -2, 2, -2, 0] : 0,
+              rotate: isTaming ? [0, -5, 5, -5, 0] : 0,
               scale: isTaming ? 1.05 : 1,
             }}
             transition={{
@@ -129,10 +129,10 @@ export default function TamePage() {
           >
             <Image
               src="https://placehold.co/400x600.png"
-              alt="A magical delivery box, shaking with anticipation"
+              alt="A shaking bamboo tree, rustling with anticipation"
               fill
               className="object-contain drop-shadow-lg"
-              data-ai-hint="delivery box"
+              data-ai-hint="bamboo tree"
               priority
             />
           </motion.div>
@@ -149,7 +149,7 @@ export default function TamePage() {
           ) : (
             <div className="flex items-center gap-2">
               <Sparkles />
-              <span>Discover Now</span>
+              <span>Tame Now</span>
               <div className="flex items-center gap-1 border-l-2 border-primary-foreground/50 pl-3 ml-2">
                 <Leaf />
                 <span>{TAME_COST}</span>

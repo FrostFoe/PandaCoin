@@ -21,30 +21,27 @@ export function Header() {
   const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b bg-background">
+    <header className="sticky top-0 z-40 w-full border-b bg-background/80 backdrop-blur-sm">
       <div className="container flex h-16 items-center justify-between">
         <div className="flex items-center gap-4">
           <Link href="/dashboard" className="flex items-center gap-2">
             <PandaIcon className="h-8 w-8 text-primary" />
-            <span className="font-bold text-lg hidden sm:inline-block">
-              Panda Delivery
+            <span className="font-bold font-fredoka text-lg hidden sm:inline-block">
+              Bamboo Tame
             </span>
           </Link>
         </div>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-4">
+        <nav className="hidden md:flex items-center gap-1">
           {navItems.map((item) => (
-            <Link
+            <Button
               key={item.href}
-              href={item.href}
-              className={cn(
-                "text-sm font-medium text-muted-foreground transition-colors hover:text-primary",
-                pathname === item.href && "text-primary",
-              )}
+              asChild
+              variant={pathname === item.href ? "secondary" : "ghost"}
             >
-              {item.label}
-            </Link>
+              <Link href={item.href}>{item.label}</Link>
+            </Button>
           ))}
         </nav>
 
@@ -66,7 +63,7 @@ export function Header() {
                   className="flex items-center gap-2 text-lg font-semibold"
                 >
                   <PandaIcon className="h-8 w-8 text-primary" />
-                  <span>Panda Delivery</span>
+                  <span className="font-fredoka">Bamboo Tame</span>
                 </Link>
                 {navItems.map((item) => (
                   <Link
@@ -74,7 +71,7 @@ export function Header() {
                     href={item.href}
                     className={cn(
                       "flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground",
-                      pathname === item.href && "text-foreground",
+                      pathname === item.href && "text-foreground font-bold",
                     )}
                   >
                     <item.icon className="h-5 w-5" />

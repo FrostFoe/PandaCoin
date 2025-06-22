@@ -43,7 +43,7 @@ export default function PandasPage() {
   return (
     <div className="container py-6 md:py-10">
       <div className="mb-8">
-        <h1 className="text-3xl md:text-4xl font-bold">My Panda Collection</h1>
+        <h1 className="text-3xl md:text-4xl font-bold font-fredoka">My Panda Collection</h1>
         <p className="text-muted-foreground text-base mt-1">
           Browse your collection of tamed pandas. Each one is unique!
         </p>

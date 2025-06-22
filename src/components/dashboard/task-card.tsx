@@ -7,7 +7,6 @@ import type { Task } from "@/lib/types";
 import { Leaf, CheckCircle2, Hourglass } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useGame } from "@/context/GameContext";
-import { motion } from "framer-motion";
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 
 interface TaskCardProps {
@@ -59,10 +58,10 @@ export function TaskCard({ task }: TaskCardProps) {
   };
 
   return (
-    <Card className="w-full h-full flex flex-col bg-accent">
+    <Card className="w-full h-full flex flex-col bg-card/80 shadow-md hover:shadow-lg transition-shadow duration-300">
       <CardHeader>
         <div className="flex items-center justify-between">
-          <h3 className="font-bold text-lg">{task.title}</h3>
+          <h3 className="font-bold font-fredoka text-lg">{task.title}</h3>
           <div className="flex items-center gap-2 text-base font-bold text-green-600">
             <Leaf className="h-5 w-5" />
             <span>+ {task.reward}</span>

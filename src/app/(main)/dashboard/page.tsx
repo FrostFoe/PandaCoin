@@ -63,7 +63,7 @@ export default function DashboardPage() {
       </HorizontalScrollSection>
 
       <div className="mt-12">
-        <h2 className="text-2xl font-bold mb-4">All Tamed Pandas</h2>
+        <h2 className="text-2xl font-bold font-fredoka mb-4">All Tamed Pandas</h2>
         {filteredPandas.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {filteredPandas.map((panda) => (
@@ -76,7 +76,7 @@ export default function DashboardPage() {
           </div>
         ) : (
           <div className="col-span-full text-center py-16 text-muted-foreground border-2 border-dashed rounded-lg">
-            <h3 className="text-lg font-bold">No Pandas Found</h3>
+            <h3 className="text-lg font-bold font-fredoka">No Pandas Found</h3>
             <p className="text-sm">
               Your search for "{searchQuery}" didn't return any results.
             </p>
@@ -101,7 +101,7 @@ function DashboardSkeleton() {
         <Skeleton className="h-8 w-48" />
         <div className="flex space-x-4">
           {[...Array(3)].map((_, i) => (
-            <Skeleton key={i} className="h-32 w-80 rounded-xl shrink-0" />
+            <Skeleton key={i} className="h-40 w-80 rounded-xl shrink-0" />
           ))}
         </div>
       </div>

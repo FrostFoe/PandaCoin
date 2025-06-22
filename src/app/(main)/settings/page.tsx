@@ -33,7 +33,7 @@ export default function SettingsPage() {
   return (
     <div className="container max-w-2xl mx-auto py-6 md:py-10">
       <div className="mb-8">
-        <h1 className="text-3xl md:text-4xl font-bold flex items-center gap-3">
+        <h1 className="text-3xl md:text-4xl font-bold font-fredoka flex items-center gap-3">
           <SettingsIcon className="w-8 h-8 md:w-9 md:h-9 text-primary" /> Settings
         </h1>
         <p className="text-muted-foreground text-base mt-2">
@@ -44,13 +44,13 @@ export default function SettingsPage() {
       <div className="space-y-8">
         <Card>
           <CardHeader>
-            <CardTitle>Display</CardTitle>
+            <CardTitle className="font-fredoka">Display</CardTitle>
             <CardDescription>
               Customize the look and feel of the app.
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="flex items-center justify-between p-4 rounded-lg bg-secondary">
+            <div className="flex items-center justify-between p-4 rounded-lg bg-secondary/50">
               <Label htmlFor="theme" className="font-medium">
                 Theme
               </Label>
@@ -61,11 +61,11 @@ export default function SettingsPage() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Audio</CardTitle>
+            <CardTitle className="font-fredoka">Audio</CardTitle>
             <CardDescription>Control the in-game sounds.</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="flex items-center justify-between p-4 rounded-lg bg-secondary">
+            <div className="flex items-center justify-between p-4 rounded-lg bg-secondary/50">
               <Label htmlFor="music" className="font-medium">
                 Background Music
               </Label>
@@ -75,7 +75,7 @@ export default function SettingsPage() {
                 onCheckedChange={setMusicEnabled}
               />
             </div>
-            <div className="flex items-center justify-between p-4 rounded-lg bg-secondary">
+            <div className="flex items-center justify-between p-4 rounded-lg bg-secondary/50">
               <Label htmlFor="sfx" className="font-medium">
                 Sound Effects
               </Label>
@@ -90,7 +90,7 @@ export default function SettingsPage() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Account</CardTitle>
+            <CardTitle className="font-fredoka">Account</CardTitle>
             <CardDescription>
               Manage your account information and actions.
             </CardDescription>

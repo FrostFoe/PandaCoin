@@ -19,7 +19,9 @@ const config: Config = {
     },
     extend: {
       fontFamily: {
-        body: ["var(--font-open-sans)", "sans-serif"],
+        inter: ["var(--font-inter)", "sans-serif"],
+        fredoka: ["var(--font-fredoka)", "sans-serif"],
+        "comic-mono": ["var(--font-comic-mono)", "monospace"],
       },
       colors: {
         background: "hsl(var(--background))",

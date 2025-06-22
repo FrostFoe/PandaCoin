@@ -1,16 +1,28 @@
+
 import type { Metadata, Viewport } from "next";
-import { Open_Sans } from "next/font/google";
+import { Fredoka, Inter, Cutive_Mono } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { Providers } from "@/context/Providers";
 
-const openSans = Open_Sans({
+const fredoka = Fredoka({
   subsets: ["latin"],
-  variable: "--font-open-sans",
+  variable: "--font-fredoka",
 });
 
-const APP_NAME = "Panda Delivery";
-const APP_DESCRIPTION = "The fastest way to get your favorite pandas delivered.";
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+});
+
+const comicMono = Cutive_Mono({
+  subsets: ["latin"],
+  variable: "--font-comic-mono",
+  weight: "400",
+});
+
+const APP_NAME = "Bamboo Tame";
+const APP_DESCRIPTION = "Tame pandas, complete tasks, and build your collection!";
 
 export const metadata: Metadata = {
   applicationName: APP_NAME,
@@ -40,7 +52,8 @@ export const metadata: Metadata = {
         url: "https://placehold.co/1200x630.png",
         width: 1200,
         height: 630,
-        alt: "A panda enjoying a delicious meal.",
+        alt: "A collection of cute pandas.",
+        "data-ai-hint": "cute pandas",
       },
     ],
   },
@@ -56,7 +69,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#d70f64",
+  themeColor: "#81B29A",
 };
 
 export default function RootLayout({
@@ -66,7 +79,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={cn("font-body antialiased", openSans.variable)}>
+      <body
+        className={cn(
+          "font-inter antialiased",
+          fredoka.variable,
+          inter.variable,
+          comicMono.variable,
+        )}
+      >
         <Providers>{children}</Providers>
       </body>
     </html>

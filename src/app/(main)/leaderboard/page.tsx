@@ -12,13 +12,12 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { leaderboard } from "@/lib/data";
 import { Crown, Leaf, Sparkles, Trophy } from "lucide-react";
 import { Card } from "@/components/ui/card";
-import { cn } from "@/lib/utils";
 
 export default function LeaderboardPage() {
   return (
     <div className="container py-6 md:py-10 flex flex-col gap-8">
       <div>
-        <h1 className="text-3xl md:text-4xl font-bold flex items-center gap-3">
+        <h1 className="text-3xl md:text-4xl font-bold font-fredoka flex items-center gap-3">
           <Trophy className="w-8 h-8 md:w-9 md:h-9 text-primary" /> Leaderboard
         </h1>
         <p className="text-muted-foreground text-base mt-2">
@@ -26,11 +25,11 @@ export default function LeaderboardPage() {
         </p>
       </div>
 
-      <Card className="overflow-hidden rounded-xl">
+      <Card className="overflow-hidden rounded-xl shadow-lg">
         <div className="overflow-x-auto">
           <Table>
             <TableHeader>
-              <TableRow className="bg-secondary">
+              <TableRow className="bg-secondary/50">
                 <TableHead className="w-20 text-center font-bold">
                   Rank
                 </TableHead>
@@ -60,7 +59,7 @@ export default function LeaderboardPage() {
                   </TableCell>
                   <TableCell>
                     <div className="flex items-center gap-4">
-                      <Avatar className="h-12 w-12 border-2 shrink-0">
+                      <Avatar className="h-12 w-12 border-2 shrink-0 border-primary/20">
                         <AvatarImage
                           src={user.avatarUrl}
                           alt={user.username}

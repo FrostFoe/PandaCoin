@@ -31,16 +31,16 @@ interface RarityRevealModalProps {
 
 const rarityInfo = {
   Common: {
-    style: "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200",
-    border: "border-gray-300 dark:border-gray-600",
+    style: "bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-200",
+    border: "border-gray-400 dark:border-gray-600",
   },
   Rare: {
-    style: "bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-200",
-    border: "border-blue-400 dark:border-blue-700",
+    style: "bg-blue-200 text-blue-800 dark:bg-blue-900/50 dark:text-blue-200",
+    border: "border-blue-500 dark:border-blue-700",
   },
   "Ultra Rare": {
-    style: "bg-primary/10 text-primary",
-    border: "border-primary",
+    style: "bg-amber-400 text-amber-950",
+    border: "border-amber-500",
   },
 };
 
@@ -95,7 +95,9 @@ export function RarityRevealModal({
         <Skeleton className="h-4 w-3/4" />
       </div>
     ) : (
-      <DialogDescription>{details.backstory}</DialogDescription>
+      <DialogDescription className="text-center">
+        {details.backstory}
+      </DialogDescription>
     );
 
   if (!panda) return null;
@@ -104,7 +106,7 @@ export function RarityRevealModal({
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent
         className={cn(
-          "sm:max-w-sm overflow-hidden p-0 border-2",
+          "sm:max-w-sm overflow-hidden p-0 border-4",
           rarityInfo[panda.rarity].border,
         )}
       >
@@ -119,7 +121,7 @@ export function RarityRevealModal({
             },
           }}
         >
-          <DialogHeader className="p-6 pb-2 items-center">
+          <DialogHeader className="p-6 pb-2 items-center bg-secondary/50">
             <div className="relative">
               {panda.rarity === "Ultra Rare" &&
                 [...Array(3)].map((_, i) => (
@@ -135,7 +137,7 @@ export function RarityRevealModal({
                     }}
                     className="absolute -inset-2"
                   >
-                    <Sparkles className="h-full w-full text-primary opacity-50" />
+                    <Sparkles className="h-full w-full text-amber-400 opacity-50" />
                   </motion.div>
                 ))}
               <motion.div
@@ -148,7 +150,10 @@ export function RarityRevealModal({
                   alt={details?.name || "A cute panda"}
                   width={120}
                   height={120}
-                  className="w-[120px] h-[120px] rounded-full border-4 border-white dark:border-card shadow-lg bg-secondary"
+                  className={cn(
+                    "w-[120px] h-[120px] rounded-full border-4 shadow-lg bg-secondary",
+                    rarityInfo[panda.rarity].border,
+                  )}
                   data-ai-hint="panda avatar"
                 />
               </motion.div>
@@ -159,7 +164,7 @@ export function RarityRevealModal({
                 visible: { opacity: 1, y: 0 },
               }}
             >
-              <DialogTitle className="text-center text-2xl font-bold mt-4">
+              <DialogTitle className="text-center text-2xl font-bold mt-4 font-comic-mono">
                 {displayName}
               </DialogTitle>
             </motion.div>
@@ -186,12 +191,12 @@ export function RarityRevealModal({
               visible: { opacity: 1, y: 0 },
             }}
           >
-            <h4 className="font-bold flex items-center gap-2">
+            <h4 className="font-bold font-fredoka flex items-center gap-2 justify-center">
               <Bot /> AI-Generated Backstory
             </h4>
             {displayBackstory}
           </motion.div>
-          <DialogFooter className="p-4 pt-2 sm:justify-between gap-2 bg-secondary">
+          <DialogFooter className="p-4 pt-2 sm:justify-between gap-2 bg-secondary/50">
             <Button
               onClick={generateBackstory}
               variant="ghost"
