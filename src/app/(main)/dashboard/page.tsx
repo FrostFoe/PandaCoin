@@ -1,3 +1,4 @@
+
 "use client";
 
 import { TaskCard } from "@/components/dashboard/task-card";
@@ -53,7 +54,7 @@ export default function DashboardPage() {
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
           <Input
             placeholder="Search for pandas & stories..."
-            className="pl-12 rounded-full h-12 md:h-14"
+            className="pl-12 rounded-full h-12 md:h-14 text-base"
           />
         </motion.div>
       </div>
