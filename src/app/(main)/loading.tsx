@@ -3,7 +3,6 @@ import { Skeleton } from "@/components/ui/skeleton";
 export default function Loading() {
   return (
     <div className="flex h-screen bg-secondary/30">
-      {/* Sidebar Skeleton */}
       <div className="hidden md:flex flex-col w-64 border-r bg-background">
         <div className="flex items-center h-16 border-b px-6">
           <Skeleton className="h-8 w-8 rounded-full" />
@@ -19,7 +18,6 @@ export default function Loading() {
           <Skeleton className="h-10 w-full rounded-full" />
         </div>
       </div>
-      {/* Main Content Skeleton */}
       <div className="flex flex-col flex-1">
         <header className="flex h-16 shrink-0 items-center gap-4 border-b bg-background px-4 md:px-6">
           <div className="md:hidden">

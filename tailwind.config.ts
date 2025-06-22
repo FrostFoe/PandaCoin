@@ -21,7 +21,7 @@ const config: Config = {
       fontFamily: {
         inter: ["var(--font-inter)", "sans-serif"],
         fredoka: ["var(--font-fredoka)", "sans-serif"],
-        "comic-mono": ["var(--font-comic-mono)", "monospace"],
+        "cutive-mono": ["var(--font-cutive-mono)", "monospace"],
       },
       colors: {
         background: "hsl(var(--background))",

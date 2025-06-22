@@ -79,7 +79,6 @@ export function RarityRevealModal({
     } else if (isOpen && panda && panda.backstory) {
       setDetails({ name: panda.name, backstory: panda.backstory });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen, panda]);
 
   const displayName = isGenerating ? (
@@ -164,7 +163,7 @@ export function RarityRevealModal({
                 visible: { opacity: 1, y: 0 },
               }}
             >
-              <DialogTitle className="text-center text-2xl font-bold mt-4 font-comic-mono">
+              <DialogTitle className="text-center text-2xl font-bold mt-4 font-cutive-mono">
                 {displayName}
               </DialogTitle>
             </motion.div>

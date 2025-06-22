@@ -1,4 +1,3 @@
-
 import type { Metadata, Viewport } from "next";
 import { Fredoka, Inter, Cutive_Mono } from "next/font/google";
 import "./globals.css";
@@ -15,9 +14,9 @@ const inter = Inter({
   variable: "--font-inter",
 });
 
-const comicMono = Cutive_Mono({
+const cutiveMono = Cutive_Mono({
   subsets: ["latin"],
-  variable: "--font-comic-mono",
+  variable: "--font-cutive-mono",
   weight: "400",
 });
 
@@ -84,7 +83,7 @@ export default function RootLayout({
           "font-inter antialiased",
           fredoka.variable,
           inter.variable,
-          comicMono.variable,
+          cutiveMono.variable,
         )}
       >
         <Providers>{children}</Providers>

@@ -36,7 +36,7 @@ export function PandaCard({ panda, onClick }: PandaCardProps) {
           />
         </div>
         <div className="p-3">
-          <h3 className="font-bold font-comic-mono text-lg truncate">
+          <h3 className="font-bold font-cutive-mono text-lg truncate">
             {panda.name}
           </h3>
           <p className="text-sm text-muted-foreground truncate h-10">

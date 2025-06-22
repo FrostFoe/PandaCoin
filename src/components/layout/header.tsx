@@ -32,7 +32,6 @@ export function Header() {
           </Link>
         </div>
 
-        {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-1">
           {navItems.map((item) => (
             <Button
@@ -48,7 +47,6 @@ export function Header() {
         <div className="flex items-center gap-2">
           <UserNav />
 
-          {/* Mobile Navigation */}
           <Sheet>
             <SheetTrigger asChild>
               <Button variant="outline" size="icon" className="md:hidden">

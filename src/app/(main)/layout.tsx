@@ -1,7 +1,6 @@
 "use client";
 
 import { Header } from "@/components/layout/header";
-import { GameProvider } from "@/context/GameContext";
 import { PageTransition } from "@/components/layout/page-transition";
 
 export default function MainLayout({
@@ -10,13 +9,11 @@ export default function MainLayout({
   children: React.ReactNode;
 }) {
   return (
-    <GameProvider>
-      <div className="flex flex-col min-h-screen bg-background">
-        <Header />
-        <main className="flex-1">
-          <PageTransition>{children}</PageTransition>
-        </main>
-      </div>
-    </GameProvider>
+    <div className="flex flex-col min-h-screen bg-background">
+      <Header />
+      <main className="flex-1">
+        <PageTransition>{children}</PageTransition>
+      </main>
+    </div>
   );
 }
