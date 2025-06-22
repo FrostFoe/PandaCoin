@@ -3,18 +3,18 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutGrid, Trees, Trophy, User } from "lucide-react";
+import { LayoutGrid, Trees, Trophy, Settings } from "lucide-react";
 import { PandaIcon } from "../icons/panda-icon";
 import { cn } from "@/lib/utils";
 import { useGame } from "@/context/GameContext";
 import { motion } from "framer-motion";
 
 const navItems = [
-  { href: "/dashboard", label: "Home", icon: LayoutGrid },
+  { href: "/dashboard", label: "Dashboard", icon: LayoutGrid },
   { href: "/tame", label: "Tame", icon: Trees },
-  { href: "/pandas", label: "Pandas", icon: PandaIcon },
-  { href: "/leaderboard", label: "Top", icon: Trophy },
-  { href: "/settings", label: "Profile", icon: User },
+  { href: "/pandas", label: "Collection", icon: PandaIcon },
+  { href: "/leaderboard", label: "Leaderboard", icon: Trophy },
+  { href: "/settings", label: "Settings", icon: Settings },
 ];
 
 export function BottomNav() {
