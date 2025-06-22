@@ -8,11 +8,15 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PandaIcon } from "@/components/icons/panda-icon";
 import { useGame } from "@/context/GameContext";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
+
+export const dynamic = "force-dynamic";
 
 const rarities: Rarity[] = ["Common", "Rare", "Ultra Rare"];
 
 export default function PandasPage() {
-  const { gameState, session } = useGame();
+  const { gameState } = useGame();
+  const { isLoading } = useKindeBrowserClient();
   const [selectedPanda, setSelectedPanda] = useState<Panda | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -26,7 +30,7 @@ export default function PandasPage() {
     setSelectedPanda(null);
   };
 
-  if (session.status === "loading" || !gameState) {
+  if (isLoading || !gameState) {
     return <CollectionSkeleton />;
   }
 
