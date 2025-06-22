@@ -1,6 +1,6 @@
 import type { NextConfig } from "next";
 
-const nextConfig: NextConfig = {
+const config: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
@@ -15,8 +15,12 @@ const nextConfig: NextConfig = {
         port: "",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "*.kinde.com",
+      },
     ],
   },
 };
 
-export default nextConfig;
+export default config;

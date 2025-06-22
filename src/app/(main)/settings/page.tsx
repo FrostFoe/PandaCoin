@@ -12,7 +12,6 @@ import {
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
-import { useGame } from "@/context/GameContext";
 import { Settings as SettingsIcon, Trash2 } from "lucide-react";
 import {
   AlertDialog,
@@ -25,25 +24,19 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
 
 export default function SettingsPage() {
-  const { logout } = useGame();
-  const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [musicEnabled, setMusicEnabled] = useState(true);
   const [sfxEnabled, setSfxEnabled] = useState(true);
 
-  const handleDeleteAccount = () => {
-    logout();
-    setIsAlertOpen(false);
-  };
-
   return (
-    <div className="flex flex-col gap-6 max-w-2xl mx-auto py-6">
+    <div className="flex flex-col gap-8 max-w-2xl mx-auto py-6">
       <div>
-        <h1 className="text-2xl md:text-3xl font-bold font-headline flex items-center gap-3">
-          <SettingsIcon className="w-7 h-7 text-primary" /> Settings
+        <h1 className="text-3xl md:text-4xl font-bold font-headline flex items-center gap-3">
+          <SettingsIcon className="w-8 h-8 md:w-9 md:h-9 text-primary" /> Settings
         </h1>
-        <p className="text-muted-foreground text-base mt-1">
+        <p className="text-muted-foreground text-base mt-2">
           Manage your account and game preferences.
         </p>
       </div>
@@ -55,9 +48,9 @@ export default function SettingsPage() {
             Customize the look and feel of the app.
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-2">
-          <div className="flex items-center justify-between p-4 rounded-lg bg-secondary/30">
-            <Label htmlFor="theme" className="font-medium">
+        <CardContent className="space-y-4">
+          <div className="flex items-center justify-between p-4 rounded-xl bg-secondary/30">
+            <Label htmlFor="theme" className="font-medium text-base">
               Theme
             </Label>
             <ThemeToggle />
@@ -70,9 +63,9 @@ export default function SettingsPage() {
           <CardTitle>Audio</CardTitle>
           <CardDescription>Control the in-game sounds.</CardDescription>
         </CardHeader>
-        <CardContent className="space-y-2">
-          <div className="flex items-center justify-between p-4 rounded-lg bg-secondary/30">
-            <Label htmlFor="music" className="font-medium">
+        <CardContent className="space-y-4">
+          <div className="flex items-center justify-between p-4 rounded-xl bg-secondary/30">
+            <Label htmlFor="music" className="font-medium text-base">
               Background Music
             </Label>
             <Switch
@@ -81,8 +74,8 @@ export default function SettingsPage() {
               onCheckedChange={setMusicEnabled}
             />
           </div>
-          <div className="flex items-center justify-between p-4 rounded-lg bg-secondary/30">
-            <Label htmlFor="sfx" className="font-medium">
+          <div className="flex items-center justify-between p-4 rounded-xl bg-secondary/30">
+            <Label htmlFor="sfx" className="font-medium text-base">
               Sound Effects
             </Label>
             <Switch
@@ -102,12 +95,14 @@ export default function SettingsPage() {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <Button className="w-full" onClick={logout}>
-            Logout
-          </Button>
-          <AlertDialog open={isAlertOpen} onOpenChange={setIsAlertOpen}>
+          <LogoutLink>
+            <Button className="w-full" size="lg">
+              Logout
+            </Button>
+          </LogoutLink>
+          <AlertDialog>
             <AlertDialogTrigger asChild>
-              <Button variant="destructive" className="w-full">
+              <Button variant="destructive" className="w-full" size="lg">
                 <Trash2 className="mr-2 h-4 w-4" />
                 Delete Account
               </Button>
@@ -116,16 +111,13 @@ export default function SettingsPage() {
               <AlertDialogHeader>
                 <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                 <AlertDialogDescription>
-                  This action is permanent. All your tamed pandas and bamboo
-                  will be lost forever. If you are a guest, this will clear your
-                  local data.
+                  This action cannot be undone. This will permanently delete
+                  your account and remove your data from our servers.
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction onClick={handleDeleteAccount}>
-                  Yes, delete my account
-                </AlertDialogAction>
+                <AlertDialogAction>Yes, delete my account</AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>

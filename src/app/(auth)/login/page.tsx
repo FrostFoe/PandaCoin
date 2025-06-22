@@ -1,7 +1,5 @@
-"use client";
-
-import { LoginForm } from "@/components/auth/login-form";
-
+// This page is obsolete and no longer used.
+// Kinde handles the login flow.
 export default function LoginPage() {
-  return <LoginForm />;
+  return null;
 }

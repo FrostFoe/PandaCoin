@@ -10,45 +10,11 @@ import {
 } from "@/components/ui/table";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { leaderboard } from "@/lib/data";
-import { Crown, Leaf, Sparkles, LogIn, Trophy } from "lucide-react";
-import { useGame } from "@/context/GameContext";
-import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
+import { Crown, Leaf, Sparkles, Trophy } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
 export default function LeaderboardPage() {
-  const { session, login } = useGame();
-
-  if (session.status === "loading") {
-    return (
-      <div className="py-6 flex flex-col gap-6">
-        <Skeleton className="h-10 w-full max-w-xs" />
-        <Skeleton className="h-5 w-full max-w-md" />
-        <Skeleton className="rounded-xl border h-96 w-full" />
-      </div>
-    );
-  }
-
-  if (session.status === "guest") {
-    return (
-      <div className="min-h-[60vh] flex flex-col items-center justify-center text-center gap-4 p-4 md:p-6 bg-card rounded-xl border-2 border-dashed">
-        <Trophy className="h-14 w-14 text-primary" />
-        <h2 className="text-xl font-bold font-headline">
-          The Leaderboard Awaits!
-        </h2>
-        <p className="text-muted-foreground max-w-md text-sm">
-          See how you stack up against other Panda Tamers. Log in or create an
-          account to join the competition!
-        </p>
-        <Button onClick={login} size="lg">
-          <LogIn className="mr-2" />
-          Login to View Leaderboard
-        </Button>
-      </div>
-    );
-  }
-
   return (
     <div className="py-6 flex flex-col gap-6">
       <div>
@@ -60,7 +26,7 @@ export default function LeaderboardPage() {
         </p>
       </div>
 
-      <Card className="overflow-hidden">
+      <Card className="overflow-hidden rounded-2xl">
         <div className="overflow-x-auto">
           <Table>
             <TableHeader>

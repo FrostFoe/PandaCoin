@@ -1,5 +1,5 @@
-import { SignupForm } from "@/components/auth/signup-form";
-
+// This page is obsolete and no longer used.
+// Kinde handles the signup flow.
 export default function SignupPage() {
-  return <SignupForm />;
+  return null;
 }

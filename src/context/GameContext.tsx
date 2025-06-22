@@ -8,7 +8,6 @@ import React, {
   useEffect,
   useCallback,
 } from "react";
-import { useRouter } from "next/navigation";
 import type { Panda, GameState, Task } from "@/lib/types";
 import { tasks as allTasks } from "@/lib/data";
 import type { PandaGeneratorOutput } from "@/ai/flows/panda-generator-flow";
@@ -18,24 +17,17 @@ const TAME_COST = 100;
 
 interface GameContextType {
   gameState: GameState | null;
-  session: { status: "loading" | "guest" | "authenticated" };
   claimTask: (task: Task) => void;
   addPanda: (panda: Panda) => void;
   updatePandaDetails: (pandaId: string, details: PandaGeneratorOutput) => void;
   isTaskOnCooldown: (taskId: string) => boolean;
   getTaskCooldownTime: (taskId: string) => number;
-  logout: () => void;
-  login: () => void;
 }
 
 const GameContext = createContext<GameContextType | undefined>(undefined);
 
 export function GameProvider({ children }: { children: ReactNode }) {
   const [gameState, setGameState] = useState<GameState | null>(null);
-  const [session, setSession] = useState<{
-    status: "loading" | "guest" | "authenticated";
-  }>({ status: "loading" });
-  const router = useRouter();
 
   useEffect(() => {
     try {
@@ -56,7 +48,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
       }
     } catch (error) {
       console.error(
-        "Failed to load guest data, initializing fresh state.",
+        "Failed to load game data, initializing fresh state.",
         error,
       );
       setGameState({
@@ -64,23 +56,21 @@ export function GameProvider({ children }: { children: ReactNode }) {
         pandas: [],
         userTasks: {},
       });
-    } finally {
-      setSession({ status: "guest" });
     }
   }, []);
 
   useEffect(() => {
-    if (session.status === "guest" && gameState) {
+    if (gameState) {
       try {
         window.localStorage.setItem(
           GUEST_STORAGE_KEY,
           JSON.stringify(gameState),
         );
       } catch (error) {
-        console.error("Failed to save guest data.", error);
+        console.error("Failed to save game data.", error);
       }
     }
-  }, [gameState, session.status]);
+  }, [gameState]);
 
   const claimTask = useCallback(
     (task: Task) => {
@@ -158,31 +148,13 @@ export function GameProvider({ children }: { children: ReactNode }) {
     [getTaskCooldownTime],
   );
 
-  const logout = () => {
-    window.localStorage.removeItem(GUEST_STORAGE_KEY);
-    setGameState({
-      bambooBalance: 500,
-      pandas: [],
-      userTasks: {},
-    });
-    setSession({ status: "guest" });
-    router.push("/");
-  };
-
-  const login = () => {
-    router.push("/login");
-  };
-
   const value = {
     gameState,
-    session,
     claimTask,
     addPanda,
     updatePandaDetails,
     isTaskOnCooldown,
     getTaskCooldownTime,
-    logout,
-    login,
   };
 
   return <GameContext.Provider value={value}>{children}</GameContext.Provider>;
