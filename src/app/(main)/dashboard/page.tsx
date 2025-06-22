@@ -13,6 +13,8 @@ import { RarityRevealModal } from "@/components/game/rarity-reveal-modal";
 import type { Panda } from "@/lib/types";
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 
+export const dynamic = "force-dynamic";
+
 export default function DashboardPage() {
   const { gameState } = useGame();
   const { isLoading } = useKindeBrowserClient();
@@ -63,7 +65,9 @@ export default function DashboardPage() {
       </HorizontalScrollSection>
 
       <div className="mt-12">
-        <h2 className="text-2xl font-bold font-fredoka mb-4">All Tamed Pandas</h2>
+        <h2 className="text-2xl font-bold font-fredoka mb-4">
+          All Tamed Pandas
+        </h2>
         {filteredPandas.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {filteredPandas.map((panda) => (
