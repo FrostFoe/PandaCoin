@@ -14,6 +14,11 @@ interface TaskCardProps {
 }
 
 export function TaskCard({ task }: TaskCardProps) {
+  const [isClient, setIsClient] = useState(false);
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   const { toast } = useToast();
   const { claimTask, isTaskOnCooldown, getTaskCooldownTime } = useGame();
   const { isLoading } = useKindeBrowserClient();
@@ -37,7 +42,7 @@ export function TaskCard({ task }: TaskCardProps) {
   }, [onCooldown, displayCooldown]);
 
   const handleClaim = () => {
-    if (isLoading || onCooldown) return;
+    if (!isClient || isLoading || onCooldown) return;
 
     claimTask(task);
     toast({
@@ -75,7 +80,7 @@ export function TaskCard({ task }: TaskCardProps) {
         <Button
           className="w-full"
           onClick={handleClaim}
-          disabled={onCooldown || isLoading}
+          disabled={!isClient || onCooldown || isLoading}
         >
           {onCooldown ? (
             <div className="flex items-center gap-2">

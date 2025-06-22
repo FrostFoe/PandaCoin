@@ -5,12 +5,18 @@ import { Badge } from "@/components/ui/badge";
 import { useGame } from "@/context/GameContext";
 import { Skeleton } from "../ui/skeleton";
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
+import { useState, useEffect } from "react";
 
 export function BambooCounter() {
+  const [isClient, setIsClient] = useState(false);
   const { gameState } = useGame();
   const { isLoading } = useKindeBrowserClient();
 
-  if (isLoading || !gameState) {
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  if (!isClient || isLoading || !gameState) {
     return <Skeleton className="h-10 w-28 rounded-full" />;
   }
 

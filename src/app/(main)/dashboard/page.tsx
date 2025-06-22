@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { TaskCard } from "@/components/dashboard/task-card";
 import { tasks } from "@/lib/data";
 import { useGame } from "@/context/GameContext";
@@ -16,13 +16,18 @@ import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 export const dynamic = "force-dynamic";
 
 export default function DashboardPage() {
+  const [isClient, setIsClient] = useState(false);
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   const { gameState } = useGame();
   const { isLoading } = useKindeBrowserClient();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedPanda, setSelectedPanda] = useState<Panda | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  if (isLoading || !gameState) {
+  if (!isClient || isLoading || !gameState) {
     return <DashboardSkeleton />;
   }
 

@@ -19,12 +19,18 @@ import {
   LoginLink,
 } from "@kinde-oss/kinde-auth-nextjs/components";
 import { Skeleton } from "../ui/skeleton";
+import { useState, useEffect } from "react";
 
 export function UserNav() {
+  const [isClient, setIsClient] = useState(false);
   const { user, isLoading, isAuthenticated } = useKindeBrowserClient();
 
-  if (isLoading) {
-    return <Skeleton className="h-9 w-20 rounded-md" />;
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  if (!isClient || isLoading) {
+    return <Skeleton className="h-10 w-10 rounded-full" />;
   }
 
   if (!isAuthenticated) {

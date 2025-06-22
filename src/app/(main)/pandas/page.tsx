@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { PandaCard } from "@/components/game/panda-card";
 import { RarityRevealModal } from "@/components/game/rarity-reveal-modal";
 import type { Panda, Rarity } from "@/lib/types";
@@ -12,6 +12,11 @@ import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 export const dynamic = "force-dynamic";
 
 export default function PandasPage() {
+  const [isClient, setIsClient] = useState(false);
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   const { gameState } = useGame();
   const { isLoading } = useKindeBrowserClient();
   const [selectedPanda, setSelectedPanda] = useState<Panda | null>(null);
@@ -29,7 +34,7 @@ export default function PandasPage() {
     setSelectedPanda(null);
   };
 
-  if (isLoading || !gameState) {
+  if (!isClient || isLoading || !gameState) {
     return <CollectionSkeleton />;
   }
 
