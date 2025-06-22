@@ -1,16 +1,16 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { UserNav } from "./user-nav";
 import { BambooCounter } from "../game/bamboo-counter";
 import { ThemeToggle } from "./theme-toggle";
-import {
-  getKindeServerSession,
-  LoginLink,
-} from "@kinde-oss/kinde-auth-nextjs/server";
+import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
+import { LoginLink } from "@kinde-oss/kinde-auth-nextjs/components";
 import { LogIn } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
 
-export async function Header() {
-  const { isAuthenticated } = getKindeServerSession();
-  const isUserAuthenticated = await isAuthenticated();
+export function Header() {
+  const { isAuthenticated, isLoading } = useKindeBrowserClient();
 
   return (
     <header className="flex h-16 shrink-0 items-center gap-4 border-b bg-background px-4 md:px-6">
@@ -19,7 +19,9 @@ export async function Header() {
       </div>
       <div className="ml-auto flex items-center gap-2 sm:gap-4">
         <ThemeToggle />
-        {!isUserAuthenticated ? (
+        {isLoading ? (
+          <Skeleton className="h-9 w-24 rounded-lg" />
+        ) : !isAuthenticated ? (
           <LoginLink>
             <Button variant="outline" size="sm">
               <LogIn className="mr-2 h-4 w-4" />

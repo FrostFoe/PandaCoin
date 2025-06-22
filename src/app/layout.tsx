@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Fredoka, Comic_Mono } from "next/font/google";
+import { Inter, Fredoka, Cutive_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/layout/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
@@ -16,10 +16,10 @@ const inter = Inter({
   variable: "--font-inter",
 });
 
-const comicMono = Comic_Mono({
+const cutiveMono = Cutive_Mono({
   subsets: ["latin"],
   weight: ["400"],
-  variable: "--font-comic-mono",
+  variable: "--font-cutive-mono",
 });
 
 const APP_NAME = "Bamboo Tame";
@@ -85,7 +85,7 @@ export default function RootLayout({
           "font-body antialiased",
           fredoka.variable,
           inter.variable,
-          comicMono.variable,
+          cutiveMono.variable,
         )}
       >
         <ThemeProvider

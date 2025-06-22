@@ -1,3 +1,5 @@
+"use client";
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -11,12 +13,20 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { LogOut, Settings, User } from "lucide-react";
 import Link from "next/link";
-import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
+import { Skeleton } from "../ui/skeleton";
 
-export async function UserNav() {
-  const { getUser } = getKindeServerSession();
-  const user = await getUser();
+export function UserNav() {
+  const { user, isLoading } = useKindeBrowserClient();
+
+  if (isLoading) {
+    return <Skeleton className="h-10 w-10 rounded-full" />;
+  }
+
+  if (!user) {
+    return null;
+  }
 
   const getInitials = (name: string) => {
     const names = name.split(" ");
