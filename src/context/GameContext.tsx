@@ -11,15 +11,26 @@ import React, {
 import type { Panda, GameState, Task } from "@/lib/types";
 import { tasks as allTasks } from "@/lib/data";
 import type { PandaGeneratorOutput } from "@/ai/flows/panda-generator-flow";
+import { createClient } from "@/lib/supabase/client";
+import {
+  addPanda as addPandaAction,
+  claimTask as claimTaskAction,
+  getGameState,
+  updatePandaDetails as updatePandaDetailsAction,
+} from "@/app/(main)/actions";
+import { useToast } from "@/hooks/use-toast";
 
-const GUEST_STORAGE_KEY = "bambooTameGuestData";
 const TAME_COST = 100;
 
 interface GameContextType {
   gameState: GameState | null;
-  claimTask: (task: Task) => void;
-  addPanda: (panda: Panda) => void;
-  updatePandaDetails: (pandaId: string, details: PandaGeneratorOutput) => void;
+  isLoading: boolean;
+  claimTask: (task: Task) => Promise<void>;
+  addPanda: (panda: Omit<Panda, "id" | "tamedAt">) => Promise<Panda | null>;
+  updatePandaDetails: (
+    pandaId: string,
+    details: PandaGeneratorOutput,
+  ) => Promise<void>;
   isTaskOnCooldown: (taskId: string) => boolean;
   getTaskCooldownTime: (taskId: string) => number;
 }
@@ -28,107 +39,108 @@ const GameContext = createContext<GameContextType | undefined>(undefined);
 
 export function GameProvider({ children }: { children: ReactNode }) {
   const [gameState, setGameState] = useState<GameState | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const { toast } = useToast();
 
-  useEffect(() => {
-    try {
-      const guestDataString = window.localStorage.getItem(GUEST_STORAGE_KEY);
-      if (guestDataString) {
-        const guestData = JSON.parse(guestDataString);
-        guestData.pandas = guestData.pandas.map((p: Panda) => ({
-          ...p,
-          tamedAt: new Date(p.tamedAt),
-        }));
-        setGameState(guestData);
-      } else {
-        setGameState({
-          bambooBalance: 500,
-          pandas: [],
-          userTasks: {},
-        });
-      }
-    } catch (error) {
-      console.error(
-        "Failed to load game data, initializing fresh state.",
-        error,
-      );
-      setGameState({
-        bambooBalance: 500,
-        pandas: [],
-        userTasks: {},
-      });
+  const fetchState = useCallback(async () => {
+    setIsLoading(true);
+    const state = await getGameState();
+    if (state) {
+      setGameState(state);
     }
+    setIsLoading(false);
   }, []);
 
   useEffect(() => {
-    if (gameState) {
-      try {
-        window.localStorage.setItem(
-          GUEST_STORAGE_KEY,
-          JSON.stringify(gameState),
-        );
-      } catch (error) {
-        console.error("Failed to save game data.", error);
+    const supabase = createClient();
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === "SIGNED_IN") {
+        fetchState();
       }
-    }
-  }, [gameState]);
+      if (event === "SIGNED_OUT") {
+        setGameState(null);
+      }
+    });
+
+    fetchState();
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [fetchState]);
 
   const claimTask = useCallback(
-    (task: Task) => {
+    async (task: Task) => {
       if (!gameState) return;
 
-      const now = new Date();
-      setGameState((prevState) => {
-        if (!prevState) return null;
-        return {
-          ...prevState,
-          bambooBalance: prevState.bambooBalance + task.reward,
-          userTasks: {
-            ...prevState.userTasks,
-            [task.id]: { lastClaimedAt: now.toISOString() },
-          },
-        };
-      });
+      const result = await claimTaskAction(task);
+      if (result.error) {
+        toast({ variant: "destructive", title: result.error });
+      } else {
+        toast({
+          title: "Task Claimed!",
+          description: `You earned ${task.reward} bamboo!`,
+        });
+        await fetchState();
+      }
     },
-    [gameState],
+    [gameState, fetchState, toast],
   );
 
-  const addPanda = useCallback((panda: Panda) => {
-    setGameState((prevState) => {
-      if (!prevState || prevState.bambooBalance < TAME_COST) return prevState;
-      return {
-        ...prevState,
-        bambooBalance: prevState.bambooBalance - TAME_COST,
-        pandas: [...prevState.pandas, panda],
-      };
-    });
-  }, []);
+  const addPanda = useCallback(
+    async (panda: Omit<Panda, "id" | "tamedAt">) => {
+      if (!gameState || gameState.bambooBalance < TAME_COST) {
+        toast({
+          variant: "destructive",
+          title: "Not enough bamboo!",
+          description: `You need ${TAME_COST} bamboo to tame a panda.`,
+        });
+        return null;
+      }
+
+      const result = await addPandaAction(panda);
+      if (result.error) {
+        toast({
+          variant: "destructive",
+          title: "Taming Failed",
+          description: result.error,
+        });
+        return null;
+      }
+
+      await fetchState();
+      return result.newPanda ?? null;
+    },
+    [gameState, fetchState, toast],
+  );
 
   const updatePandaDetails = useCallback(
-    (pandaId: string, details: PandaGeneratorOutput) => {
-      setGameState((prevState) => {
-        if (!prevState) return null;
-        return {
-          ...prevState,
-          pandas: prevState.pandas.map((p) =>
-            p.id === pandaId
-              ? { ...p, name: details.name, backstory: details.backstory }
-              : p,
-          ),
-        };
-      });
+    async (pandaId: string, details: PandaGeneratorOutput) => {
+      const result = await updatePandaDetailsAction(pandaId, details);
+      if (result.error) {
+        toast({
+          variant: "destructive",
+          title: "Update Failed",
+          description: result.error,
+        });
+      } else {
+        await fetchState();
+      }
     },
-    [],
+    [fetchState, toast],
   );
 
   const getTaskCooldownTime = useCallback(
     (taskId: string): number => {
       if (!gameState) return 0;
-      const taskState = gameState.userTasks[taskId];
+      const taskState = gameState.userTasks.find((ut) => ut.task_id === taskId);
       const taskInfo = allTasks.find((t) => t.id === taskId);
       if (!taskState || !taskInfo) return 0;
 
       const now = new Date().getTime();
-      const lastClaimed = new Date(taskState.lastClaimedAt).getTime();
+      const lastClaimed = new Date(taskState.last_claimed_at).getTime();
       const cooldownMillis = taskInfo.cooldownHours * 60 * 60 * 1000;
 
       const timePassed = now - lastClaimed;
@@ -150,6 +162,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
 
   const value = {
     gameState,
+    isLoading,
     claimTask,
     addPanda,
     updatePandaDetails,

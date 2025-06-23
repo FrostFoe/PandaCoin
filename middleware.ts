@@ -1,10 +1,12 @@
-import { withAuth } from '@kinde-oss/kinde-auth-nextjs/middleware';
-import { type NextRequest } from 'next/server';
+import { type NextRequest } from 'next/server'
+import { updateSession } from '@/lib/supabase/middleware'
 
-export default function middleware(req: NextRequest) {
-    return withAuth(req);
+export async function middleware(request: NextRequest) {
+  return await updateSession(request)
 }
 
 export const config = {
-    matcher: ['/dashboard/:path*', '/tame/:path*', '/pandas/:path*', '/leaderboard/:path*', '/settings/:path*'],
-};
+  matcher: [
+    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+  ],
+}

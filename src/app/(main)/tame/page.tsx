@@ -37,7 +37,7 @@ const RarityRevealModal = dynamic(
   },
 );
 
-function getRandomPanda(): Panda {
+function getRandomPandaTemplate() {
   const rand = Math.random() * 100;
   let rarity: Rarity;
   if (rand < 70) rarity = "Common";
@@ -51,8 +51,6 @@ function getRandomPanda(): Panda {
 
   return {
     ...randomPandaTemplate,
-    id: new Date().toISOString() + Math.random(),
-    tamedAt: new Date(),
     name: "A new friend...",
     backstory: undefined,
   };
@@ -62,10 +60,10 @@ export default function TamePage() {
   const [isTaming, setIsTaming] = useState(false);
   const [tamedPanda, setTamedPanda] = useState<Panda | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { gameState, addPanda } = useGame();
+  const { gameState, addPanda, isLoading } = useGame();
   const { toast } = useToast();
 
-  const handleTame = () => {
+  const handleTame = async () => {
     if (!gameState || gameState.bambooBalance < TAME_COST) {
       toast({
         variant: "destructive",
@@ -77,12 +75,14 @@ export default function TamePage() {
 
     setIsTaming(true);
 
-    const newPanda = getRandomPanda();
-    addPanda(newPanda);
+    const pandaTemplate = getRandomPandaTemplate();
+    const newPanda = await addPanda(pandaTemplate);
 
     setTimeout(() => {
-      setTamedPanda(newPanda);
-      setIsModalOpen(true);
+      if (newPanda) {
+        setTamedPanda(newPanda);
+        setIsModalOpen(true);
+      }
       setIsTaming(false);
     }, 2000);
   };
@@ -143,7 +143,7 @@ export default function TamePage() {
         <Button
           size="lg"
           onClick={handleTame}
-          disabled={isTaming || !gameState}
+          disabled={isTaming || isLoading || !gameState}
           className="w-full h-12 text-lg"
         >
           {isTaming ? (

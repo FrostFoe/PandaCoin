@@ -5,23 +5,15 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import type { Task } from "@/lib/types";
 import { Leaf, CheckCircle2, Hourglass } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
 import { useGame } from "@/context/GameContext";
-import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 
 interface TaskCardProps {
   task: Task;
 }
 
 export function TaskCard({ task }: TaskCardProps) {
-  const [isClient, setIsClient] = useState(false);
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
-  const { toast } = useToast();
-  const { claimTask, isTaskOnCooldown, getTaskCooldownTime } = useGame();
-  const { isLoading } = useKindeBrowserClient();
+  const { claimTask, isTaskOnCooldown, getTaskCooldownTime, isLoading } =
+    useGame();
 
   const onCooldown = isTaskOnCooldown(task.id);
   const cooldownTime = getTaskCooldownTime(task.id);
@@ -42,13 +34,8 @@ export function TaskCard({ task }: TaskCardProps) {
   }, [onCooldown, displayCooldown]);
 
   const handleClaim = () => {
-    if (!isClient || isLoading || onCooldown) return;
-
+    if (isLoading || onCooldown) return;
     claimTask(task);
-    toast({
-      title: "Task Claimed!",
-      description: `You earned ${task.reward} bamboo!`,
-    });
   };
 
   const formatTime = (seconds: number) => {
@@ -80,7 +67,7 @@ export function TaskCard({ task }: TaskCardProps) {
         <Button
           className="w-full"
           onClick={handleClaim}
-          disabled={!isClient || onCooldown || isLoading}
+          disabled={onCooldown || isLoading}
         >
           {onCooldown ? (
             <div className="flex items-center gap-2">

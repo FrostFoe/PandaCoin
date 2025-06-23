@@ -13,31 +13,37 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { LogOut, Settings, User as UserIcon } from "lucide-react";
 import Link from "next/link";
-import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
-import {
-  LogoutLink,
-  LoginLink,
-} from "@kinde-oss/kinde-auth-nextjs/components";
 import { Skeleton } from "../ui/skeleton";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import { createClient } from "@/lib/supabase/client";
+import type { User } from "@supabase/supabase-js";
+import { signOut } from "@/app/(auth)/actions";
 
 export function UserNav() {
-  const [isClient, setIsClient] = useState(false);
-  const { user, isLoading, isAuthenticated } = useKindeBrowserClient();
+  const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    setIsClient(true);
+    const fetchUser = async () => {
+      const supabase = createClient();
+      const { data, error } = await supabase.auth.getUser();
+      if (!error) {
+        setUser(data.user);
+      }
+      setIsLoading(false);
+    };
+    fetchUser();
   }, []);
 
-  if (!isClient || isLoading) {
+  if (isLoading) {
     return <Skeleton className="h-10 w-10 rounded-full" />;
   }
 
-  if (!isAuthenticated) {
+  if (!user) {
     return (
-      <LoginLink>
-        <Button variant="outline">Login</Button>
-      </LoginLink>
+      <Button asChild variant="outline">
+        <Link href="/login">Login</Link>
+      </Button>
     );
   }
 
@@ -49,10 +55,7 @@ export function UserNav() {
     return name.substring(0, 2).toUpperCase();
   };
 
-  const userName =
-    user?.given_name || user?.family_name
-      ? `${user.given_name} ${user.family_name}`
-      : "Panda Tamer";
+  const userName = user?.user_metadata?.full_name || "Panda Tamer";
 
   return (
     <DropdownMenu>
@@ -60,7 +63,7 @@ export function UserNav() {
         <Button variant="ghost" className="relative h-10 w-10 rounded-full">
           <Avatar className="h-10 w-10">
             <AvatarImage
-              src={user?.picture ?? "https://placehold.co/100x100.png"}
+              src={user?.user_metadata?.avatar_url ?? ""}
               alt={userName}
               data-ai-hint="user avatar"
             />
@@ -93,12 +96,14 @@ export function UserNav() {
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <LogoutLink>
-          <DropdownMenuItem>
-            <LogOut className="mr-2 h-4 w-4" />
-            <span>Log out</span>
-          </DropdownMenuItem>
-        </LogoutLink>
+        <form action={signOut}>
+          <button type="submit" className="w-full">
+            <DropdownMenuItem>
+              <LogOut className="mr-2 h-4 w-4" />
+              <span>Log out</span>
+            </DropdownMenuItem>
+          </button>
+        </form>
       </DropdownMenuContent>
     </DropdownMenu>
   );

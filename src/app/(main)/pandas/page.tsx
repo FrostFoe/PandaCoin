@@ -7,18 +7,11 @@ import type { Panda, Rarity } from "@/lib/types";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useGame } from "@/context/GameContext";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 
 export const dynamic = "force-dynamic";
 
 export default function PandasPage() {
-  const [isClient, setIsClient] = useState(false);
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
-  const { gameState } = useGame();
-  const { isLoading } = useKindeBrowserClient();
+  const { gameState, isLoading } = useGame();
   const [selectedPanda, setSelectedPanda] = useState<Panda | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -34,7 +27,7 @@ export default function PandasPage() {
     setSelectedPanda(null);
   };
 
-  if (!isClient || isLoading || !gameState) {
+  if (isLoading || !gameState) {
     return <CollectionSkeleton />;
   }
 

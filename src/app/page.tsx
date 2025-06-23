@@ -2,13 +2,10 @@
 
 import * as React from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { PandaIcon } from "@/components/icons/panda-icon";
 import { Gem, Award, Leaf, Trophy } from "lucide-react";
-import {
-  RegisterLink,
-  LoginLink,
-} from "@kinde-oss/kinde-auth-nextjs/components";
 
 export default function LandingPage() {
   return (
@@ -20,12 +17,12 @@ export default function LandingPage() {
             <span className="text-xl font-bold font-fredoka">Bamboo Tame</span>
           </div>
           <div className="flex items-center gap-2">
-            <LoginLink>
-              <Button variant="ghost">Login</Button>
-            </LoginLink>
-            <RegisterLink>
-              <Button>Sign up</Button>
-            </RegisterLink>
+            <Button asChild variant="ghost">
+              <Link href="/login">Login</Link>
+            </Button>
+            <Button asChild>
+              <Link href="/login">Sign up</Link>
+            </Button>
           </div>
         </div>
       </header>
@@ -48,11 +45,9 @@ export default function LandingPage() {
               complete tasks, and climb the leaderboards!
             </p>
             <div className="mt-8">
-              <RegisterLink>
-                <Button size="lg" className="h-14 px-8 text-lg">
-                  Start Your Adventure
-                </Button>
-              </RegisterLink>
+              <Button asChild size="lg" className="h-14 px-8 text-lg">
+                <Link href="/login">Start Your Adventure</Link>
+              </Button>
             </div>
           </div>
         </section>

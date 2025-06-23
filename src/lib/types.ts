@@ -18,7 +18,8 @@ export type Task = {
 };
 
 export type UserTask = {
-  lastClaimedAt: string;
+  task_id: string;
+  last_claimed_at: string;
 };
 
 export type LeaderboardUser = {
@@ -33,5 +34,5 @@ export type LeaderboardUser = {
 export type GameState = {
   bambooBalance: number;
   pandas: Panda[];
-  userTasks: Record<string, UserTask>;
+  userTasks: UserTask[];
 };

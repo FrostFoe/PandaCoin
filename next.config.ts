@@ -15,10 +15,6 @@ const config: NextConfig = {
         port: "",
         pathname: "/**",
       },
-      {
-        protocol: "https",
-        hostname: "*.kinde.com",
-      },
     ],
   },
 };

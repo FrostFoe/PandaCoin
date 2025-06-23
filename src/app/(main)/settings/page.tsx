@@ -24,7 +24,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
+import { signOut } from "@/app/(auth)/actions";
 
 export const dynamic = "force-dynamic";
 
@@ -98,11 +98,11 @@ export default function SettingsPage() {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <LogoutLink>
-              <Button className="w-full" size="lg">
+            <form action={signOut} className="w-full">
+              <Button type="submit" className="w-full" size="lg">
                 Logout
               </Button>
-            </LogoutLink>
+            </form>
             <AlertDialog>
               <AlertDialogTrigger asChild>
                 <Button variant="destructive" className="w-full" size="lg">

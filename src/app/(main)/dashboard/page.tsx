@@ -11,23 +11,16 @@ import { HorizontalScrollSection } from "@/components/dashboard/horizontal-scrol
 import { PandaCard } from "@/components/game/panda-card";
 import { RarityRevealModal } from "@/components/game/rarity-reveal-modal";
 import type { Panda } from "@/lib/types";
-import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 
 export const dynamic = "force-dynamic";
 
 export default function DashboardPage() {
-  const [isClient, setIsClient] = useState(false);
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
-  const { gameState } = useGame();
-  const { isLoading } = useKindeBrowserClient();
+  const { gameState, isLoading } = useGame();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedPanda, setSelectedPanda] = useState<Panda | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  if (!isClient || isLoading || !gameState) {
+  if (isLoading || !gameState) {
     return <DashboardSkeleton />;
   }
 
