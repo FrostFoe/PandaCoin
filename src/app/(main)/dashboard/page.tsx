@@ -12,8 +12,6 @@ import { PandaCard } from "@/components/game/panda-card";
 import { RarityRevealModal } from "@/components/game/rarity-reveal-modal";
 import type { Panda } from "@/lib/types";
 
-export const dynamic = "force-dynamic";
-
 export default function DashboardPage() {
   const { gameState, isLoading } = useGame();
   const [searchQuery, setSearchQuery] = useState("");

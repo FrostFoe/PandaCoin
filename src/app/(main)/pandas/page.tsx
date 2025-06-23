@@ -1,14 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { PandaCard } from "@/components/game/panda-card";
 import { RarityRevealModal } from "@/components/game/rarity-reveal-modal";
 import type { Panda, Rarity } from "@/lib/types";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useGame } from "@/context/GameContext";
 import { Skeleton } from "@/components/ui/skeleton";
-
-export const dynamic = "force-dynamic";
 
 export default function PandasPage() {
   const { gameState, isLoading } = useGame();

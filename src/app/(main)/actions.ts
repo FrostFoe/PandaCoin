@@ -1,9 +1,8 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
-import type { GameState, Panda, Task, UserTask } from "@/lib/types";
+import type { GameState, Panda, Task } from "@/lib/types";
 import { revalidatePath } from "next/cache";
-import { tasks as allTasks } from "@/lib/data";
 import type { PandaGeneratorOutput } from "@/ai/flows/panda-generator-flow";
 
 export async function getGameState(): Promise<GameState | null> {

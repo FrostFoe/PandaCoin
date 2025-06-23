@@ -26,8 +26,6 @@ import {
 } from "@/components/ui/alert-dialog";
 import { signOut } from "@/app/(auth)/actions";
 
-export const dynamic = "force-dynamic";
-
 export default function SettingsPage() {
   const [musicEnabled, setMusicEnabled] = useState(true);
   const [sfxEnabled, setSfxEnabled] = useState(true);
