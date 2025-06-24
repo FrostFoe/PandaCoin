@@ -10,7 +10,7 @@ export type Panda = {
 };
 
 export type Task = {
-  id: string; // uuid
+  id: string;
   name: string;
   description: string | null;
   reward: number;

@@ -29,7 +29,6 @@ export async function getTasks(): Promise<Task[]> {
     .order("created_at");
 
   if (error) {
-    console.error("Error fetching tasks:", error.message);
     return [];
   }
   return data;
@@ -62,28 +61,25 @@ export async function saveTask(formData: FormData) {
   const { id, ...taskData } = validatedFields.data;
   const supabase = createClient();
 
-  if (id) {
-    // Update existing task
-    const { error } = await supabase
-      .from("tasks")
-      .update(taskData)
-      .eq("id", id);
-    if (error) {
-      console.error("Error updating task:", error);
-      return { error: "Failed to update task." };
+  try {
+    if (id) {
+      const { error } = await supabase
+        .from("tasks")
+        .update(taskData)
+        .eq("id", id);
+      if (error) throw error;
+    } else {
+      const { error } = await supabase.from("tasks").insert(taskData);
+      if (error) throw error;
     }
-  } else {
-    // Create new task
-    const { error } = await supabase.from("tasks").insert(taskData);
-    if (error) {
-      console.error("Error creating task:", error);
-      return { error: "Failed to create task." };
-    }
-  }
 
-  revalidatePath("/admin");
-  revalidatePath("/dashboard");
-  return { success: true };
+    revalidatePath("/admin");
+    revalidatePath("/dashboard");
+    return { success: true };
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : "An unknown error occurred.";
+    return { error: errorMessage };
+  }
 }
 
 export async function deleteTask(taskId: string) {
@@ -97,14 +93,15 @@ export async function deleteTask(taskId: string) {
   }
 
   const supabase = createClient();
-  const { error } = await supabase.from("tasks").delete().eq("id", taskId);
-
-  if (error) {
-    console.error("Error deleting task:", error);
-    return { error: "Failed to delete task." };
+  try {
+    const { error } = await supabase.from("tasks").delete().eq("id", taskId);
+    if (error) throw error;
+    
+    revalidatePath("/admin");
+    revalidatePath("/dashboard");
+    return { success: true };
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : "An unknown error occurred.";
+    return { error: errorMessage };
   }
-
-  revalidatePath("/admin");
-  revalidatePath("/dashboard");
-  return { success: true };
 }

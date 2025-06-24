@@ -1,7 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
-import type { GameState, Panda, LeaderboardUser } from "@/lib/types";
+import type { GameState, Panda } from "@/lib/types";
 import { revalidatePath } from "next/cache";
 import type { PandaGeneratorOutput } from "@/ai/flows/panda-generator-flow";
 
@@ -15,98 +15,92 @@ export async function getGameState(): Promise<GameState | null> {
     return null;
   }
 
-  const [profileRes, pandasRes, userTasksRes, tasksRes] = await Promise.all([
-    supabase
-      .from("profiles")
-      .select("bamboo_balance")
-      .eq("id", user.id)
-      .single(),
-    supabase
-      .from("pandas")
-      .select("*")
-      .eq("user_id", user.id)
-      .order("tamed_at", { ascending: false }),
-    supabase.from("user_tasks").select("*").eq("user_id", user.id),
-    supabase.from("tasks").select("*").order("created_at", { ascending: true }),
-  ]);
+  try {
+    const [profileRes, pandasRes, userTasksRes, tasksRes] = await Promise.all([
+      supabase
+        .from("profiles")
+        .select("bamboo_balance")
+        .eq("id", user.id)
+        .single(),
+      supabase
+        .from("pandas")
+        .select("*")
+        .eq("user_id", user.id)
+        .order("tamed_at", { ascending: false }),
+      supabase.from("user_tasks").select("*").eq("user_id", user.id),
+      supabase
+        .from("tasks")
+        .select("*")
+        .order("created_at", { ascending: true }),
+    ]);
 
-  const { data: profile, error: profileError } = profileRes;
-  if (profileError) {
-    console.error("Error fetching profile:", profileError);
+    if (profileRes.error) throw profileRes.error;
+    if (pandasRes.error) throw pandasRes.error;
+    if (userTasksRes.error) throw userTasksRes.error;
+    if (tasksRes.error) throw tasksRes.error;
+
+    return {
+      bambooBalance: profileRes.data.bamboo_balance,
+      pandas: pandasRes.data.map((p: any) => ({
+        ...p,
+        tamedAt: new Date(p.tamed_at),
+      })),
+      userTasks: userTasksRes.data.map((ut: any) => ({
+        task_id: ut.task_id,
+        last_claimed_at: ut.last_claimed_at,
+      })),
+      tasks: tasksRes.data,
+    };
+  } catch (error) {
+    console.error("Error fetching game state:", error);
     return null;
   }
-
-  const { data: pandas, error: pandasError } = pandasRes;
-  if (pandasError) {
-    console.error("Error fetching pandas:", pandasError);
-    return null;
-  }
-
-  const { data: userTasks, error: tasksError } = userTasksRes;
-  if (tasksError) {
-    console.error("Error fetching user tasks:", tasksError);
-    return null;
-  }
-
-  const { data: tasks, error: allTasksError } = tasksRes;
-  if (allTasksError) {
-    console.error("Error fetching tasks:", allTasksError);
-    return null;
-  }
-
-  return {
-    bambooBalance: profile.bamboo_balance,
-    pandas: pandas.map((p) => ({ ...p, tamedAt: new Date(p.tamed_at) })),
-    userTasks: userTasks.map((ut) => ({
-      task_id: ut.task_id,
-      last_claimed_at: ut.last_claimed_at,
-    })),
-    tasks: tasks.map((t) => ({ ...t, cooldown: t.cooldown || 24 })),
-  };
 }
 
-export async function getLeaderboardData(): Promise<LeaderboardUser[]> {
+export async function getLeaderboardData() {
   const supabase = createClient();
 
-  const { data: profiles, error: profilesError } = await supabase
-    .from("profiles")
-    .select("id, username, avatar_url, bamboo_balance")
-    .order("bamboo_balance", { ascending: false })
-    .limit(10);
+  try {
+    const { data: profiles, error: profilesError } = await supabase
+      .from("profiles")
+      .select("id, username, avatar_url, bamboo_balance")
+      .order("bamboo_balance", { ascending: false })
+      .limit(10);
 
-  if (profilesError) {
-    console.error("Error fetching leaderboard profiles:", profilesError);
+    if (profilesError) throw profilesError;
+
+    const leaderboardUsers = await Promise.all(
+      profiles.map(async (profile, index) => {
+        const { count, error: countError } = await supabase
+          .from("pandas")
+          .select("id", { count: "exact", head: true })
+          .eq("user_id", profile.id)
+          .eq("rarity", "Ultra Rare");
+
+        if (countError) {
+          console.error(
+            `Error fetching ultra rare count for ${profile.username}:`,
+            countError,
+          );
+        }
+
+        return {
+          rank: index + 1,
+          username: profile.username || "Panda Tamer",
+          avatarUrl:
+            profile.avatar_url || `https://placehold.co/100x100.png`,
+          bamboo: profile.bamboo_balance,
+          ultraRares: count ?? 0,
+          title: "Panda Enthusiast",
+        };
+      }),
+    );
+
+    return leaderboardUsers;
+  } catch (error) {
+    console.error("Error fetching leaderboard data:", error);
     return [];
   }
-
-  const leaderboardUsers = await Promise.all(
-    profiles.map(async (profile, index) => {
-      const { count, error: countError } = await supabase
-        .from("pandas")
-        .select("id", { count: "exact", head: true })
-        .eq("user_id", profile.id)
-        .eq("rarity", "Ultra Rare");
-
-      if (countError) {
-        console.error(
-          `Error fetching ultra rare count for ${profile.username}:`,
-          countError,
-        );
-      }
-
-      return {
-        rank: index + 1,
-        username: profile.username || "Panda Tamer",
-        avatarUrl:
-          profile.avatar_url || `https://placehold.co/100x100.png`,
-        bamboo: profile.bamboo_balance,
-        ultraRares: count ?? 0,
-        title: "Panda Enthusiast",
-      };
-    }),
-  );
-
-  return leaderboardUsers;
 }
 
 export async function claimTask(taskId: string, reward: number) {
@@ -119,40 +113,39 @@ export async function claimTask(taskId: string, reward: number) {
     return { error: "You must be logged in to claim tasks." };
   }
 
-  const { data: profile, error: profileError } = await supabase
-    .from("profiles")
-    .select("bamboo_balance")
-    .eq("id", user.id)
-    .single();
+  try {
+    const { data: profile, error: profileError } = await supabase
+      .from("profiles")
+      .select("bamboo_balance")
+      .eq("id", user.id)
+      .single();
 
-  if (profileError || !profile) {
-    return { error: "Could not find your profile." };
+    if (profileError || !profile) throw new Error("Could not find your profile.");
+
+    const { error: updateBalanceError } = await supabase
+      .from("profiles")
+      .update({ bamboo_balance: profile.bamboo_balance + reward })
+      .eq("id", user.id);
+
+    if (updateBalanceError) throw new Error("Failed to update bamboo balance.");
+
+    const { error: upsertTaskError } = await supabase.from("user_tasks").upsert(
+      {
+        user_id: user.id,
+        task_id: taskId,
+        last_claimed_at: new Date().toISOString(),
+      },
+      { onConflict: "user_id,task_id" },
+    );
+
+    if (upsertTaskError) throw new Error("Failed to update task cooldown.");
+
+    revalidatePath("/dashboard");
+    return { success: true };
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : "An unknown error occurred.";
+    return { error: errorMessage };
   }
-
-  const { error: updateBalanceError } = await supabase
-    .from("profiles")
-    .update({ bamboo_balance: profile.bamboo_balance + reward })
-    .eq("id", user.id);
-
-  if (updateBalanceError) {
-    return { error: "Failed to update bamboo balance." };
-  }
-
-  const { error: upsertTaskError } = await supabase.from("user_tasks").upsert(
-    {
-      user_id: user.id,
-      task_id: taskId,
-      last_claimed_at: new Date().toISOString(),
-    },
-    { onConflict: "user_id,task_id" },
-  );
-
-  if (upsertTaskError) {
-    return { error: "Failed to update task cooldown." };
-  }
-
-  revalidatePath("/dashboard");
-  return { success: true };
 }
 
 export async function addPanda(panda: Omit<Panda, "id" | "tamedAt">) {
@@ -166,51 +159,56 @@ export async function addPanda(panda: Omit<Panda, "id" | "tamedAt">) {
     return { error: "You must be logged in to tame pandas." };
   }
 
-  const { data: profile, error: profileError } = await supabase
-    .from("profiles")
-    .select("bamboo_balance")
-    .eq("id", user.id)
-    .single();
+  try {
+    const { data: profile, error: profileError } = await supabase
+      .from("profiles")
+      .select("bamboo_balance")
+      .eq("id", user.id)
+      .single();
 
-  if (profileError || !profile) {
-    return { error: "Could not find your profile." };
+    if (profileError || !profile) {
+      throw new Error("Could not find your profile.");
+    }
+
+    if (profile.bamboo_balance < TAME_COST) {
+      return { error: "Not enough bamboo." };
+    }
+
+    const { error: updateBalanceError } = await supabase
+      .from("profiles")
+      .update({ bamboo_balance: profile.bamboo_balance - TAME_COST })
+      .eq("id", user.id);
+
+    if (updateBalanceError) {
+      throw new Error("Failed to update bamboo balance.");
+    }
+
+    const { data: newPanda, error: insertPandaError } = await supabase
+      .from("pandas")
+      .insert({
+        user_id: user.id,
+        name: panda.name,
+        rarity: panda.rarity,
+        image_url: panda.imageUrl,
+        backstory: panda.backstory,
+        tamed_at: new Date().toISOString(),
+      })
+      .select()
+      .single();
+
+    if (insertPandaError) {
+      throw new Error("Failed to add new panda to your collection.");
+    }
+
+    revalidatePath("/dashboard");
+    revalidatePath("/pandas");
+    revalidatePath("/tame");
+
+    return { newPanda: { ...newPanda, tamedAt: new Date(newPanda.tamed_at) } };
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : "An unknown error occurred.";
+    return { error: errorMessage };
   }
-
-  if (profile.bamboo_balance < TAME_COST) {
-    return { error: "Not enough bamboo." };
-  }
-
-  const { error: updateBalanceError } = await supabase
-    .from("profiles")
-    .update({ bamboo_balance: profile.bamboo_balance - TAME_COST })
-    .eq("id", user.id);
-
-  if (updateBalanceError) {
-    return { error: "Failed to update bamboo balance." };
-  }
-
-  const { data: newPanda, error: insertPandaError } = await supabase
-    .from("pandas")
-    .insert({
-      user_id: user.id,
-      name: panda.name,
-      rarity: panda.rarity,
-      image_url: panda.imageUrl,
-      backstory: panda.backstory,
-      tamed_at: new Date().toISOString(),
-    })
-    .select()
-    .single();
-
-  if (insertPandaError) {
-    return { error: "Failed to add new panda to your collection." };
-  }
-
-  revalidatePath("/dashboard");
-  revalidatePath("/pandas");
-  revalidatePath("/tame");
-
-  return { newPanda: { ...newPanda, tamedAt: new Date(newPanda.tamed_at) } };
 }
 
 export async function updatePandaDetails(
@@ -225,19 +223,23 @@ export async function updatePandaDetails(
   if (!user) {
     return { error: "You must be logged in to update pandas." };
   }
+  try {
+    const { error } = await supabase
+      .from("pandas")
+      .update({ name: details.name, backstory: details.backstory })
+      .eq("id", pandaId)
+      .eq("user_id", user.id);
 
-  const { error } = await supabase
-    .from("pandas")
-    .update({ name: details.name, backstory: details.backstory })
-    .eq("id", pandaId)
-    .eq("user_id", user.id);
+    if (error) {
+      throw new Error("Failed to update panda details.");
+    }
 
-  if (error) {
-    return { error: "Failed to update panda details." };
+    revalidatePath("/dashboard");
+    revalidatePath("/pandas");
+
+    return { success: true };
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : "An unknown error occurred.";
+    return { error: errorMessage };
   }
-
-  revalidatePath("/dashboard");
-  revalidatePath("/pandas");
-
-  return { success: true };
 }

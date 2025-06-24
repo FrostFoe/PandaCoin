@@ -8,7 +8,7 @@ import React, {
   useEffect,
   useCallback,
 } from "react";
-import type { Panda, GameState, Task } from "@/lib/types";
+import type { Panda, GameState } from "@/lib/types";
 import type { PandaGeneratorOutput } from "@/ai/flows/panda-generator-flow";
 import { createClient } from "@/lib/supabase/client";
 import {
@@ -43,12 +43,19 @@ export function GameProvider({ children }: { children: ReactNode }) {
 
   const fetchState = useCallback(async () => {
     setIsLoading(true);
-    const state = await getGameState();
-    if (state) {
+    try {
+      const state = await getGameState();
       setGameState(state);
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Could not load game data.",
+      });
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
-  }, []);
+  }, [toast]);
 
   useEffect(() => {
     const supabase = createClient();
@@ -140,7 +147,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
 
       const now = new Date().getTime();
       const lastClaimed = new Date(taskState.last_claimed_at).getTime();
-      const cooldownMillis = taskInfo.cooldown * 60 * 60 * 1000;
+      const cooldownMillis = (taskInfo.cooldown || 24) * 60 * 60 * 1000;
 
       const timePassed = now - lastClaimed;
       if (timePassed >= cooldownMillis) {
