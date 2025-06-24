@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { useFormState, useFormStatus } from "react-dom";
+import { useFormStatus } from "react-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -41,7 +41,7 @@ interface TaskFormDialogProps {
 function SubmitButton({ isEditing }: { isEditing: boolean }) {
   const { pending } = useFormStatus();
   return (
-    <Button type="submit" disabled={pending}>
+    <Button type="submit" disabled={pending} form="task-form">
       {pending ? "Saving..." : isEditing ? "Save Changes" : "Create Task"}
     </Button>
   );
@@ -73,23 +73,25 @@ export function TaskFormDialog({
   });
 
   useEffect(() => {
-    if (task) {
-      reset(task);
-    } else {
-      reset({
-        id: undefined,
-        name: "",
-        description: "",
-        reward: 10,
-        cooldown: 24,
-      });
+    if (isOpen) {
+      if (task) {
+        reset(task);
+      } else {
+        reset({
+          id: undefined,
+          name: "",
+          description: "",
+          reward: 10,
+          cooldown: 24,
+        });
+      }
     }
-  }, [task, reset]);
+  }, [task, isOpen, reset]);
 
   const handleFormSubmit = async (data: TaskFormData) => {
     const formData = new FormData();
     Object.entries(data).forEach(([key, value]) => {
-      if (value !== undefined && value !== null) {
+      if (value !== undefined && value !== null && value !== "") {
         formData.append(key, String(value));
       }
     });
@@ -132,7 +134,7 @@ export function TaskFormDialog({
           onSubmit={handleSubmit(handleFormSubmit)}
           className="space-y-4"
         >
-          {task && <input type="hidden" {...register("id")} />}
+          {task?.id && <input type="hidden" {...register("id")} />}
           <div>
             <Label htmlFor="name">Task Name</Label>
             <Input id="name" {...register("name")} />
@@ -177,9 +179,7 @@ export function TaskFormDialog({
           <Button variant="ghost" onClick={() => setIsOpen(false)}>
             Cancel
           </Button>
-          <Button form="task-form" type="submit">
-            {isEditing ? "Save Changes" : "Create Task"}
-          </Button>
+          <SubmitButton isEditing={isEditing} />
         </DialogFooter>
       </DialogContent>
     </Dialog>

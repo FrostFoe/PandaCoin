@@ -1,7 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
-import type { GameState, Panda } from "@/lib/types";
+import type { GameState, Panda, LeaderboardUser } from "@/lib/types";
 import { revalidatePath } from "next/cache";
 import type { PandaGeneratorOutput } from "@/ai/flows/panda-generator-flow";
 
@@ -63,6 +63,50 @@ export async function getGameState(): Promise<GameState | null> {
     })),
     tasks: tasks.map((t) => ({ ...t, cooldown: t.cooldown || 24 })),
   };
+}
+
+export async function getLeaderboardData(): Promise<LeaderboardUser[]> {
+  const supabase = createClient();
+
+  const { data: profiles, error: profilesError } = await supabase
+    .from("profiles")
+    .select("id, username, avatar_url, bamboo_balance")
+    .order("bamboo_balance", { ascending: false })
+    .limit(10);
+
+  if (profilesError) {
+    console.error("Error fetching leaderboard profiles:", profilesError);
+    return [];
+  }
+
+  const leaderboardUsers = await Promise.all(
+    profiles.map(async (profile, index) => {
+      const { count, error: countError } = await supabase
+        .from("pandas")
+        .select("id", { count: "exact", head: true })
+        .eq("user_id", profile.id)
+        .eq("rarity", "Ultra Rare");
+
+      if (countError) {
+        console.error(
+          `Error fetching ultra rare count for ${profile.username}:`,
+          countError,
+        );
+      }
+
+      return {
+        rank: index + 1,
+        username: profile.username || "Panda Tamer",
+        avatarUrl:
+          profile.avatar_url || `https://placehold.co/100x100.png`,
+        bamboo: profile.bamboo_balance,
+        ultraRares: count ?? 0,
+        title: "Panda Enthusiast",
+      };
+    }),
+  );
+
+  return leaderboardUsers;
 }
 
 export async function claimTask(taskId: string, reward: number) {

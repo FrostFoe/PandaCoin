@@ -116,12 +116,16 @@ export default function SettingsPage() {
                   <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                   <AlertDialogDescription>
                     This action cannot be undone. This will permanently delete
-                    your account and remove your data from our servers.
+                    your account and remove your data from our servers. (Note:
+                    This feature is currently disabled.)
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                   <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction className="bg-destructive hover:bg-destructive/90">
+                  <AlertDialogAction
+                    disabled
+                    className="bg-destructive hover:bg-destructive/90"
+                  >
                     Yes, delete my account
                   </AlertDialogAction>
                 </AlertDialogFooter>
