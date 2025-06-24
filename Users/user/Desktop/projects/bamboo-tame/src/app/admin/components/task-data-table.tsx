@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from "react";
@@ -78,61 +79,65 @@ export function TaskDataTable({ initialTasks }: { initialTasks: Task[] }) {
   return (
     <>
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-2xl font-bold">Tasks</h2>
+        <h2 className="text-2xl font-bold font-fredoka">Manage Tasks</h2>
         <Button onClick={() => handleOpenForm(null)}>
           <PlusCircle className="mr-2" />
           Add Task
         </Button>
       </div>
-      <div className="rounded-md border">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Name</TableHead>
-              <TableHead>Reward</TableHead>
-              <TableHead>Cooldown (hrs)</TableHead>
-              <TableHead className="text-right w-16">Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {tasks.length > 0 ? (
-              tasks.map((task) => (
-                <TableRow key={task.id}>
-                  <TableCell className="font-medium">{task.name}</TableCell>
-                  <TableCell>{task.reward}</TableCell>
-                  <TableCell>{task.cooldown}</TableCell>
-                  <TableCell className="text-right">
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="h-8 w-8 p-0">
-                          <span className="sr-only">Open menu</span>
-                          <MoreHorizontal className="h-4 w-4" />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
-                        <DropdownMenuItem onClick={() => handleOpenForm(task)}>
-                          <Edit className="mr-2 h-4 w-4" /> Edit
-                        </DropdownMenuItem>
-                        <DropdownMenuItem
-                          onClick={() => handleOpenDeleteAlert(task)}
-                          className="text-destructive"
-                        >
-                          <Trash2 className="mr-2 h-4 w-4" /> Delete
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
+      <div className="rounded-xl border overflow-hidden">
+        <div className="overflow-x-auto">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Name</TableHead>
+                <TableHead className="hidden sm:table-cell">Description</TableHead>
+                <TableHead>Reward</TableHead>
+                <TableHead>Cooldown (hrs)</TableHead>
+                <TableHead className="text-right w-16">Actions</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {tasks.length > 0 ? (
+                tasks.map((task) => (
+                  <TableRow key={task.id}>
+                    <TableCell className="font-medium">{task.name}</TableCell>
+                    <TableCell className="text-muted-foreground hidden sm:table-cell truncate max-w-xs">{task.description}</TableCell>
+                    <TableCell>{task.reward}</TableCell>
+                    <TableCell>{task.cooldown}</TableCell>
+                    <TableCell className="text-right">
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" className="h-8 w-8 p-0">
+                            <span className="sr-only">Open menu</span>
+                            <MoreHorizontal className="h-4 w-4" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuItem onClick={() => handleOpenForm(task)}>
+                            <Edit className="mr-2 h-4 w-4" /> Edit
+                          </DropdownMenuItem>
+                          <DropdownMenuItem
+                            onClick={() => handleOpenDeleteAlert(task)}
+                            className="text-destructive"
+                          >
+                            <Trash2 className="mr-2 h-4 w-4" /> Delete
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </TableCell>
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell colSpan={5} className="h-24 text-center">
+                    No tasks found.
                   </TableCell>
                 </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell colSpan={4} className="h-24 text-center">
-                  No tasks found.
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
+              )}
+            </TableBody>
+          </Table>
+        </div>
       </div>
 
       <TaskFormDialog

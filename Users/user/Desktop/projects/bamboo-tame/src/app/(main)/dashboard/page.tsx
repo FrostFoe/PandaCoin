@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from "react";
@@ -40,12 +41,12 @@ export default function DashboardPage() {
   );
 
   return (
-    <div className="container py-6 md:py-10">
-      <div className="relative mb-8">
+    <div className="container py-6 md:py-10 space-y-10">
+      <div className="relative">
         <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
         <Input
           placeholder="Search for pandas, rarities, and more..."
-          className="pl-12 rounded-lg h-12 text-base"
+          className="pl-12 rounded-full h-12 text-base"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
@@ -59,7 +60,7 @@ export default function DashboardPage() {
         ))}
       </HorizontalScrollSection>
 
-      <div className="mt-12">
+      <div>
         <h2 className="text-2xl font-bold font-fredoka mb-4">
           All Tamed Pandas
         </h2>
@@ -74,7 +75,7 @@ export default function DashboardPage() {
             ))}
           </div>
         ) : (
-          <div className="col-span-full text-center py-16 text-muted-foreground border-2 border-dashed rounded-lg">
+          <div className="col-span-full text-center py-16 text-muted-foreground border-2 border-dashed rounded-xl">
             <h3 className="text-lg font-bold font-fredoka">No Pandas Found</h3>
             <p className="text-sm">
               Your search for "{searchQuery}" didn't return any results.
@@ -83,24 +84,26 @@ export default function DashboardPage() {
         )}
       </div>
 
-      <RarityRevealModal
-        panda={selectedPanda}
-        isOpen={isModalOpen}
-        onClose={handleCloseModal}
-      />
+      {selectedPanda && (
+        <RarityRevealModal
+          panda={selectedPanda}
+          isOpen={isModalOpen}
+          onClose={handleCloseModal}
+        />
+      )}
     </div>
   );
 }
 
 function DashboardSkeleton() {
   return (
-    <div className="container py-6 md:py-10">
-      <Skeleton className="h-12 w-full mb-8" />
-      <div className="space-y-4 mb-12">
+    <div className="container py-6 md:py-10 space-y-10">
+      <Skeleton className="h-12 w-full rounded-full" />
+      <div className="space-y-4">
         <Skeleton className="h-8 w-48" />
         <div className="flex space-x-4">
           {[...Array(3)].map((_, i) => (
-            <Skeleton key={i} className="h-40 w-80 rounded-xl shrink-0" />
+            <Skeleton key={i} className="h-48 w-80 rounded-xl shrink-0" />
           ))}
         </div>
       </div>
@@ -108,11 +111,7 @@ function DashboardSkeleton() {
         <Skeleton className="h-8 w-48" />
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {[...Array(8)].map((_, i) => (
-            <div key={i}>
-              <Skeleton className="h-40 w-full rounded-lg" />
-              <Skeleton className="h-5 w-3/4 mt-2" />
-              <Skeleton className="h-4 w-1/2 mt-1" />
-            </div>
+            <Skeleton key={i} className="h-56 w-full rounded-xl" />
           ))}
         </div>
       </div>
