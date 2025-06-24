@@ -19,9 +19,9 @@ export async function updateSession(
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-  if (!supabaseUrl || !supabaseAnonKey) {
+  if (!supabaseUrl || !supabaseAnonKey || supabaseUrl.includes("YOUR_SUPABASE_URL")) {
     throw new Error(
-      "Supabase URL and Anon Key are required in middleware. Check your .env file.",
+      "Supabase URL and Anon Key are required. Please check your .env file and ensure they are set correctly.",
     );
   }
 

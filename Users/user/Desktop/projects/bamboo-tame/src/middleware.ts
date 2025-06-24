@@ -1,47 +1,8 @@
-import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { type NextRequest, NextResponse } from "next/server";
+import { updateSession } from "@/lib/supabase/middleware";
 
 export async function middleware(request: NextRequest) {
-  let response = NextResponse.next({
-    request: {
-      headers: request.headers,
-    },
-  });
-
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-  if (!supabaseUrl || !supabaseAnonKey) {
-    throw new Error(
-      "Supabase URL and Anon Key are required in middleware. Check your .env file.",
-    );
-  }
-
-  const supabase = createServerClient(supabaseUrl, supabaseAnonKey, {
-    cookies: {
-      get(name: string) {
-        return request.cookies.get(name)?.value;
-      },
-      set(name: string, value: string, options: CookieOptions) {
-        request.cookies.set({ name, value, ...options });
-        response = NextResponse.next({
-          request: { headers: request.headers },
-        });
-        response.cookies.set({ name, value, ...options });
-      },
-      remove(name: string, options: CookieOptions) {
-        request.cookies.set({ name, value: "", ...options });
-        response = NextResponse.next({
-          request: { headers: request.headers },
-        });
-        response.cookies.set({ name, value: "", ...options });
-      },
-    },
-  });
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const { response, user } = await updateSession(request);
 
   const { pathname } = request.nextUrl;
 
@@ -66,6 +27,9 @@ export async function middleware(request: NextRequest) {
 
   if (user && pathname.startsWith("/admin")) {
     if (!process.env.ADMIN_EMAIL) {
+      console.error(
+        "ADMIN_EMAIL environment variable is not set. Admin route is unprotected.",
+      );
       const url = new URL("/dashboard", request.url);
       url.searchParams.set("error", "misconfigured_admin_access");
       return NextResponse.redirect(url);
@@ -78,7 +42,8 @@ export async function middleware(request: NextRequest) {
   }
 
   if (user && (pathname === "/login" || pathname === "/")) {
-    return NextResponse.redirect(new URL("/dashboard", request.url));
+    const url = new URL("/dashboard", request.url);
+    return NextResponse.redirect(url);
   }
 
   return response;
