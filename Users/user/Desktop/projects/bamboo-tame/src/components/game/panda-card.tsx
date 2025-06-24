@@ -1,4 +1,3 @@
-
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import type { Panda } from "@/lib/types";
@@ -12,7 +11,8 @@ interface PandaCardProps {
 }
 
 const rarityStyles = {
-  Common: "bg-gray-200 text-gray-800 border-gray-300 dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600",
+  Common:
+    "bg-gray-200 text-gray-800 border-gray-300 dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600",
   Rare: "bg-blue-200 text-blue-900 border-blue-400 dark:bg-blue-900/50 dark:text-blue-200 dark:border-blue-600",
   "Ultra Rare":
     "bg-amber-400 text-amber-950 border-amber-500/80 shadow-md shadow-amber-500/50 animate-pulse",
@@ -49,13 +49,11 @@ export function PandaCard({ panda, onClick }: PandaCardProps) {
             </Badge>
           </div>
           <p className="text-sm text-muted-foreground h-10 line-clamp-2">
-            {panda.backstory
-              ? panda.backstory
-              : "A mysterious new friend..."}
+            {panda.backstory ? panda.backstory : "A mysterious new friend..."}
           </p>
           <div className="text-right text-xs text-muted-foreground mt-2">
-              Tamed{" "}
-              {formatDistanceToNow(new Date(panda.tamedAt), { addSuffix: true })}
+            Tamed{" "}
+            {formatDistanceToNow(new Date(panda.tamedAt), { addSuffix: true })}
           </div>
         </div>
       </div>

@@ -7,17 +7,27 @@ import type { PandaGeneratorOutput } from "@/ai/flows/panda-generator-flow";
 
 export async function getGameState(): Promise<GameState | null> {
   const supabase = createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     return null;
   }
 
   const [profileRes, pandasRes, userTasksRes, tasksRes] = await Promise.all([
-     supabase.from("profiles").select("bamboo_balance").eq("id", user.id).single(),
-     supabase.from("pandas").select("*").eq("user_id", user.id).order("tamed_at", { ascending: false }),
-     supabase.from("user_tasks").select("*").eq("user_id", user.id),
-     supabase.from("tasks").select("*").order("created_at", { ascending: true }),
+    supabase
+      .from("profiles")
+      .select("bamboo_balance")
+      .eq("id", user.id)
+      .single(),
+    supabase
+      .from("pandas")
+      .select("*")
+      .eq("user_id", user.id)
+      .order("tamed_at", { ascending: false }),
+    supabase.from("user_tasks").select("*").eq("user_id", user.id),
+    supabase.from("tasks").select("*").order("created_at", { ascending: true }),
   ]);
 
   const { data: profile, error: profileError } = profileRes;
@@ -57,7 +67,9 @@ export async function getGameState(): Promise<GameState | null> {
 
 export async function claimTask(taskId: string, reward: number) {
   const supabase = createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     return { error: "You must be logged in to claim tasks." };
@@ -82,16 +94,14 @@ export async function claimTask(taskId: string, reward: number) {
     return { error: "Failed to update bamboo balance." };
   }
 
-  const { error: upsertTaskError } = await supabase
-    .from("user_tasks")
-    .upsert(
-      {
-        user_id: user.id,
-        task_id: taskId,
-        last_claimed_at: new Date().toISOString(),
-      },
-      { onConflict: "user_id,task_id" },
-    );
+  const { error: upsertTaskError } = await supabase.from("user_tasks").upsert(
+    {
+      user_id: user.id,
+      task_id: taskId,
+      last_claimed_at: new Date().toISOString(),
+    },
+    { onConflict: "user_id,task_id" },
+  );
 
   if (upsertTaskError) {
     return { error: "Failed to update task cooldown." };
@@ -104,7 +114,9 @@ export async function claimTask(taskId: string, reward: number) {
 export async function addPanda(panda: Omit<Panda, "id" | "tamedAt">) {
   const TAME_COST = 100;
   const supabase = createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     return { error: "You must be logged in to tame pandas." };
@@ -162,7 +174,9 @@ export async function updatePandaDetails(
   details: PandaGeneratorOutput,
 ) {
   const supabase = createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     return { error: "You must be logged in to update pandas." };

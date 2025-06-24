@@ -1,4 +1,3 @@
-
 "use client";
 
 import Image from "next/image";
@@ -161,7 +160,7 @@ export function RarityRevealModal({
                     }}
                   >
                     <Image
-                      src={panda.imageUrl || 'https://placehold.co/400x400.png'}
+                      src={panda.imageUrl || "https://placehold.co/400x400.png"}
                       alt={details?.name || "A cute panda"}
                       width={120}
                       height={120}
@@ -186,7 +185,11 @@ export function RarityRevealModal({
                 <motion.div
                   variants={{
                     hidden: { opacity: 0, scale: 0.5 },
-                    visible: { opacity: 1, scale: 1, transition: { delay: 0.4 } },
+                    visible: {
+                      opacity: 1,
+                      scale: 1,
+                      transition: { delay: 0.4 },
+                    },
                   }}
                 >
                   <Badge

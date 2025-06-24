@@ -13,8 +13,7 @@ interface PandaCardProps {
 const rarityStyles = {
   Common: "bg-gray-200 text-gray-800 border-gray-300",
   Rare: "bg-blue-200/80 text-blue-900 border-blue-400",
-  "Ultra Rare":
-    "bg-amber-400/80 text-amber-950 border-amber-500 animate-pulse",
+  "Ultra Rare": "bg-amber-400/80 text-amber-950 border-amber-500 animate-pulse",
 };
 
 export function PandaCard({ panda, onClick }: PandaCardProps) {
@@ -40,9 +39,7 @@ export function PandaCard({ panda, onClick }: PandaCardProps) {
             {panda.name}
           </h3>
           <p className="text-sm text-muted-foreground truncate h-10">
-            {panda.backstory
-              ? panda.backstory
-              : "A mysterious new friend..."}
+            {panda.backstory ? panda.backstory : "A mysterious new friend..."}
           </p>
           <div className="flex items-center justify-between text-sm mt-2">
             <Badge
@@ -53,7 +50,9 @@ export function PandaCard({ panda, onClick }: PandaCardProps) {
             </Badge>
             <span className="text-xs text-muted-foreground">
               Tamed{" "}
-              {formatDistanceToNow(new Date(panda.tamedAt), { addSuffix: true })}
+              {formatDistanceToNow(new Date(panda.tamedAt), {
+                addSuffix: true,
+              })}
             </span>
           </div>
         </div>

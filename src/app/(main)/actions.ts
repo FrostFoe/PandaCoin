@@ -7,7 +7,9 @@ import type { PandaGeneratorOutput } from "@/ai/flows/panda-generator-flow";
 
 export async function getGameState(): Promise<GameState | null> {
   const supabase = createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     return null;
@@ -57,7 +59,9 @@ export async function getGameState(): Promise<GameState | null> {
 
 export async function claimTask(task: Task) {
   const supabase = createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     return { error: "You must be logged in to claim tasks." };
@@ -82,16 +86,14 @@ export async function claimTask(task: Task) {
     return { error: "Failed to update bamboo balance." };
   }
 
-  const { error: upsertTaskError } = await supabase
-    .from("user_tasks")
-    .upsert(
-      {
-        user_id: user.id,
-        task_id: task.id,
-        last_claimed_at: new Date().toISOString(),
-      },
-      { onConflict: "user_id,task_id" },
-    );
+  const { error: upsertTaskError } = await supabase.from("user_tasks").upsert(
+    {
+      user_id: user.id,
+      task_id: task.id,
+      last_claimed_at: new Date().toISOString(),
+    },
+    { onConflict: "user_id,task_id" },
+  );
 
   if (upsertTaskError) {
     return { error: "Failed to update task cooldown." };
@@ -104,7 +106,9 @@ export async function claimTask(task: Task) {
 export async function addPanda(panda: Omit<Panda, "id" | "tamedAt">) {
   const TAME_COST = 100;
   const supabase = createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     return { error: "You must be logged in to tame pandas." };
@@ -162,7 +166,9 @@ export async function updatePandaDetails(
   details: PandaGeneratorOutput,
 ) {
   const supabase = createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     return { error: "You must be logged in to update pandas." };

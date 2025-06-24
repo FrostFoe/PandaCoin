@@ -117,7 +117,9 @@ export function TaskFormDialog({
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{isEditing ? "Edit Task" : "Create New Task"}</DialogTitle>
+          <DialogTitle>
+            {isEditing ? "Edit Task" : "Create New Task"}
+          </DialogTitle>
           <DialogDescription>
             {isEditing
               ? "Make changes to the task details below."
@@ -125,34 +127,56 @@ export function TaskFormDialog({
           </DialogDescription>
         </DialogHeader>
 
-        <form id="task-form" onSubmit={handleSubmit(handleFormSubmit)} className="space-y-4">
+        <form
+          id="task-form"
+          onSubmit={handleSubmit(handleFormSubmit)}
+          className="space-y-4"
+        >
           {task && <input type="hidden" {...register("id")} />}
           <div>
             <Label htmlFor="name">Task Name</Label>
             <Input id="name" {...register("name")} />
-            {errors.name && <p className="text-sm text-destructive mt-1">{errors.name.message}</p>}
+            {errors.name && (
+              <p className="text-sm text-destructive mt-1">
+                {errors.name.message}
+              </p>
+            )}
           </div>
           <div>
             <Label htmlFor="description">Description</Label>
             <Textarea id="description" {...register("description")} />
-            {errors.description && <p className="text-sm text-destructive mt-1">{errors.description.message}</p>}
+            {errors.description && (
+              <p className="text-sm text-destructive mt-1">
+                {errors.description.message}
+              </p>
+            )}
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div>
               <Label htmlFor="reward">Reward</Label>
               <Input id="reward" type="number" {...register("reward")} />
-              {errors.reward && <p className="text-sm text-destructive mt-1">{errors.reward.message}</p>}
+              {errors.reward && (
+                <p className="text-sm text-destructive mt-1">
+                  {errors.reward.message}
+                </p>
+              )}
             </div>
             <div>
               <Label htmlFor="cooldown">Cooldown (Hours)</Label>
               <Input id="cooldown" type="number" {...register("cooldown")} />
-              {errors.cooldown && <p className="text-sm text-destructive mt-1">{errors.cooldown.message}</p>}
+              {errors.cooldown && (
+                <p className="text-sm text-destructive mt-1">
+                  {errors.cooldown.message}
+                </p>
+              )}
             </div>
           </div>
         </form>
 
         <DialogFooter>
-          <Button variant="ghost" onClick={() => setIsOpen(false)}>Cancel</Button>
+          <Button variant="ghost" onClick={() => setIsOpen(false)}>
+            Cancel
+          </Button>
           <Button form="task-form" type="submit">
             {isEditing ? "Save Changes" : "Create Task"}
           </Button>

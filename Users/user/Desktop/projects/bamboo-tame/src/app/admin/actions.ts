@@ -7,7 +7,9 @@ import type { Task } from "@/lib/types";
 
 async function getAdminUser() {
   const supabase = createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user || user.email !== process.env.ADMIN_EMAIL) {
     return null;
@@ -21,7 +23,10 @@ export async function getTasks(): Promise<Task[]> {
     return [];
   }
   const supabase = createClient();
-  const { data, error } = await supabase.from("tasks").select("*").order("created_at");
+  const { data, error } = await supabase
+    .from("tasks")
+    .select("*")
+    .order("created_at");
 
   if (error) {
     console.error("Error fetching tasks:", error.message);
@@ -48,7 +53,10 @@ export async function saveTask(formData: FormData) {
   const validatedFields = taskSchema.safeParse(data);
 
   if (!validatedFields.success) {
-    return { error: "Invalid data", details: validatedFields.error.flatten().fieldErrors };
+    return {
+      error: "Invalid data",
+      details: validatedFields.error.flatten().fieldErrors,
+    };
   }
 
   const { id, ...taskData } = validatedFields.data;
@@ -56,7 +64,10 @@ export async function saveTask(formData: FormData) {
 
   if (id) {
     // Update existing task
-    const { error } = await supabase.from("tasks").update(taskData).eq("id", id);
+    const { error } = await supabase
+      .from("tasks")
+      .update(taskData)
+      .eq("id", id);
     if (error) {
       console.error("Error updating task:", error);
       return { error: "Failed to update task." };

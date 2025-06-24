@@ -34,7 +34,8 @@ export default function SettingsPage() {
     <div className="container max-w-2xl mx-auto py-6 md:py-10">
       <div className="mb-8">
         <h1 className="text-3xl md:text-4xl font-bold font-fredoka flex items-center gap-3">
-          <SettingsIcon className="w-8 h-8 md:w-9 md:h-9 text-primary" /> Settings
+          <SettingsIcon className="w-8 h-8 md:w-9 md:h-9 text-primary" />{" "}
+          Settings
         </h1>
         <p className="text-muted-foreground text-base mt-2">
           Manage your account and game preferences.

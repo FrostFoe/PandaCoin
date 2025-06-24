@@ -22,7 +22,8 @@ const cutiveMono = Cutive_Mono({
 });
 
 const APP_NAME = "Bamboo Tame";
-const APP_DESCRIPTION = "Tame pandas, complete tasks, and build your collection!";
+const APP_DESCRIPTION =
+  "Tame pandas, complete tasks, and build your collection!";
 
 export const metadata: Metadata = {
   applicationName: APP_NAME,

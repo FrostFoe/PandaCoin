@@ -1,4 +1,3 @@
-
 import React from "react";
 
 interface HorizontalScrollSectionProps {
@@ -12,7 +11,9 @@ export function HorizontalScrollSection({
 }: HorizontalScrollSectionProps) {
   return (
     <div>
-      <h3 className="text-2xl font-bold font-fredoka px-4 md:px-0 mb-4">{title}</h3>
+      <h3 className="text-2xl font-bold font-fredoka px-4 md:px-0 mb-4">
+        {title}
+      </h3>
       <div className="relative">
         <div className="flex space-x-4 overflow-x-auto pb-4 px-4 md:px-0 scrollbar-hide">
           {children}

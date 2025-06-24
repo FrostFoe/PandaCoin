@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState } from "react";
@@ -91,7 +90,9 @@ export function TaskDataTable({ initialTasks }: { initialTasks: Task[] }) {
             <TableHeader>
               <TableRow>
                 <TableHead>Name</TableHead>
-                <TableHead className="hidden sm:table-cell">Description</TableHead>
+                <TableHead className="hidden sm:table-cell">
+                  Description
+                </TableHead>
                 <TableHead>Reward</TableHead>
                 <TableHead>Cooldown (hrs)</TableHead>
                 <TableHead className="text-right w-16">Actions</TableHead>
@@ -102,7 +103,9 @@ export function TaskDataTable({ initialTasks }: { initialTasks: Task[] }) {
                 tasks.map((task) => (
                   <TableRow key={task.id}>
                     <TableCell className="font-medium">{task.name}</TableCell>
-                    <TableCell className="text-muted-foreground hidden sm:table-cell truncate max-w-xs">{task.description}</TableCell>
+                    <TableCell className="text-muted-foreground hidden sm:table-cell truncate max-w-xs">
+                      {task.description}
+                    </TableCell>
                     <TableCell>{task.reward}</TableCell>
                     <TableCell>{task.cooldown}</TableCell>
                     <TableCell className="text-right">
@@ -114,7 +117,9 @@ export function TaskDataTable({ initialTasks }: { initialTasks: Task[] }) {
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                          <DropdownMenuItem onClick={() => handleOpenForm(task)}>
+                          <DropdownMenuItem
+                            onClick={() => handleOpenForm(task)}
+                          >
                             <Edit className="mr-2 h-4 w-4" /> Edit
                           </DropdownMenuItem>
                           <DropdownMenuItem
@@ -147,16 +152,13 @@ export function TaskDataTable({ initialTasks }: { initialTasks: Task[] }) {
         onFormSubmit={onFormSubmit}
       />
 
-      <AlertDialog
-        open={isDeleteAlertOpen}
-        onOpenChange={setIsDeleteAlertOpen}
-      >
+      <AlertDialog open={isDeleteAlertOpen} onOpenChange={setIsDeleteAlertOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete the task
-              "{selectedTask?.name}".
+              This action cannot be undone. This will permanently delete the
+              task "{selectedTask?.name}".
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

@@ -1,18 +1,20 @@
-import { createServerClient, type CookieOptions } from '@supabase/ssr'
-import { type NextRequest, NextResponse } from 'next/server'
-import type { User } from '@supabase/supabase-js'
+import { createServerClient, type CookieOptions } from "@supabase/ssr";
+import { type NextRequest, NextResponse } from "next/server";
+import type { User } from "@supabase/supabase-js";
 
 type MiddlewareResponse = {
-  response: NextResponse,
-  user: User | null
-}
+  response: NextResponse;
+  user: User | null;
+};
 
-export async function updateSession(request: NextRequest): Promise<MiddlewareResponse> {
+export async function updateSession(
+  request: NextRequest,
+): Promise<MiddlewareResponse> {
   let response = NextResponse.next({
     request: {
       headers: request.headers,
     },
-  })
+  });
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -20,47 +22,49 @@ export async function updateSession(request: NextRequest): Promise<MiddlewareRes
     {
       cookies: {
         get(name: string) {
-          return request.cookies.get(name)?.value
+          return request.cookies.get(name)?.value;
         },
         set(name: string, value: string, options: CookieOptions) {
           request.cookies.set({
             name,
             value,
             ...options,
-          })
+          });
           response = NextResponse.next({
             request: {
               headers: request.headers,
             },
-          })
+          });
           response.cookies.set({
             name,
             value,
             ...options,
-          })
+          });
         },
         remove(name: string, options: CookieOptions) {
           request.cookies.set({
             name,
-            value: '',
+            value: "",
             ...options,
-          })
+          });
           response = NextResponse.next({
             request: {
               headers: request.headers,
             },
-          })
+          });
           response.cookies.set({
             name,
-            value: '',
+            value: "",
             ...options,
-          })
+          });
         },
       },
-    }
-  )
+    },
+  );
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   return { response, user };
 }

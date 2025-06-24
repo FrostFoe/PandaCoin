@@ -1,4 +1,3 @@
-
 "use client";
 
 import Link from "next/link";
@@ -8,7 +7,7 @@ import { BambooCounter } from "../game/bamboo-counter";
 import { useGame } from "@/context/GameContext";
 
 export function Header() {
-    const { gameState } = useGame();
+  const { gameState } = useGame();
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background/80 backdrop-blur-sm">
       <div className="container flex h-16 items-center justify-between">
@@ -22,8 +21,8 @@ export function Header() {
         </div>
 
         <div className="flex items-center gap-2">
-             {gameState && <BambooCounter />}
-            <ClientNav />
+          {gameState && <BambooCounter />}
+          <ClientNav />
         </div>
       </div>
     </header>
