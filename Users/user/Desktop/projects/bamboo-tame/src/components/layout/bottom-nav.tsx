@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { LayoutGrid, Trees, Trophy } from "lucide-react";
 import { PandaIcon } from "../icons/panda-icon";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 
 const navItems = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutGrid },

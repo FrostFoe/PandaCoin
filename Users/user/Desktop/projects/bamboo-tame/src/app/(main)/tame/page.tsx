@@ -77,7 +77,7 @@ export default function TamePage() {
         setIsModalOpen(true);
       }
       setIsTaming(false);
-    }, 1500); // Artificial delay to enjoy the animation
+    }, 1500);
   };
 
   const handleCloseModal = () => {
