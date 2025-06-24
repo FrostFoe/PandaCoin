@@ -1,14 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { TaskCard } from "@/components/dashboard/task-card";
-import { useGame } from "@/context/GameContext";
+import { TaskCard } from "@/components/dashboard/TaskCard";
+import { useGame } from "@/context/GameProvider";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
-import { HorizontalScrollSection } from "@/components/dashboard/horizontal-scroll-section";
-import { PandaCard } from "@/components/game/panda-card";
-import { RarityRevealModal } from "@/components/game/rarity-reveal-modal";
+import { HorizontalScrollSection } from "@/components/shared/HorizontalScrollSection";
+import { PandaCard } from "@/components/game/PandaCard";
+import { RarityRevealModal } from "@/components/game/RarityRevealModal";
 import type { Panda } from "@/lib/types";
 
 export default function DashboardPage() {

@@ -1,187 +1,163 @@
 "use client";
 
-import { useEffect } from "react";
-import { useFormStatus } from "react-dom";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-  DialogFooter,
-} from "@/components/ui/dialog";
+import { useState } from "react";
+import Image from "next/image";
+import dynamic from "next/dynamic";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { useToast } from "@/hooks/use-toast";
-import type { Task } from "@/lib/types";
-import { getTasks, saveTask } from "../actions";
+import type { Panda, Rarity } from "@/lib/types";
+import { Leaf, Sparkles } from "lucide-react";
+import { useToast } from "@/lib/hooks/use-toast";
+import { AnimatePresence, motion } from "framer-motion";
+import { useGame } from "@/context/GameProvider";
+import { Skeleton } from "@/components/ui/skeleton";
 
-const taskSchema = z.object({
-  id: z.string().uuid().optional(),
-  name: z.string().min(3, "Name must be at least 3 characters."),
-  description: z.string().optional(),
-  reward: z.coerce.number().int().min(1, "Reward must be at least 1."),
-  cooldown: z.coerce.number().int().min(1, "Cooldown must be at least 1 hour."),
-});
+const TAME_COST = 100;
 
-type TaskFormData = z.infer<typeof taskSchema>;
+const RarityRevealModal = dynamic(
+  () =>
+    import("@/components/game/RarityRevealModal").then(
+      (mod) => mod.RarityRevealModal,
+    ),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80">
+        <div className="grid w-full max-w-sm gap-4 rounded-xl border bg-background p-6 shadow-lg">
+          <Skeleton className="h-28 w-28 rounded-full mx-auto" />
+          <Skeleton className="h-8 w-40 mx-auto" />
+          <Skeleton className="h-6 w-20 mx-auto" />
+          <Skeleton className="h-4 w-full" />
+          <Skeleton className="h-4 w-3/4" />
+        </div>
+      </div>
+    ),
+  },
+);
 
-interface TaskFormDialogProps {
-  isOpen: boolean;
-  setIsOpen: (isOpen: boolean) => void;
-  task: Task | null;
-  onFormSubmit: (tasks: Task[]) => void;
+function determineRarity(): Rarity {
+  const rand = Math.random() * 100;
+  if (rand < 70) return "Common";
+  if (rand < 95) return "Rare";
+  return "Ultra Rare";
 }
 
-function SubmitButton({ isEditing }: { isEditing: boolean }) {
-  const { pending } = useFormStatus();
-  return (
-    <Button type="submit" disabled={pending} form="task-form">
-      {pending ? "Saving..." : isEditing ? "Save Changes" : "Create Task"}
-    </Button>
-  );
-}
-
-export function TaskFormDialog({
-  isOpen,
-  setIsOpen,
-  task,
-  onFormSubmit,
-}: TaskFormDialogProps) {
-  const isEditing = !!task;
+export default function TamePage() {
+  const [isTaming, setIsTaming] = useState(false);
+  const [tamedPanda, setTamedPanda] = useState<Panda | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { gameState, addPanda, isLoading } = useGame();
   const { toast } = useToast();
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<TaskFormData>({
-    resolver: zodResolver(taskSchema),
-    defaultValues: {
-      id: task?.id,
-      name: task?.name || "",
-      description: task?.description || "",
-      reward: task?.reward || 10,
-      cooldown: task?.cooldown || 24,
-    },
-  });
+  const handleTame = async () => {
+    if (!gameState || isLoading || isTaming) return;
 
-  useEffect(() => {
-    if (isOpen) {
-      if (task) {
-        reset(task);
-      } else {
-        reset({
-          id: undefined,
-          name: "",
-          description: "",
-          reward: 10,
-          cooldown: 24,
-        });
-      }
-    }
-  }, [task, isOpen, reset]);
-
-  const handleFormSubmit = async (data: TaskFormData) => {
-    const formData = new FormData();
-    Object.entries(data).forEach(([key, value]) => {
-      if (value !== undefined && value !== null && value !== "") {
-        formData.append(key, String(value));
-      }
-    });
-
-    const result = await saveTask(formData);
-
-    if (result.error) {
+    if (gameState.bambooBalance < TAME_COST) {
       toast({
         variant: "destructive",
-        title: "Save Failed",
-        description: result.error,
+        title: "Not enough bamboo!",
+        description: `You need ${TAME_COST} bamboo to tame a panda.`,
       });
-    } else {
-      toast({
-        title: `Task ${isEditing ? "Updated" : "Created"}`,
-        description: `The task "${data.name}" has been saved.`,
-      });
-      const updatedTasks = await getTasks();
-      onFormSubmit(updatedTasks);
-      setIsOpen(false);
+      return;
     }
+
+    setIsTaming(true);
+
+    const pandaTemplate = {
+      rarity: determineRarity(),
+      name: "A new friend...",
+      imageUrl: "https://placehold.co/400x400.png",
+      backstory: "",
+    };
+
+    const newPanda = await addPanda(pandaTemplate);
+
+    setTimeout(() => {
+      if (newPanda) {
+        setTamedPanda(newPanda);
+        setIsModalOpen(true);
+      }
+      setIsTaming(false);
+    }, 1500);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setTimeout(() => setTamedPanda(null), 300);
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>
-            {isEditing ? "Edit Task" : "Create New Task"}
-          </DialogTitle>
-          <DialogDescription>
-            {isEditing
-              ? "Make changes to the task details below."
-              : "Fill out the form to add a new task to the game."}
-          </DialogDescription>
-        </DialogHeader>
+    <div className="relative flex flex-col items-center justify-center flex-1 py-10 px-4 text-center overflow-hidden">
+      <div
+        className="absolute inset-0 bg-[url('https://placehold.co/1920x1080.png')] bg-cover bg-center opacity-10 dark:opacity-5 blur-sm"
+        data-ai-hint="bamboo forest"
+      />
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="relative z-10 space-y-6 p-6 md:p-8 bg-card/80 dark:bg-card/60 backdrop-blur-lg rounded-2xl shadow-2xl w-full max-w-md"
+      >
+        <h1 className="text-3xl sm:text-4xl font-extrabold font-fredoka">
+          Tame a New Panda
+        </h1>
+        <p className="text-muted-foreground">
+          Spend your bamboo to discover a new panda. Who will you meet today?
+        </p>
 
-        <form
-          id="task-form"
-          onSubmit={handleSubmit(handleFormSubmit)}
-          className="space-y-4"
+        <div className="flex justify-center items-center h-48 sm:h-56">
+          <motion.div
+            animate={{
+              rotate: isTaming ? [0, -2, 2, -2, 0] : 0,
+              scale: isTaming ? 1.05 : 1,
+            }}
+            transition={{
+              duration: 0.3,
+              repeat: isTaming ? Infinity : 0,
+              repeatType: "mirror",
+            }}
+            className="relative w-36 h-48 sm:w-40 sm:h-56"
+          >
+            <Image
+              src="https://placehold.co/400x600.png"
+              alt="A shaking bamboo tree, rustling with anticipation"
+              fill
+              className="object-contain drop-shadow-xl"
+              data-ai-hint="bamboo tree"
+              priority
+            />
+          </motion.div>
+        </div>
+
+        <Button
+          size="lg"
+          onClick={handleTame}
+          disabled={isTaming || isLoading || !gameState}
+          className="w-full h-14 text-lg rounded-full shadow-lg"
         >
-          {task?.id && <input type="hidden" {...register("id")} />}
-          <div>
-            <Label htmlFor="name">Task Name</Label>
-            <Input id="name" {...register("name")} />
-            {errors.name && (
-              <p className="text-sm text-destructive mt-1">
-                {errors.name.message}
-              </p>
-            )}
-          </div>
-          <div>
-            <Label htmlFor="description">Description</Label>
-            <Textarea id="description" {...register("description")} />
-            {errors.description && (
-              <p className="text-sm text-destructive mt-1">
-                {errors.description.message}
-              </p>
-            )}
-          </div>
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <Label htmlFor="reward">Reward</Label>
-              <Input id="reward" type="number" {...register("reward")} />
-              {errors.reward && (
-                <p className="text-sm text-destructive mt-1">
-                  {errors.reward.message}
-                </p>
-              )}
+          {isTaming ? (
+            "Searching..."
+          ) : (
+            <div className="flex items-center gap-2">
+              <Sparkles />
+              <span>Tame Now</span>
+              <div className="flex items-center gap-1 border-l-2 border-primary-foreground/50 pl-3 ml-2">
+                <Leaf />
+                <span>{TAME_COST}</span>
+              </div>
             </div>
-            <div>
-              <Label htmlFor="cooldown">Cooldown (Hours)</Label>
-              <Input id="cooldown" type="number" {...register("cooldown")} />
-              {errors.cooldown && (
-                <p className="text-sm text-destructive mt-1">
-                  {errors.cooldown.message}
-                </p>
-              )}
-            </div>
-          </div>
-        </form>
+          )}
+        </Button>
+      </motion.div>
 
-        <DialogFooter>
-          <Button variant="ghost" onClick={() => setIsOpen(false)}>
-            Cancel
-          </Button>
-          <SubmitButton isEditing={isEditing} />
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+      <AnimatePresence>
+        {isModalOpen && tamedPanda && (
+          <RarityRevealModal
+            panda={tamedPanda}
+            isOpen={isModalOpen}
+            onClose={handleCloseModal}
+          />
+        )}
+      </AnimatePresence>
+    </div>
   );
 }

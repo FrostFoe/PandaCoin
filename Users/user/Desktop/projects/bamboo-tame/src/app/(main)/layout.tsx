@@ -1,8 +1,8 @@
 "use client";
 
-import { Header } from "@/components/layout/header";
-import { PageTransition } from "@/components/layout/page-transition";
-import { BottomNav } from "@/components/layout/bottom-nav";
+import { Header } from "@/components/layout/Header";
+import { PageTransition } from "@/components/layout/PageTransition";
+import { BottomNav } from "@/components/layout/BottomNav";
 
 export default function MainLayout({
   children,

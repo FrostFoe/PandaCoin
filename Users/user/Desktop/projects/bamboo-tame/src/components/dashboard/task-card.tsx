@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/card";
 import type { Task } from "@/lib/types";
 import { Leaf, CheckCircle2, Hourglass } from "lucide-react";
-import { useGame } from "@/context/GameContext";
+import { useGame } from "@/context/GameProvider";
 
 interface TaskCardProps {
   task: Task;

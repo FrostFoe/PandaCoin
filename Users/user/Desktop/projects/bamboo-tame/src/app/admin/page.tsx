@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { getTasks } from "./actions";
-import { TaskDataTable } from "./components/task-data-table";
+import { getTasks } from "@/actions/admin";
+import { TaskDataTable } from "@/components/admin/TaskDataTable";
 
 export const dynamic = "force-dynamic";
 

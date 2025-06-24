@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { UserNav } from "./user-nav";
+import { UserNav } from "./UserNav";
 import { usePathname } from "next/navigation";
 
 const navItems = [

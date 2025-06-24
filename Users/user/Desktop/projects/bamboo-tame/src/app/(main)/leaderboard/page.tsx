@@ -9,7 +9,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Crown, Leaf, Sparkles, Trophy } from "lucide-react";
 import { Card } from "@/components/ui/card";
-import { getLeaderboardData } from "../actions";
+import { getLeaderboardData } from "@/actions/game";
 
 export const dynamic = "force-dynamic";
 

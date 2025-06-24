@@ -1,10 +1,9 @@
 "use client";
 
 import * as React from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { PandaIcon } from "@/components/icons/panda-icon";
+import { PandaIcon } from "@/components/shared/PandaIcon";
 import { Gem, Award, Leaf, Trophy } from "lucide-react";
 
 export default function LandingPage() {

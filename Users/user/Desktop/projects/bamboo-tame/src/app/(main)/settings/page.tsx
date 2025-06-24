@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { ThemeToggle } from "@/components/layout/theme-toggle";
+import { ThemeToggle } from "@/components/layout/ThemeToggle";
 import { Settings as SettingsIcon, Trash2 } from "lucide-react";
 import {
   AlertDialog,
@@ -24,7 +24,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { signOut } from "@/app/(auth)/actions";
+import { signOut } from "@/actions/auth";
 
 export default function SettingsPage() {
   const [musicEnabled, setMusicEnabled] = useState(true);

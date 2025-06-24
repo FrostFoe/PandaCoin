@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { PandaCard } from "@/components/game/panda-card";
-import { RarityRevealModal } from "@/components/game/rarity-reveal-modal";
+import { PandaCard } from "@/components/game/PandaCard";
+import { RarityRevealModal } from "@/components/game/RarityRevealModal";
 import type { Panda, Rarity } from "@/lib/types";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useGame } from "@/context/GameContext";
+import { useGame } from "@/context/GameProvider";
 import { Skeleton } from "@/components/ui/skeleton";
 import { AnimatePresence, motion } from "framer-motion";
 

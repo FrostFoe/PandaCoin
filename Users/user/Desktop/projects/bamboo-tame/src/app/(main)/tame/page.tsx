@@ -6,16 +6,16 @@ import dynamic from "next/dynamic";
 import { Button } from "@/components/ui/button";
 import type { Panda, Rarity } from "@/lib/types";
 import { Leaf, Sparkles } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "@/lib/hooks/use-toast";
 import { AnimatePresence, motion } from "framer-motion";
-import { useGame } from "@/context/GameContext";
+import { useGame } from "@/context/GameProvider";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const TAME_COST = 100;
 
 const RarityRevealModal = dynamic(
   () =>
-    import("@/components/game/rarity-reveal-modal").then(
+    import("@/components/game/RarityRevealModal").then(
       (mod) => mod.RarityRevealModal,
     ),
   {

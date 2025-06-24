@@ -1,10 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { PandaIcon } from "../icons/panda-icon";
-import { ClientNav } from "./client-nav";
-import { BambooCounter } from "../game/bamboo-counter";
-import { useGame } from "@/context/GameContext";
+import { PandaIcon } from "@/components/shared/PandaIcon";
+import { ClientNav } from "./ClientNav";
+import { BambooCounter } from "../game/BambooCounter";
+import { useGame } from "@/context/GameProvider";
 
 export function Header() {
   const { gameState } = useGame();
