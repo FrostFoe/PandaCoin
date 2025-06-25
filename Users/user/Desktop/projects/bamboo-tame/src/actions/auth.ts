@@ -9,6 +9,10 @@ export async function signInWithMagicLink(formData: FormData) {
   const supabase = createClient();
   const origin = headers().get("origin");
 
+  if (!email) {
+    return { error: "Email is required." };
+  }
+
   const { error } = await supabase.auth.signInWithOtp({
     email,
     options: {
@@ -17,16 +21,11 @@ export async function signInWithMagicLink(formData: FormData) {
   });
 
   if (error) {
-    return { error: "Could not authenticate user." };
+    console.error("Magic Link Sign In Error:", error.message);
+    return { error: "Could not authenticate user. Please try again." };
   }
 
-  return { message: "Check your email for the magic link." };
-}
-
-export async function signOut() {
-  const supabase = createClient();
-  await supabase.auth.signOut();
-  redirect("/login");
+  return { message: "Check your email for your magic link!" };
 }
 
 export async function signInWithGithub() {
@@ -41,8 +40,15 @@ export async function signInWithGithub() {
   });
 
   if (error) {
+    console.error("GitHub Sign In Error:", error.message);
     return redirect("/login?error=Could not authenticate with GitHub");
   }
 
   return redirect(data.url);
+}
+
+export async function signOut() {
+  const supabase = createClient();
+  await supabase.auth.signOut();
+  redirect("/login");
 }
