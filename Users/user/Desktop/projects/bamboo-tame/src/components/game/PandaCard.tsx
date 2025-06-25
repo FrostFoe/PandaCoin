@@ -53,7 +53,7 @@ export function PandaCard({ panda, onClick }: PandaCardProps) {
           </p>
           <div className="text-right text-xs text-muted-foreground mt-2">
             Tamed{" "}
-            {formatDistanceToNow(new Date(panda.tamedAt), { addSuffix: true })}
+            {formatDistanceToNow(panda.tamedAt, { addSuffix: true })}
           </div>
         </div>
       </div>

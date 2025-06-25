@@ -42,7 +42,11 @@ export async function getGameState(): Promise<GameState | null> {
     return {
       bambooBalance: profileRes.data.bamboo_balance,
       pandas: pandasRes.data.map((p: any) => ({
-        ...p,
+        id: p.id,
+        name: p.name,
+        rarity: p.rarity,
+        imageUrl: p.image_url,
+        backstory: p.backstory,
         tamedAt: new Date(p.tamed_at),
       })),
       userTasks: userTasksRes.data.map((ut: any) => ({
@@ -181,7 +185,7 @@ export async function addPanda(panda: Omit<Panda, "id" | "tamedAt">) {
       throw new Error("Failed to update bamboo balance.");
     }
 
-    const { data: newPanda, error: insertPandaError } = await supabase
+    const { data: newPandaData, error: insertPandaError } = await supabase
       .from("pandas")
       .insert({
         user_id: user.id,
@@ -197,12 +201,21 @@ export async function addPanda(panda: Omit<Panda, "id" | "tamedAt">) {
     if (insertPandaError) {
       throw new Error("Failed to add new panda to your collection.");
     }
+    
+    const newPanda: Panda = {
+      id: newPandaData.id,
+      name: newPandaData.name,
+      rarity: newPandaData.rarity,
+      imageUrl: newPandaData.image_url,
+      backstory: newPandaData.backstory,
+      tamedAt: new Date(newPandaData.tamed_at),
+    }
 
     revalidatePath("/dashboard");
     revalidatePath("/pandas");
     revalidatePath("/tame");
 
-    return { newPanda: { ...newPanda, tamedAt: new Date(newPanda.tamed_at) } };
+    return { newPanda };
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : "An unknown error occurred.";
     return { error: errorMessage };

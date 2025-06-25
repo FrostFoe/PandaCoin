@@ -6,7 +6,7 @@ export type Panda = {
   rarity: Rarity;
   imageUrl: string;
   backstory?: string;
-  tamedAt: Date | string;
+  tamedAt: Date;
 };
 
 export type Task = {
