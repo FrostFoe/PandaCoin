@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { ThemeToggle } from "@/components/layout/theme-toggle";
+import { ThemeToggle } from "@/components/layout/ThemeToggle";
 import { Settings as SettingsIcon, Trash2 } from "lucide-react";
 import {
   AlertDialog,
@@ -24,7 +24,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { signOut } from "@/app/(auth)/actions";
+import { signOut } from "@/actions/auth";
 
 export default function SettingsPage() {
   const [musicEnabled, setMusicEnabled] = useState(true);
@@ -43,9 +43,9 @@ export default function SettingsPage() {
       </div>
 
       <div className="space-y-8">
-        <Card>
+        <Card className="shadow-lg">
           <CardHeader>
-            <CardTitle className="font-fredoka">Display</CardTitle>
+            <CardTitle>Display</CardTitle>
             <CardDescription>
               Customize the look and feel of the app.
             </CardDescription>
@@ -60,9 +60,9 @@ export default function SettingsPage() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="shadow-lg">
           <CardHeader>
-            <CardTitle className="font-fredoka">Audio</CardTitle>
+            <CardTitle>Audio</CardTitle>
             <CardDescription>Control the in-game sounds.</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -74,6 +74,7 @@ export default function SettingsPage() {
                 id="music"
                 checked={musicEnabled}
                 onCheckedChange={setMusicEnabled}
+                aria-label="Toggle background music"
               />
             </div>
             <div className="flex items-center justify-between p-4 rounded-lg bg-secondary/50">
@@ -84,14 +85,15 @@ export default function SettingsPage() {
                 id="sfx"
                 checked={sfxEnabled}
                 onCheckedChange={setSfxEnabled}
+                aria-label="Toggle sound effects"
               />
             </div>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="shadow-lg border-destructive/50">
           <CardHeader>
-            <CardTitle className="font-fredoka">Account</CardTitle>
+            <CardTitle>Account</CardTitle>
             <CardDescription>
               Manage your account information and actions.
             </CardDescription>
@@ -114,12 +116,18 @@ export default function SettingsPage() {
                   <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                   <AlertDialogDescription>
                     This action cannot be undone. This will permanently delete
-                    your account and remove your data from our servers.
+                    your account and remove your data from our servers. (Note:
+                    This feature is currently disabled.)
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                   <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction>Yes, delete my account</AlertDialogAction>
+                  <AlertDialogAction
+                    disabled
+                    className="bg-destructive hover:bg-destructive/90"
+                  >
+                    Yes, delete my account
+                  </AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>

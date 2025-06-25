@@ -7,11 +7,15 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { leaderboard } from "@/lib/data";
 import { Crown, Leaf, Sparkles, Trophy } from "lucide-react";
 import { Card } from "@/components/ui/card";
+import { getLeaderboardData } from "@/actions/game";
 
-export default function LeaderboardPage() {
+export const dynamic = "force-dynamic";
+
+export default async function LeaderboardPage() {
+  const leaderboard = await getLeaderboardData();
+
   return (
     <div className="container py-6 md:py-10 flex flex-col gap-8">
       <div>
@@ -39,56 +43,70 @@ export default function LeaderboardPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {leaderboard.map((user) => (
-                <TableRow key={user.rank} className="h-20">
-                  <TableCell className="text-lg text-center font-bold">
-                    <div className="flex items-center justify-center">
-                      {user.rank === 1 && (
-                        <Crown className="h-6 w-6 text-yellow-500 mr-2" />
-                      )}
-                      {user.rank === 2 && (
-                        <Crown className="h-6 w-6 text-gray-400 mr-2" />
-                      )}
-                      {user.rank === 3 && (
-                        <Crown className="h-6 w-6 text-orange-500 mr-2" />
-                      )}
-                      {user.rank}
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex items-center gap-4">
-                      <Avatar className="h-12 w-12 border-2 shrink-0 border-primary/20">
-                        <AvatarImage
-                          src={user.avatarUrl}
-                          alt={user.username}
-                          data-ai-hint="user avatar"
-                        />
-                        <AvatarFallback>
-                          {user.username.substring(0, 2)}
-                        </AvatarFallback>
-                      </Avatar>
-                      <div>
-                        <p className="font-bold text-base">{user.username}</p>
-                        <p className="text-sm text-muted-foreground hidden sm:block">
-                          {user.title}
-                        </p>
+              {leaderboard.length > 0 ? (
+                leaderboard.map((user) => (
+                  <TableRow
+                    key={user.rank}
+                    className="h-20 hover:bg-primary/5"
+                  >
+                    <TableCell className="text-lg text-center font-bold">
+                      <div className="flex items-center justify-center">
+                        {user.rank === 1 && (
+                          <Crown className="h-6 w-6 text-yellow-500 mr-2" />
+                        )}
+                        {user.rank === 2 && (
+                          <Crown className="h-6 w-6 text-gray-400 mr-2" />
+                        )}
+                        {user.rank === 3 && (
+                          <Crown className="h-6 w-6 text-orange-500 mr-2" />
+                        )}
+                        {user.rank}
                       </div>
-                    </div>
-                  </TableCell>
-                  <TableCell className="text-right font-bold text-base">
-                    <div className="flex items-center justify-end gap-1.5">
-                      <Leaf className="h-4 w-4 text-green-500" />
-                      {user.bamboo.toLocaleString()}
-                    </div>
-                  </TableCell>
-                  <TableCell className="text-right font-bold text-base hidden sm:table-cell">
-                    <div className="flex items-center justify-end gap-1.5">
-                      <Sparkles className="h-4 w-4 text-primary" />
-                      {user.ultraRares}
-                    </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-4">
+                        <Avatar className="h-12 w-12 border-2 shrink-0 border-primary/20">
+                          <AvatarImage
+                            src={user.avatarUrl}
+                            alt={user.username}
+                            data-ai-hint="user avatar"
+                          />
+                          <AvatarFallback>
+                            {user.username.substring(0, 2)}
+                          </AvatarFallback>
+                        </Avatar>
+                        <div>
+                          <p className="font-bold text-base">{user.username}</p>
+                          <p className="text-sm text-muted-foreground hidden sm:block">
+                            {user.title}
+                          </p>
+                        </div>
+                      </div>
+                    </TableCell>
+                    <TableCell className="text-right font-bold text-base">
+                      <div className="flex items-center justify-end gap-1.5">
+                        <Leaf className="h-4 w-4 text-green-500" />
+                        {user.bamboo.toLocaleString()}
+                      </div>
+                    </TableCell>
+                    <TableCell className="text-right font-bold text-base hidden sm:table-cell">
+                      <div className="flex items-center justify-end gap-1.5">
+                        <Sparkles className="h-4 w-4 text-primary" />
+                        {user.ultraRares}
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell
+                    colSpan={4}
+                    className="h-24 text-center text-muted-foreground"
+                  >
+                    No players on the leaderboard yet. Start taming!
                   </TableCell>
                 </TableRow>
-              ))}
+              )}
             </TableBody>
           </Table>
         </div>

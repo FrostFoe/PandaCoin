@@ -4,26 +4,25 @@ import { useState } from "react";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import { Button } from "@/components/ui/button";
-import { pandas as pandaTemplates } from "@/lib/data";
 import type { Panda, Rarity } from "@/lib/types";
 import { Leaf, Sparkles } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "@/lib/hooks/use-toast";
 import { AnimatePresence, motion } from "framer-motion";
-import { useGame } from "@/context/GameContext";
+import { useGame } from "@/context/GameProvider";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const TAME_COST = 100;
 
 const RarityRevealModal = dynamic(
   () =>
-    import("@/components/game/rarity-reveal-modal").then(
+    import("@/components/game/RarityRevealModal").then(
       (mod) => mod.RarityRevealModal,
     ),
   {
     ssr: false,
     loading: () => (
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80">
-        <div className="grid w-full max-w-sm gap-4 rounded-lg border bg-background p-6 shadow-lg">
+        <div className="grid w-full max-w-sm gap-4 rounded-xl border bg-background p-6 shadow-lg">
           <Skeleton className="h-28 w-28 rounded-full mx-auto" />
           <Skeleton className="h-8 w-40 mx-auto" />
           <Skeleton className="h-6 w-20 mx-auto" />
@@ -35,23 +34,11 @@ const RarityRevealModal = dynamic(
   },
 );
 
-function getRandomPandaTemplate() {
+function determineRarity(): Rarity {
   const rand = Math.random() * 100;
-  let rarity: Rarity;
-  if (rand < 70) rarity = "Common";
-  else if (rand < 95) rarity = "Rare";
-  else rarity = "Ultra Rare";
-
-  const possiblePandas = pandaTemplates.filter((p) => p.rarity === rarity);
-  const randomPandaTemplate =
-    possiblePandas[Math.floor(Math.random() * possiblePandas.length)] ??
-    pandaTemplates[0];
-
-  return {
-    ...randomPandaTemplate,
-    name: "A new friend...",
-    backstory: undefined,
-  };
+  if (rand < 70) return "Common";
+  if (rand < 95) return "Rare";
+  return "Ultra Rare";
 }
 
 export default function TamePage() {
@@ -62,7 +49,9 @@ export default function TamePage() {
   const { toast } = useToast();
 
   const handleTame = async () => {
-    if (!gameState || gameState.bambooBalance < TAME_COST) {
+    if (!gameState || isLoading || isTaming) return;
+
+    if (gameState.bambooBalance < TAME_COST) {
       toast({
         variant: "destructive",
         title: "Not enough bamboo!",
@@ -73,7 +62,13 @@ export default function TamePage() {
 
     setIsTaming(true);
 
-    const pandaTemplate = getRandomPandaTemplate();
+    const pandaTemplate = {
+      rarity: determineRarity(),
+      name: "A new friend...",
+      imageUrl: "https://placehold.co/400x400.png",
+      backstory: "",
+    };
+
     const newPanda = await addPanda(pandaTemplate);
 
     setTimeout(() => {
@@ -82,7 +77,7 @@ export default function TamePage() {
         setIsModalOpen(true);
       }
       setIsTaming(false);
-    }, 2000);
+    }, 1500);
   };
 
   const handleCloseModal = () => {
@@ -91,37 +86,32 @@ export default function TamePage() {
   };
 
   return (
-    <div className="relative flex flex-col items-center justify-center flex-1 py-10 px-4 text-center">
+    <div className="relative flex flex-col items-center justify-center flex-1 py-10 px-4 text-center overflow-hidden">
       <div
         className="absolute inset-0 bg-[url('https://placehold.co/1920x1080.png')] bg-cover bg-center opacity-10 dark:opacity-5 blur-sm"
         data-ai-hint="bamboo forest"
       />
-      <div className="relative z-10 space-y-6 p-6 md:p-8 bg-card/80 dark:bg-card/60 backdrop-blur-lg rounded-xl shadow-2xl w-full max-w-md">
-        <motion.h1
-          className="text-3xl sm:text-4xl font-extrabold font-fredoka"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="relative z-10 space-y-6 p-6 md:p-8 bg-card/80 dark:bg-card/60 backdrop-blur-lg rounded-2xl shadow-2xl w-full max-w-md"
+      >
+        <h1 className="text-3xl sm:text-4xl font-extrabold font-fredoka">
           Tame a New Panda
-        </motion.h1>
-        <motion.p
-          className="text-muted-foreground"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-        >
+        </h1>
+        <p className="text-muted-foreground">
           Spend your bamboo to discover a new panda. Who will you meet today?
-        </motion.p>
+        </p>
 
         <div className="flex justify-center items-center h-48 sm:h-56">
           <motion.div
             animate={{
-              rotate: isTaming ? [0, -5, 5, -5, 0] : 0,
+              rotate: isTaming ? [0, -2, 2, -2, 0] : 0,
               scale: isTaming ? 1.05 : 1,
             }}
             transition={{
-              duration: 0.4,
+              duration: 0.3,
               repeat: isTaming ? Infinity : 0,
               repeatType: "mirror",
             }}
@@ -131,7 +121,7 @@ export default function TamePage() {
               src="https://placehold.co/400x600.png"
               alt="A shaking bamboo tree, rustling with anticipation"
               fill
-              className="object-contain drop-shadow-lg"
+              className="object-contain drop-shadow-xl"
               data-ai-hint="bamboo tree"
               priority
             />
@@ -142,7 +132,7 @@ export default function TamePage() {
           size="lg"
           onClick={handleTame}
           disabled={isTaming || isLoading || !gameState}
-          className="w-full h-12 text-lg"
+          className="w-full h-14 text-lg rounded-full shadow-lg"
         >
           {isTaming ? (
             "Searching..."
@@ -157,7 +147,7 @@ export default function TamePage() {
             </div>
           )}
         </Button>
-      </div>
+      </motion.div>
 
       <AnimatePresence>
         {isModalOpen && tamedPanda && (

@@ -1,8 +1,52 @@
-import { type NextRequest } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 import { updateSession } from "@/lib/supabase/middleware";
 
 export async function middleware(request: NextRequest) {
-  return await updateSession(request);
+  const { response, user } = await updateSession(request);
+
+  const { pathname } = request.nextUrl;
+
+  const protectedRoutes = [
+    "/dashboard",
+    "/tame",
+    "/pandas",
+    "/settings",
+    "/leaderboard",
+    "/admin",
+  ];
+
+  const isProtectedRoute = protectedRoutes.some((route) =>
+    pathname.startsWith(route),
+  );
+
+  if (!user && isProtectedRoute) {
+    const url = new URL("/login", request.url);
+    url.searchParams.set("next", pathname);
+    return NextResponse.redirect(url);
+  }
+
+  if (user && pathname.startsWith("/admin")) {
+    if (!process.env.ADMIN_EMAIL) {
+      console.error(
+        "ADMIN_EMAIL environment variable is not set. Admin route is unprotected.",
+      );
+      const url = new URL("/dashboard", request.url);
+      url.searchParams.set("error", "misconfigured_admin_access");
+      return NextResponse.redirect(url);
+    }
+    if (user.email !== process.env.ADMIN_EMAIL) {
+      const url = new URL("/dashboard", request.url);
+      url.searchParams.set("error", "unauthorized");
+      return NextResponse.redirect(url);
+    }
+  }
+
+  if (user && (pathname === "/login" || pathname === "/")) {
+    const url = new URL("/dashboard", request.url);
+    return NextResponse.redirect(url);
+  }
+
+  return response;
 }
 
 export const config = {

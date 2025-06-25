@@ -1,6 +1,6 @@
 "use client";
 
-import { GameProvider } from "@/context/GameContext";
+import { GameProvider } from "@/context/GameProvider";
 import { ThemeProvider } from "@/components/layout/theme-provider";
 
 export function Providers({ children }: { children: React.ReactNode }) {

@@ -11,10 +11,11 @@ export type Panda = {
 
 export type Task = {
   id: string;
-  title: string;
-  description: string;
+  name: string;
+  description: string | null;
   reward: number;
-  cooldownHours: number;
+  cooldown: number; // In hours
+  created_at: string;
 };
 
 export type UserTask = {
@@ -35,4 +36,5 @@ export type GameState = {
   bambooBalance: number;
   pandas: Panda[];
   userTasks: UserTask[];
+  tasks: Task[];
 };
