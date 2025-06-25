@@ -65,7 +65,6 @@ export default function TamePage() {
     const pandaTemplate = {
       rarity: determineRarity(),
       name: "A new friend...",
-      imageUrl: "https://placehold.co/400x400.png",
       backstory: "",
     };
 

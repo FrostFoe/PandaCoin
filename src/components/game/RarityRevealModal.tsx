@@ -63,7 +63,6 @@ export function RarityRevealModal({
       setDetails(result);
       await updatePandaDetails(panda.id, result);
     } catch (e) {
-      console.error("Failed to generate panda details", e);
       setDetails({
         name: panda.name || "Bloop",
         backstory:
@@ -160,7 +159,7 @@ export function RarityRevealModal({
                     }}
                   >
                     <Image
-                      src={panda.imageUrl || "https://placehold.co/400x400.png"}
+                      src={panda.image_url || "https://placehold.co/400x400.png"}
                       alt={details?.name || "A cute panda"}
                       width={120}
                       height={120}
@@ -210,7 +209,7 @@ export function RarityRevealModal({
                 }}
               >
                 <h4 className="font-bold font-fredoka flex items-center gap-2 justify-center">
-                  <Bot className="h-4 w-4" /> AI-Generated Backstory
+                  <Bot /> AI-Generated Backstory
                 </h4>
                 {displayBackstory}
               </motion.div>

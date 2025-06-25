@@ -4,9 +4,9 @@ export type Panda = {
   id: string;
   name: string;
   rarity: Rarity;
-  imageUrl: string;
+  image_url: string;
   backstory?: string;
-  tamedAt: Date | string;
+  tamed_at: Date | string;
 };
 
 export type Task = {
@@ -14,7 +14,7 @@ export type Task = {
   name: string;
   description: string | null;
   reward: number;
-  cooldown: number; // In hours
+  cooldown: number;
   created_at: string;
 };
 

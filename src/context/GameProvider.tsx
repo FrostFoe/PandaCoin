@@ -22,7 +22,7 @@ import { useToast } from "@/lib/hooks/use-toast";
 interface GameContextType {
   gameState: GameState | null;
   isLoading: boolean;
-  addPanda: (panda: Omit<Panda, "id" | "tamedAt">) => Promise<Panda | null>;
+  addPanda: (panda: Omit<Panda, "id" | "tamedAt" | "image_url" | "tamed_at" >) => Promise<Panda | null>;
   claimTask: (taskId: string, reward: number) => Promise<void>;
   updatePandaDetails: (
     pandaId: string,
@@ -76,7 +76,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
   }, [fetchState]);
 
   const addPanda = useCallback(
-    async (panda: Omit<Panda, "id" | "tamedAt">) => {
+    async (panda: Omit<Panda, "id" | "tamedAt" | "image_url" | "tamed_at">) => {
       const result = await addPandaAction(panda);
       if (result.error) {
         toast({
@@ -88,7 +88,12 @@ export function GameProvider({ children }: { children: ReactNode }) {
       }
       if (result.newPanda) {
         await fetchState();
-        return result.newPanda;
+        const convertedPanda: Panda = {
+            ...result.newPanda,
+            tamedAt: new Date(result.newPanda.tamed_at),
+            imageUrl: result.newPanda.image_url,
+        };
+        return convertedPanda;
       }
       return null;
     },

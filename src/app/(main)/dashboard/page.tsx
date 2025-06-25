@@ -36,7 +36,7 @@ export default function DashboardPage() {
   const filteredPandas = pandas.filter(
     (panda) =>
       panda.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      (panda.backstory && panda.backstory.toLowerCase().includes(searchQuery.toLowerCase())),
+      panda.backstory?.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
   return (

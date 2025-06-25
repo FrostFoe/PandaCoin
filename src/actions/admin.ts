@@ -29,7 +29,6 @@ export async function getTasks(): Promise<Task[]> {
     .order("created_at");
 
   if (error) {
-    console.error("Error fetching tasks:", error);
     return [];
   }
   return data;

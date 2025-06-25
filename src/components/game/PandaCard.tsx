@@ -29,7 +29,7 @@ export function PandaCard({ panda, onClick }: PandaCardProps) {
       <div className="overflow-hidden rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 bg-card">
         <div className="aspect-square relative overflow-hidden">
           <Image
-            src={panda.imageUrl || "https://placehold.co/400x400.png"}
+            src={panda.image_url || "https://placehold.co/400x400.png"}
             alt={`A cute panda named ${panda.name}`}
             fill
             className="object-cover transition-transform duration-300 group-hover:scale-105"
@@ -53,7 +53,7 @@ export function PandaCard({ panda, onClick }: PandaCardProps) {
           </p>
           <div className="text-right text-xs text-muted-foreground mt-2">
             Tamed{" "}
-            {formatDistanceToNow(new Date(panda.tamedAt), { addSuffix: true })}
+            {formatDistanceToNow(new Date(panda.tamed_at), { addSuffix: true })}
           </div>
         </div>
       </div>

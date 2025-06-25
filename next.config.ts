@@ -1,6 +1,5 @@
-import type { NextConfig } from "next";
-
-const config: NextConfig = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
@@ -12,11 +11,17 @@ const config: NextConfig = {
       {
         protocol: "https",
         hostname: "placehold.co",
-        port: "",
-        pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "avatars.githubusercontent.com",
+      },
+      {
+        protocol: "https",
+        hostname: "lh3.googleusercontent.com",
+      }
     ],
   },
 };
 
-export default config;
+export default nextConfig;

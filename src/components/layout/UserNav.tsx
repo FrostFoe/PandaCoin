@@ -37,7 +37,7 @@ export function UserNav() {
 
     const {
       data: { subscription },
-    } = createClient().auth.onAuthStateChange((_event, session) => {
+    } = createClient().auth.onAuthStateChange((event, session) => {
       setUser(session?.user ?? null);
     });
 

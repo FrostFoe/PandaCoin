@@ -44,6 +44,7 @@ export async function getGameState(): Promise<GameState | null> {
       pandas: pandasRes.data.map((p) => ({
         ...p,
         tamedAt: new Date(p.tamed_at),
+        imageUrl: p.image_url,
       })),
       userTasks: userTasksRes.data.map((ut) => ({
         task_id: ut.task_id,
@@ -52,7 +53,6 @@ export async function getGameState(): Promise<GameState | null> {
       tasks: tasksRes.data,
     };
   } catch (error) {
-    console.error("Error fetching game state:", error);
     return null;
   }
 }
@@ -98,7 +98,6 @@ export async function getLeaderboardData() {
 
     return leaderboardUsers;
   } catch (error) {
-    console.error("Error fetching leaderboard data:", error);
     return [];
   }
 }
@@ -148,7 +147,7 @@ export async function claimTask(taskId: string, reward: number) {
   }
 }
 
-export async function addPanda(panda: Omit<Panda, "id" | "tamedAt">) {
+export async function addPanda(panda: Omit<Panda, "id" | "tamedAt" | "image_url" | "tamed_at">) {
   const TAME_COST = 100;
   const supabase = createClient();
   const {
@@ -189,7 +188,7 @@ export async function addPanda(panda: Omit<Panda, "id" | "tamedAt">) {
         user_id: user.id,
         name: panda.name,
         rarity: panda.rarity,
-        image_url: panda.imageUrl,
+        image_url: "https://placehold.co/400x400.png",
         backstory: panda.backstory,
         tamed_at: new Date().toISOString(),
       })
@@ -204,7 +203,7 @@ export async function addPanda(panda: Omit<Panda, "id" | "tamedAt">) {
     revalidatePath("/pandas");
     revalidatePath("/tame");
 
-    return { newPanda: { ...newPanda, tamedAt: new Date(newPanda.tamed_at) } };
+    return { newPanda };
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : "An unknown error occurred.";
     return { error: errorMessage };

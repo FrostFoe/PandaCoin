@@ -21,7 +21,6 @@ export async function signInWithMagicLink(formData: FormData) {
   });
 
   if (error) {
-    console.error("Magic Link Sign In Error:", error.message);
     return { error: "Could not authenticate user. Please try again." };
   }
 
@@ -40,7 +39,6 @@ export async function signInWithGithub() {
   });
 
   if (error) {
-    console.error("GitHub Sign In Error:", error.message);
     return redirect("/login?error=Could not authenticate with GitHub");
   }
 

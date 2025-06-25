@@ -80,7 +80,7 @@ export function TaskDataTable({ initialTasks }: { initialTasks: Task[] }) {
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-2xl font-bold font-fredoka">Manage Tasks</h2>
         <Button onClick={() => handleOpenForm(null)}>
-          <PlusCircle className="mr-2 h-4 w-4" />
+          <PlusCircle className="mr-2" />
           Add Task
         </Button>
       </div>
