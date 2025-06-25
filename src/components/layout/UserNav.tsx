@@ -53,7 +53,7 @@ export function UserNav() {
   if (!user) {
     return (
       <Button asChild>
-        <Link href="/login">Get Started</Link>
+        <Link href="/signup">Get Started</Link>
       </Button>
     );
   }
@@ -66,7 +66,8 @@ export function UserNav() {
     return name.substring(0, 2).toUpperCase();
   };
 
-  const userName = user?.user_metadata?.full_name || user?.email || "Panda Tamer";
+  const userName =
+    user?.user_metadata?.full_name || user?.email || "Panda Tamer";
   const avatarUrl = user?.user_metadata?.avatar_url;
 
   return (

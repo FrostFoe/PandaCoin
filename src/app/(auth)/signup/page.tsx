@@ -3,18 +3,18 @@
 import { LoginForm } from "@/components/auth/LoginForm";
 import { Suspense } from "react";
 
-function LoginPageContent() {
+function SignupPageContent() {
   return (
     <div className="flex items-center justify-center min-h-screen bg-secondary/30 p-4">
-      <LoginForm mode="login" />
+      <LoginForm mode="signup" />
     </div>
   );
 }
 
-export default function LoginPage() {
+export default function SignupPage() {
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <LoginPageContent />
+      <SignupPageContent />
     </Suspense>
   );
 }

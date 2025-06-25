@@ -1,12 +1,14 @@
 "use client";
 
 import * as React from "react";
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -17,7 +19,11 @@ import { signInWithMagicLink, signInWithGithub } from "@/actions/auth";
 import { useToast } from "@/lib/hooks/use-toast";
 import { Github, AlertTriangle } from "lucide-react";
 
-export function LoginForm() {
+interface LoginFormProps {
+  mode: "login" | "signup";
+}
+
+export function LoginForm({ mode }: LoginFormProps) {
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const { toast } = useToast();
   const searchParams = useSearchParams();
@@ -48,15 +54,19 @@ export function LoginForm() {
     setIsSubmitting(false);
   };
 
+  const isLoginMode = mode === "login";
+
   return (
     <Card className="w-full max-w-sm border-2 shadow-xl rounded-2xl">
       <CardHeader className="text-center">
         <PandaIcon className="h-12 w-12 mx-auto text-primary" />
         <CardTitle className="mt-4 text-2xl font-fredoka">
-          Welcome to Bamboo Tame
+          {isLoginMode ? "Welcome Back!" : "Create an Account"}
         </CardTitle>
         <CardDescription>
-          Sign in or create an account to start your adventure.
+          {isLoginMode
+            ? "Sign in to continue your adventure."
+            : "Join the adventure by creating an account."}
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
@@ -75,7 +85,7 @@ export function LoginForm() {
             type="submit"
           >
             <Github className="mr-2 h-5 w-5" />
-            Sign in with GitHub
+            {isLoginMode ? "Sign in with GitHub" : "Sign up with GitHub"}
           </Button>
         </form>
 
@@ -113,10 +123,37 @@ export function LoginForm() {
             className="w-full h-12 text-base"
             disabled={isSubmitting}
           >
-            {isSubmitting ? "Sending..." : "Send Magic Link"}
+            {isSubmitting
+              ? "Sending..."
+              : isLoginMode
+              ? "Send Magic Link"
+              : "Sign Up with Magic Link"}
           </Button>
         </form>
       </CardContent>
+      <CardFooter className="flex justify-center text-sm">
+        {isLoginMode ? (
+          <p className="text-muted-foreground">
+            Don&apos;t have an account?{" "}
+            <Link
+              href="/signup"
+              className="font-semibold text-primary hover:underline"
+            >
+              Sign up
+            </Link>
+          </p>
+        ) : (
+          <p className="text-muted-foreground">
+            Already have an account?{" "}
+            <Link
+              href="/login"
+              className="font-semibold text-primary hover:underline"
+            >
+              Log in
+            </Link>
+          </p>
+        )}
+      </CardFooter>
     </Card>
   );
 }
