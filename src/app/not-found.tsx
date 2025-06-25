@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { PandaIcon } from "@/components/icons/panda-icon";
+import { PandaIcon } from "@/components/shared/PandaIcon";
 
 export default function NotFound() {
   return (

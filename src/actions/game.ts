@@ -41,18 +41,22 @@ export async function getGameState(): Promise<GameState | null> {
 
     return {
       bambooBalance: profileRes.data.bamboo_balance,
-      pandas: pandasRes.data.map((p) => ({
-        ...p,
-        tamedAt: new Date(p.tamed_at),
+      pandas: pandasRes.data.map((p: any) => ({
+        id: p.id,
+        name: p.name,
+        rarity: p.rarity,
         imageUrl: p.image_url,
+        backstory: p.backstory,
+        tamedAt: new Date(p.tamed_at),
       })),
-      userTasks: userTasksRes.data.map((ut) => ({
+      userTasks: userTasksRes.data.map((ut: any) => ({
         task_id: ut.task_id,
         last_claimed_at: ut.last_claimed_at,
       })),
       tasks: tasksRes.data,
     };
   } catch (error) {
+    console.error("Error fetching game state:", error);
     return null;
   }
 }
@@ -98,6 +102,7 @@ export async function getLeaderboardData() {
 
     return leaderboardUsers;
   } catch (error) {
+    console.error("Error fetching leaderboard data:", error);
     return [];
   }
 }
@@ -147,7 +152,7 @@ export async function claimTask(taskId: string, reward: number) {
   }
 }
 
-export async function addPanda(panda: Omit<Panda, "id" | "tamedAt" | "image_url" | "tamed_at">) {
+export async function addPanda(panda: Omit<Panda, "id" | "tamedAt">) {
   const TAME_COST = 100;
   const supabase = createClient();
   const {
@@ -182,13 +187,13 @@ export async function addPanda(panda: Omit<Panda, "id" | "tamedAt" | "image_url"
       throw new Error("Failed to update bamboo balance.");
     }
 
-    const { data: newPanda, error: insertPandaError } = await supabase
+    const { data: newPandaData, error: insertPandaError } = await supabase
       .from("pandas")
       .insert({
         user_id: user.id,
         name: panda.name,
         rarity: panda.rarity,
-        image_url: "https://placehold.co/400x400.png",
+        image_url: panda.imageUrl,
         backstory: panda.backstory,
         tamed_at: new Date().toISOString(),
       })
@@ -197,6 +202,15 @@ export async function addPanda(panda: Omit<Panda, "id" | "tamedAt" | "image_url"
 
     if (insertPandaError) {
       throw new Error("Failed to add new panda to your collection.");
+    }
+    
+    const newPanda: Panda = {
+      id: newPandaData.id,
+      name: newPandaData.name,
+      rarity: newPandaData.rarity,
+      imageUrl: newPandaData.image_url,
+      backstory: newPandaData.backstory,
+      tamedAt: new Date(newPandaData.tamed_at),
     }
 
     revalidatePath("/dashboard");

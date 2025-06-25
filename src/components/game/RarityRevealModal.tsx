@@ -63,6 +63,7 @@ export function RarityRevealModal({
       setDetails(result);
       await updatePandaDetails(panda.id, result);
     } catch (e) {
+      console.error("Failed to generate panda details", e);
       setDetails({
         name: panda.name || "Bloop",
         backstory:
@@ -159,7 +160,7 @@ export function RarityRevealModal({
                     }}
                   >
                     <Image
-                      src={panda.image_url || "https://placehold.co/400x400.png"}
+                      src={panda.imageUrl || "https://placehold.co/400x400.png"}
                       alt={details?.name || "A cute panda"}
                       width={120}
                       height={120}
