@@ -52,7 +52,6 @@ export async function getGameState(): Promise<GameState | null> {
       tasks: tasksRes.data,
     };
   } catch (error) {
-    console.error("Error fetching game state:", error);
     return null;
   }
 }
@@ -98,7 +97,6 @@ export async function getLeaderboardData() {
 
     return leaderboardUsers;
   } catch (error) {
-    console.error("Error fetching leaderboard data:", error);
     return [];
   }
 }

@@ -99,7 +99,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
     async (taskId: string, reward: number) => {
       const result = await claimTaskAction(taskId, reward);
       if (result.error) {
-        toast({ variant: "destructive", title: result.error });
+        toast({ variant: "destructive", title: "Claim Failed", description: result.error });
       } else {
         toast({
           title: "Task Claimed!",
