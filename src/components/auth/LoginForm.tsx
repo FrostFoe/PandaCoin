@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -14,13 +15,19 @@ import { Label } from "@/components/ui/label";
 import { PandaIcon } from "@/components/shared/PandaIcon";
 import { signInWithMagicLink, signInWithGithub } from "@/actions/auth";
 import { useToast } from "@/lib/hooks/use-toast";
-import { Github } from "lucide-react";
+import { Github, AlertTriangle } from "lucide-react";
 
 export function LoginForm() {
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const { toast } = useToast();
+  const searchParams = useSearchParams();
+  const error = searchParams.get("error");
+  const errorDescription =
+    searchParams.get("error_description") || "Please try again.";
 
-  const handleMagicLinkSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleMagicLinkSubmit = async (
+    event: React.FormEvent<HTMLFormElement>,
+  ) => {
     event.preventDefault();
     setIsSubmitting(true);
     const formData = new FormData(event.currentTarget);
@@ -53,8 +60,20 @@ export function LoginForm() {
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
+        {error && (
+          <div className="flex items-center gap-x-2 rounded-md bg-destructive/15 p-3 text-sm text-destructive">
+            <AlertTriangle className="h-4 w-4 shrink-0" />
+            <p>
+              <strong>Login Failed:</strong> {errorDescription}
+            </p>
+          </div>
+        )}
         <form action={signInWithGithub}>
-          <Button variant="outline" className="w-full h-12 text-base" type="submit">
+          <Button
+            variant="outline"
+            className="w-full h-12 text-base"
+            type="submit"
+          >
             <Github className="mr-2 h-5 w-5" />
             Sign in with GitHub
           </Button>
@@ -71,9 +90,15 @@ export function LoginForm() {
           </div>
         </div>
 
-        <form id="magic-link-form" onSubmit={handleMagicLinkSubmit} className="space-y-4">
+        <form
+          id="magic-link-form"
+          onSubmit={handleMagicLinkSubmit}
+          className="space-y-4"
+        >
           <div className="space-y-2">
-            <Label htmlFor="email" className="font-semibold">Email</Label>
+            <Label htmlFor="email" className="font-semibold">
+              Email
+            </Label>
             <Input
               id="email"
               name="email"
